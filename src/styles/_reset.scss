@@ -1,0 +1,72 @@
+/* 1. Utiliser un box-sizing plus intuitif */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Retirer les marges par défaut des navigateurs */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. Permettre aux pourcentages de hauteur de fonctionner */
+html {
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+/* 4. Améliorer le rendu du texte et lisser les polices */
+body {
+  height: 100%;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* 5. Améliorer le rendu des médias (évite les débordements) */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 6. Retirer les styles par défaut des formulaires (boutons, inputs) */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* 7. Éviter les sauts de ligne bizarres sur les titres */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* 8. Retirer les puces des listes (souvent inutile en UI moderne) */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 9. Retirer le soulignement des liens par défaut */
+a {
+  text-decoration: none;
+  color: inherit;
+}
