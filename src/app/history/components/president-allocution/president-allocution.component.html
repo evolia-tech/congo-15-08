@@ -1,0 +1,31 @@
+<section class="president-section">
+  <div class="president-container">
+    <h2 class="president-section-title">Allocution</h2>
+    
+    <div class="president-grid">
+      <!-- Video Card Column (Left) -->
+      <div class="president-video-card">
+        <div class="video-iframe-wrapper">
+          <iframe
+            [src]="getSafeYoutubeUrl(presidentVideoId)"
+            title="Message du Président Denis Sassou Nguesso"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Description Card Column (Right) -->
+      <div class="president-info-card">
+        <div class="president-card-content">
+          <h3 class="president-card-title">Allocution de S.E. Denis Sassou Nguesso pour la Fête Nationale</h3>
+          <p class="president-bio-text">
+            Dans cette adresse solennelle, le Chef de l'État réaffirme que la paix et la stabilité sont les fondations inébranlables sur lesquelles repose le développement harmonieux de notre Nation. Il appelle à l'union sacrée de tous les fils et filles du Congo pour bâtir un avenir prospère et solidaire.
+          </p>
+        </div>
+        <span class="president-date">15 Août 2026</span>
+      </div>
+    </div>
+  </div>
+</section>

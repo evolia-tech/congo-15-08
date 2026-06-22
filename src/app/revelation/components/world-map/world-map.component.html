@@ -1,0 +1,40 @@
+<div class="map-wrapper">
+  <!-- Tooltip -->
+  <div class="map-tooltip"
+    *ngIf="hoveredCountry"
+    [style.left.px]="tooltipX"
+    [style.top.px]="tooltipY">
+    <span class="tooltip-name">{{ hoveredCountry.name }}</span>
+    <span class="tooltip-count">🔥 {{ hoveredCountry.count | number }} participations</span>
+  </div>
+
+  <!-- Real SVG world map (equirectangular projection from GeoJSON) -->
+  <svg class="world-svg"
+    [attr.viewBox]="viewBox"
+    preserveAspectRatio="xMidYMid meet"
+    xmlns="http://www.w3.org/2000/svg">
+
+    <defs>
+      <filter id="glow-gold">
+        <feGaussianBlur stdDeviation="2.5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="glow-hot">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <!-- Render each country path -->
+    @for (country of countryPaths; track country.id) {
+      <path
+        [attr.d]="country.d"
+        [attr.class]="getCountryClass(country)"
+        [attr.data-name]="country.geoName"
+        (mouseenter)="onCountryHover($event, country)"
+        (mouseleave)="onCountryLeave()">
+        <title>{{ country.geoName }}{{ country.participation ? (' — 🔥 ' + country.participation.count + ' participations') : '' }}</title>
+      </path>
+    }
+  </svg>
+</div>

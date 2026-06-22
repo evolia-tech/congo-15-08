@@ -1,0 +1,31 @@
+<div class="flame-counter-card" [class.has-countdown]="showCountdown">
+  <!-- Glowing background effect behind the flame -->
+  <div class="flame-glow-bg"></div>
+
+  <!-- Realistic Animated CSS Flame -->
+  <div class="flame-animation-wrapper">
+    <div class="css-flame">
+      <div class="flame-particle particle-red"></div>
+      <div class="flame-particle particle-orange"></div>
+      <div class="flame-particle particle-yellow"></div>
+      <div class="flame-particle particle-white"></div>
+      <div class="flame-ember ember-1"></div>
+      <div class="flame-ember ember-2"></div>
+      <div class="flame-ember ember-3"></div>
+      <div class="flame-core"></div>
+    </div>
+  </div>
+
+  <!-- Display Counter digits -->
+  <div class="counter-display">
+    <span class="counter-val">{{ displayValue() | number }}</span>
+    <span class="counter-lbl">flammes allumées</span>
+  </div>
+
+  @if (showCountdown) {
+  <div class="card-countdown-block">
+    <span class="countdown-days">J-30</span>
+    <span class="countdown-date">15 Août</span>
+  </div>
+  }
+</div>

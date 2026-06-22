@@ -1,0 +1,35 @@
+@use '../../styles/variables' as *;
+
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background-color: $bg-primary;
+  color: $text-primary;
+  font-family: $font-family-inter;
+  position: relative;
+  overflow-x: hidden;
+}
+
+::ng-deep {
+  h2 {
+    font-size: 2.5rem !important;
+    line-height: 1 !important;
+    letter-spacing: -1px !important;
+  }
+
+  app-footer {
+    display: block;
+    background: $bg-secondary;
+    color: $text-secondary;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 1.5rem;
+    font-family: $font-family-inter;
+    border-bottom: 1px solid $card-border;
+  }
+  app-footer {
+    border-bottom: none;
+    border-top: 1px solid $card-border;
+  }
+}

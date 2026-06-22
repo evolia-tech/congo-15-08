@@ -1,0 +1,37 @@
+<div class="hero-container">
+  <!-- Interactive Futuristic Background Glow Blobs -->
+  <div class="glow-orb glow-orb-cyan"></div>
+  <div class="glow-orb glow-orb-violet"></div>
+  <div class="glow-orb glow-orb-gold"></div>
+
+  <!-- Ambient Grid Overlay for a tech/futuristic texture -->
+  <div class="grid-overlay"></div>
+
+  <div class="hero-wrapper">
+    <!-- Left Column: Title & CTA -->
+    <div class="hero-text-content">
+      <h1 class="hero-title">
+        <span class="title-line title-gold">Une Flamme</span>
+        <span class="title-line title-cyan">Un Peuple</span>
+        <span class="title-line title-violet">Un Congo</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Le 15 août, unissons nos voix et nos cœurs pour allumer ensemble la flamme numérique de la paix et du progrès.
+        Que vous soyez au Congo ou au sein de la diaspora mondiale, brillons d’une seule et unique lumière.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn-primary-glow" type="button" (click)="allumer()" aria-label="Allumer ma flamme">
+          <span class="btn-content">
+            <span class="btn-glow-layer"></span>
+            <span class="btn-shimmer"></span>
+            <span class="btn-text">Allumer ma flamme</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <app-flame-counter [total]="flamesCount" [showCountdown]="true"></app-flame-counter>
+  </div>
+</div>

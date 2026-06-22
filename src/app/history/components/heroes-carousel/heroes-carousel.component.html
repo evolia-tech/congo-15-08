@@ -1,0 +1,148 @@
+<section class="heroes-section">
+  <div class="heroes-header">
+    <h2 class="heroes-title">
+      <span class="heroes-title__top">Les héros</span>
+      <span class="heroes-title__bottom">de notre histoire</span>
+    </h2>
+    <p class="heroes-subtitle">Les figures qui ont façonné l'identité et le destin du Congo-Brazzaville</p>
+  </div>
+
+  <div class="carousel-wrapper">
+    <!-- Prev button (hidden on mobile) -->
+    <button
+      class="carousel-nav carousel-nav--prev"
+      type="button"
+      aria-label="Personnalité précédente"
+      (click)="scrollCarousel('prev')"
+    >
+      <i class="pi pi-chevron-left"></i>
+    </button>
+
+    <!-- Snap-scroll track -->
+    <div class="carousel-track" #carouselTrack>
+      <article
+        *ngFor="let figure of heroes"
+        class="hero-card"
+        [attr.id]="'hero-card-' + figure.id"
+        role="button"
+        tabindex="0"
+        (click)="openDialog(figure)"
+        (keydown.enter)="openDialog(figure)"
+        (keydown.space)="openDialog(figure)"
+        [attr.aria-label]="'En savoir plus sur ' + figure.name"
+      >
+        <div class="hero-card__image-wrapper">
+          <img
+            [src]="figure.image"
+            [alt]="figure.name"
+            class="hero-card__image"
+            loading="lazy"
+          />
+          <div class="hero-card__overlay"></div>
+        </div>
+        <div class="hero-card__content">
+          <span class="hero-card__years">{{ figure.years }}</span>
+          <h3 class="hero-card__name">{{ figure.name }}</h3>
+          <p class="hero-card__role">{{ figure.role }}</p>
+          <span class="hero-card__cta" aria-hidden="true">Découvrir →</span>
+        </div>
+      </article>
+    </div>
+
+    <!-- Next button (hidden on mobile) -->
+    <button
+      class="carousel-nav carousel-nav--next"
+      type="button"
+      aria-label="Personnalité suivante"
+      (click)="scrollCarousel('next')"
+    >
+      <i class="pi pi-chevron-right"></i>
+    </button>
+  </div>
+</section>
+
+<!-- ─── Hero Figure Dialog ─────────────────────────────────────────── -->
+<dialog
+  #heroDialog
+  class="hero-dialog"
+  aria-modal="true"
+  [attr.aria-label]="selectedFigure ? 'Biographie de ' + selectedFigure.name : 'Biographie'"
+  (click)="onDialogBackdropClick($event)"
+>
+  <div class="hero-dialog__inner" *ngIf="selectedFigure">
+
+    <!-- Close button -->
+    <button
+      class="hero-dialog__close"
+      type="button"
+      aria-label="Fermer"
+      (click)="closeDialog()"
+    >
+      <i class="pi pi-times"></i>
+    </button>
+
+    <!-- ── Media Section ── -->
+    <div class="hero-dialog__media">
+      <!-- Active media viewer -->
+      <div class="hero-dialog__media-viewer">
+        <ng-container *ngIf="selectedFigure.media[selectedMediaIndex] as media">
+          <!-- Image -->
+          <img
+            *ngIf="media.type === 'image'"
+            [src]="media.src"
+            [alt]="media.caption || selectedFigure.name"
+            class="hero-dialog__media-img"
+          />
+          <!-- YouTube embed -->
+          <iframe
+            *ngIf="media.type === 'video'"
+            [src]="getSafeYoutubeUrl(media.src)"
+            class="hero-dialog__media-video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+            [title]="media.caption || 'Vidéo sur ' + selectedFigure.name"
+          ></iframe>
+        </ng-container>
+      </div>
+
+      <!-- Thumbnail strip -->
+      <div class="hero-dialog__thumbs" *ngIf="selectedFigure.media.length > 1">
+        <button
+          *ngFor="let item of selectedFigure.media; let i = index"
+          class="hero-dialog__thumb"
+          [class.hero-dialog__thumb--active]="i === selectedMediaIndex"
+          type="button"
+          [attr.aria-label]="item.caption || (item.type === 'video' ? 'Vidéo ' + (i + 1) : 'Image ' + (i + 1))"
+          (click)="selectMedia(i)"
+        >
+          <ng-container *ngIf="item.type === 'image'">
+            <img [src]="item.src" [alt]="item.caption || ''" class="hero-dialog__thumb-img" />
+          </ng-container>
+          <ng-container *ngIf="item.type === 'video'">
+            <div class="hero-dialog__thumb-video-placeholder">
+              <i class="pi pi-play-circle"></i>
+            </div>
+          </ng-container>
+        </button>
+      </div>
+
+      <!-- Caption -->
+      <p class="hero-dialog__caption" *ngIf="selectedFigure.media[selectedMediaIndex]?.caption">
+        {{ selectedFigure.media[selectedMediaIndex].caption }}
+      </p>
+    </div>
+
+    <!-- ── Bio Section ── -->
+    <div class="hero-dialog__bio">
+      <div class="hero-dialog__bio-header">
+        <span class="hero-dialog__years">{{ selectedFigure.years }}</span>
+        <h2 class="hero-dialog__name">{{ selectedFigure.name }}</h2>
+        <p class="hero-dialog__role">{{ selectedFigure.role }}</p>
+        <div class="hero-dialog__divider"></div>
+      </div>
+      <p class="hero-dialog__text">{{ selectedFigure.bio }}</p>
+    </div>
+
+  </div>
+</dialog>

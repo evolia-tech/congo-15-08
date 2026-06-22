@@ -1,1 +1,64 @@
-<p>header works!</p>
+<div class="header-container">
+  <!-- Brand Logo -->
+  <a routerLink="/" (click)="closeMobileMenu()" class="header-logo" aria-label="Congo 15 Août - Accueil">
+    <i class="pi pi-fire logo-icon"></i>
+    <span class="logo-text">Congo <span class="text-gold">15 Août</span></span>
+  </a>
+
+  <!-- Desktop Navigation -->
+  <nav class="header-nav" aria-label="Navigation principale">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+      Accueil
+    </a>
+
+    <a routerLink="/histoire" routerLinkActive="active" class="nav-link">
+      Histoire
+    </a>
+
+    <a routerLink="/revelation" routerLinkActive="active" class="nav-link">
+      Révélation
+    </a>
+
+    <a routerLink="/live" routerLinkActive="active" class="nav-link nav-live">
+      <span class="pulse-dot"></span>
+      Direct
+    </a>
+
+    <a routerLink="/participer" routerLinkActive="active" class="btn-nav-glow">
+      Participer
+    </a>
+  </nav>
+
+  <!-- Mobile Menu Button -->
+  <button (click)="toggleMobileMenu()" class="mobile-menu-toggle"
+    [ariaLabel]="isMobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'" [attr.aria-expanded]="isMobileMenuOpen">
+    <i class="pi" [ngClass]="isMobileMenuOpen ? 'pi-times' : 'pi-bars'"></i>
+  </button>
+
+  <!-- Mobile Navigation Overlay -->
+  <div class="mobile-nav-overlay" [class.open]="isMobileMenuOpen">
+    <nav class="mobile-nav" aria-label="Navigation mobile">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMobileMenu()" class="mobile-link">
+        Accueil
+      </a>
+
+      <a routerLink="/live" routerLinkActive="active" (click)="closeMobileMenu()" class="mobile-link mobile-live">
+        <span class="pulse-dot"></span>
+        Direct
+      </a>
+
+      <a routerLink="/revelation" routerLinkActive="active" (click)="closeMobileMenu()" class="mobile-link">
+        Révélation
+      </a>
+
+      <a routerLink="/histoire" routerLinkActive="active" (click)="closeMobileMenu()" class="mobile-link">
+        Histoire
+      </a>
+
+      <a routerLink="/participer" (click)="closeMobileMenu()" class="mobile-btn-glow">
+        Participer
+      </a>
+    </nav>
+  </div>
+</div>

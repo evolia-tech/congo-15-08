@@ -1,0 +1,191 @@
+@use '../../../../styles/variables' as *;
+
+/* Glassmorphism Shared Card */
+.glass-card {
+  background: $card-bg;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid $card-border;
+  box-shadow: $card-shadow;
+  transition: $transition-smooth;
+}
+
+/* Section Header Shared */
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  z-index: 2;
+
+  .section-title {
+    font-family: $font-family-syne;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, $text-primary 30%, #495057 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+  }
+  .section-subtitle {
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    font-weight: 400;
+    color: $text-secondary;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+/* --- STATISTICS SECTION --- */
+.stats-section {
+  position: relative;
+  width: 100%;
+  padding: 8rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background: $bg-secondary;
+  border-top: 1px solid $card-border;
+
+  .stats-grid {
+    width: 100%;
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    z-index: 2;
+  }
+
+  .stats-card {
+    @extend .glass-card;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+
+    &:hover {
+      transform: translateY(-8px);
+      border-color: $accent;
+      box-shadow: 0 15px 35px rgba(255, 226, 89, 0.15), $card-shadow;
+
+      .stats-icon-wrapper {
+        transform: scale(1.08);
+      }
+    }
+  }
+
+  .stats-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    border: 1px solid transparent;
+    transition: $transition-smooth;
+
+    /* National Theme Colors for Icons */
+    &.wrapper-gold {
+      background: rgba(255, 226, 89, 0.08);
+      border-color: rgba(255, 226, 89, 0.25);
+      box-shadow: 0 4px 15px rgba(255, 226, 89, 0.05);
+
+      .stats-icon {
+        color: #e6b000;
+        filter: drop-shadow(0 2px 4px rgba(255, 226, 89, 0.2));
+      }
+    }
+
+    &.wrapper-cyan {
+      background: rgba(0, 149, 67, 0.05);
+      border-color: rgba(0, 149, 67, 0.15);
+      box-shadow: 0 4px 15px rgba(0, 149, 67, 0.05);
+
+      .stats-icon {
+        color: $congo-green;
+        filter: drop-shadow(0 2px 4px rgba(0, 149, 67, 0.2));
+      }
+    }
+
+    &.wrapper-pink {
+      background: rgba(213, 43, 30, 0.05);
+      border-color: rgba(213, 43, 30, 0.15);
+      box-shadow: 0 4px 15px rgba(213, 43, 30, 0.05);
+
+      .stats-icon {
+        color: $congo-red;
+        filter: drop-shadow(0 2px 4px rgba(213, 43, 30, 0.2));
+      }
+    }
+
+    &.wrapper-green {
+      background: rgba(0, 149, 67, 0.05);
+      border-color: rgba(0, 149, 67, 0.15);
+      box-shadow: 0 4px 15px rgba(0, 149, 67, 0.05);
+
+      .stats-icon {
+        color: $congo-green;
+        filter: drop-shadow(0 2px 4px rgba(0, 149, 67, 0.2));
+      }
+    }
+  }
+
+  .stats-icon {
+    font-size: 1.5rem;
+  }
+
+  .stats-number {
+    font-family: $font-family-space;
+    font-size: clamp(2rem, 4.5vw, 2.8rem);
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+  }
+
+  .stats-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: $text-secondary;
+  }
+}
+
+/* Responsive breakdowns */
+@media (max-width: 1024px) {
+  :host {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.8rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  :host {
+    .stats-section {
+      padding: 6rem 1.5rem;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  :host {
+    .stats-section {
+      .section-header {
+        margin-bottom: 3.5rem;
+      }
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+}

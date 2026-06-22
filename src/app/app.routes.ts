@@ -1,6 +1,11 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layout/main-layout/main-layout';
 import { EmptyLayout } from './layout/empty-layout/empty-layout';
+import { HomeComponent } from './home/home.component';
+import { LiveComponent } from './live/live.component';
+import { RevelationComponent } from './revelation/revelation.component';
+import { ParticipateComponent } from './participate/participate.component';
+import { HistoryComponent } from './history/history.component';
 
 export const routes: Routes = [
   // 1. Pages AVEC Header/Footer
@@ -8,7 +13,11 @@ export const routes: Routes = [
     path: '',
     component: MainLayout,
     children: [
-    //  { path: '', component: HomeComponent },
+      { path: '', component: HomeComponent },
+      { path: 'live', component: LiveComponent },
+      { path: 'revelation', component: RevelationComponent },
+      { path: 'participer', component: ParticipateComponent },
+      { path: 'histoire', component: HistoryComponent },
     //  { path: 'about', component: AboutComponent },
     ],
   },

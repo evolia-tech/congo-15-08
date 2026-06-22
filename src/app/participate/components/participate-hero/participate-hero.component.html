@@ -1,0 +1,73 @@
+<section class="participate-hero">
+  <div class="hero-bg-image-wrapper">
+    <img src="/images/home/hero.webp" alt="Drapeau du Congo et célébrations" class="hero-bg-img">
+    <!-- Dark overlay gradients for contrast and header navigation readability -->
+    <div class="hero-gradient-overlay"></div>
+  </div>
+
+  <div class="hero-container">
+    <div class="hero-content">
+      <!-- Left Side: Title Text & Reused Flame Counter Card in space-between layout -->
+      <div class="hero-left">
+        <div class="hero-left-content">
+          <div class="hero-text-block">
+            <h1 class="participate-title">
+              <span class="title-line title-gold">Allumez votre flamme Pour </span>
+              <span class="title-line title-cyan">l'unité nationale</span>
+            </h1>
+            <p class="participate-subtitle">
+              Rejoignez des milliers de Congolais à travers le monde pour allumer votre flamme virtuelle. 
+              Un geste simple, un symbole puissant — votre participation construit l'avenir d'un Congo uni, 
+              fort et solidaire pour les générations à venir.
+            </p>
+          </div>
+
+          <!-- Reusable Flame Counter (matching the homepage hero banner card) -->
+          <div class="flame-counter-wrapper">
+            <app-flame-counter [total]="flamesTotal" [showCountdown]="true"></app-flame-counter>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Long Form that overflows the hero banner -->
+      <div class="hero-right">
+        <!-- Case 1: Form Card -->
+          <div *ngIf="!showSuccess" class="participate-card glass-card gold-border white-bg">
+            <!-- Shared participation form component exactly as in homepage -->
+            <app-participation-form [compact]="true" class="white-form"
+              (submitSuccess)="onFormSubmitSuccess($event)"></app-participation-form>
+          </div>
+
+        <!-- Case 2: Success Card -->
+        <div *ngIf="showSuccess" class="success-card glass-card success-gold-glow">
+          <div class="success-glow-bg"></div>
+          <div class="success-icon-wrapper">
+            <i class="pi pi-check success-icon"></i>
+          </div>
+          <h2 class="success-title">Union Illuminée !</h2>
+          <p class="success-message">
+            Votre flamme illumine désormais le Congo.
+          </p>
+          <div class="success-divider"></div>
+
+          <div class="success-actions">
+            <!-- Voir le direct -->
+            <button class="btn-primary-glow btn-gold-hover" type="button" routerLink="/live"
+              aria-label="Voir le direct">
+              <span class="btn-content">
+                <span class="btn-glow-layer"></span>
+                <span class="btn-shimmer"></span>
+                <span class="btn-text">Voir le direct</span>
+              </span>
+            </button>
+
+            <!-- Reset Form / Participate again -->
+            <button class="btn-text-action" type="button" (click)="resetForm()" aria-label="Allumer une autre flamme">
+              Allumer une autre flamme
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

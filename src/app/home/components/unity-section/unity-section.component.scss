@@ -1,0 +1,418 @@
+@use "sass:math";
+@use '../../../../styles/variables' as *;
+
+:host {
+  display: block;
+  width: 100%;
+
+  .unity-section {
+    position: relative;
+    width: 100%;
+    padding: 10rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    background: linear-gradient(to bottom, #06060c 0%, #030307 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+  }
+
+  /* Glowing background orbs */
+  .glow-orb-unity-green {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: -2;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 149, 67, 0.15) 0%, transparent 70%);
+    top: 30%;
+    left: 20%;
+    opacity: 0.8;
+  }
+
+  .glow-orb-unity-gold {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: -2;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(255, 226, 89, 0.15) 0%, transparent 70%);
+    bottom: 20%;
+    right: 15%;
+    opacity: 0.8;
+  }
+
+  /* Floating particles container */
+  .particle-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    bottom: -20px;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    animation: floatParticles 10s infinite ease-in-out;
+    filter: blur(0.5px);
+
+    // Randomized particle properties using a Sass loop
+    @for $i from 1 through 15 {
+      &:nth-child(#{$i}) {
+        left: math.random(100) * 1%;
+        width: #{math.random(5) + 3}px;
+        height: #{math.random(5) + 3}px;
+        animation-duration: #{math.random(8) + 7}s;
+        animation-delay: #{math.random(10) * -1}s;
+
+        // Alternate colors of national flag
+        @if $i % 3==0 {
+          background: rgba(0, 149, 67, 0.35);
+          box-shadow: 0 0 10px rgba(0, 149, 67, 0.4);
+        }
+
+        @else if $i % 3==1 {
+          background: rgba(255, 226, 89, 0.5);
+          box-shadow: 0 0 10px rgba(255, 226, 89, 0.5);
+        }
+
+        @else {
+          background: rgba(213, 43, 30, 0.35);
+          box-shadow: 0 0 10px rgba(213, 43, 30, 0.4);
+        }
+      }
+    }
+  }
+
+  /* Content Layout */
+  .unity-content-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+    gap: 3.5rem;
+  }
+
+  .quote-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .quote-text {
+    font-family: $font-family-syne;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #00e676 0%, #ffe259 50%, #ff3366 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 12px rgba(255, 226, 89, 0.15));
+  }
+
+  .quote-sub {
+    font-family: $font-family-inter;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Giant Glowing CTA Button */
+  .cta-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .btn-giant-glow {
+    position: relative;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    transition: $transition-smooth;
+    transform-origin: center center;
+
+    &:hover {
+      transform: scale(1.04);
+
+      .btn-content {
+        background: $accent;
+        border-color: $accent;
+        box-shadow: 0 10px 30px rgba(255, 226, 89, 0.35);
+      }
+
+      .btn-text {
+        color: #000000;
+      }
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    .btn-content {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.1rem 2.8rem;
+      background: transparent;
+      border-radius: 50px;
+      border: 2px solid #ffffff;
+      overflow: hidden;
+      transition: $transition-smooth;
+    }
+
+    .btn-glow-layer {
+      display: none;
+    }
+
+    .btn-shimmer {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.25) 50%,
+          rgba(255, 255, 255, 0) 100%);
+      transform: skewX(-25deg);
+      transition: all 0.75s ease;
+    }
+
+    &:hover .btn-shimmer {
+      left: 150%;
+      transition: all 0.75s ease;
+    }
+
+    .btn-text {
+      font-family: $font-family-space;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      z-index: 2;
+      transition: color 0.3s ease;
+      letter-spacing: 1px;
+    }
+  }
+
+  .massive-css-flame-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 260px;
+    height: 320px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin: 0 auto;
+    filter: drop-shadow(0 0 25px rgba(255, 110, 0, 0.4));
+
+    .css-flame {
+      position: relative;
+      width: 80px;
+      height: 100px;
+      transform: scale(3.2);
+      transform-origin: bottom center;
+
+      .flame-particle {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        border-radius: 50% 0 50% 50%;
+        transform: translateX(-50%) rotate(-45deg);
+        transform-origin: 50% 50%;
+
+        &.particle-red {
+          width: 65px;
+          height: 65px;
+          background: radial-gradient(circle at 35% 35%, #ff3300 0%, #cc0000 100%);
+          animation: flickerRed 1.8s infinite ease-in-out;
+          opacity: 0.7;
+          filter: blur(1.2px);
+          z-index: 1;
+        }
+
+        &.particle-orange {
+          width: 50px;
+          height: 50px;
+          background: radial-gradient(circle at 35% 35%, #ff6600 0%, #ff3300 100%);
+          animation: flickerOrange 1.4s infinite ease-in-out;
+          opacity: 0.85;
+          filter: blur(0.7px);
+          z-index: 2;
+        }
+
+        &.particle-yellow {
+          width: 35px;
+          height: 35px;
+          background: radial-gradient(circle at 35% 35%, #ffe259 0%, #ff8c00 100%);
+          animation: flickerYellow 1.1s infinite ease-in-out;
+          opacity: 0.92;
+          filter: blur(0.4px);
+          z-index: 3;
+        }
+
+        &.particle-white {
+          width: 20px;
+          height: 20px;
+          background: #ffffff;
+          animation: flickerWhite 0.8s infinite ease-in-out;
+          opacity: 0.95;
+          filter: blur(0.15px);
+          z-index: 4;
+        }
+      }
+
+      .flame-core {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 14px;
+        height: 24px;
+        background: linear-gradient(to top, rgba(0, 180, 255, 0.45), transparent);
+        border-radius: 50% 50% 0 0;
+        filter: blur(0.3px);
+        z-index: 5;
+      }
+    }
+
+    .flame-ember {
+      position: absolute;
+      bottom: 45px;
+      width: 4px;
+      height: 4px;
+      background: #ffe259;
+      border-radius: 50%;
+      filter: blur(0.2px);
+      opacity: 0;
+      z-index: 4;
+
+      &.ember-1 {
+        left: 45%;
+        animation: riseEmber1 2.2s infinite linear;
+      }
+
+      &.ember-2 {
+        left: 55%;
+        animation: riseEmber2 2.6s infinite linear;
+        animation-delay: 0.7s;
+      }
+
+      &.ember-3 {
+        left: 50%;
+        animation: riseEmber3 1.9s infinite linear;
+        animation-delay: 1.3s;
+      }
+    }
+  }
+}
+
+@keyframes floatParticles {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.65;
+  }
+
+  85% {
+    opacity: 0.65;
+  }
+
+  100% {
+    transform: translateY(-500px) translateX(30px) scale(0.4);
+    opacity: 0;
+  }
+}
+
+@keyframes flickerRed {
+  0%, 100% { transform: translateX(-50%) rotate(-45deg) scale(1); }
+  50% { transform: translateX(-47%) rotate(-42deg) scale(1.08) skewX(2deg); }
+}
+
+@keyframes flickerOrange {
+  0%, 100% { transform: translateX(-50%) rotate(-45deg) scale(1); }
+  50% { transform: translateX(-53%) rotate(-49deg) scale(1.06) skewX(-2deg); }
+}
+
+@keyframes flickerYellow {
+  0%, 100% { transform: translateX(-50%) rotate(-45deg) scale(1); }
+  50% { transform: translateX(-48%) rotate(-43deg) scale(1.12) skewX(1deg); }
+}
+
+@keyframes flickerWhite {
+  0%, 100% { transform: translateX(-50%) rotate(-45deg) scale(1); }
+  50% { transform: translateX(-51%) rotate(-47deg) scale(1.06); }
+}
+
+@keyframes riseEmber1 {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  15% { opacity: 0.8; }
+  85% { opacity: 0.8; }
+  100% { transform: translateY(-75px) translateX(-15px) scale(0.3); opacity: 0; }
+}
+
+@keyframes riseEmber2 {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  15% { opacity: 0.8; }
+  85% { opacity: 0.8; }
+  100% { transform: translateY(-85px) translateX(12px) scale(0.2); opacity: 0; }
+}
+
+@keyframes riseEmber3 {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  15% { opacity: 0.8; }
+  85% { opacity: 0.8; }
+  100% { transform: translateY(-65px) translateX(-6px) scale(0.4); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  :host {
+    .unity-section {
+      padding: 8rem 1.5rem;
+    }
+
+    .btn-giant-glow {
+      .btn-content {
+        padding: 1.4rem 3.5rem;
+      }
+
+      .btn-text {
+        font-size: 1.05rem;
+        letter-spacing: 3px;
+      }
+    }
+
+    .massive-css-flame-wrapper {
+      width: 220px;
+      height: 270px;
+
+      .css-flame {
+        transform: scale(2.6);
+      }
+    }
+  }
+}

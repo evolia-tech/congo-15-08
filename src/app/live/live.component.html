@@ -1,0 +1,100 @@
+<div class="live-container">
+  <!-- Interactive Futuristic Background Glow Blobs -->
+  <div class="glow-orb glow-orb-cyan"></div>
+  <div class="glow-orb glow-orb-gold"></div>
+  <div class="glow-orb glow-orb-violet"></div>
+
+  <!-- Ambient Grid Overlay for a tech/futuristic texture -->
+  <div class="grid-overlay"></div>
+
+  <div class="live-wrapper">
+    <!-- Hero Live Section Header -->
+    <header class="live-header">
+      <div class="live-badge-wrapper">
+        <span class="live-badge">
+          <span class="pulse-dot"></span>
+          EN DIRECT
+        </span>
+      </div>
+      <h1 class="live-title">
+        <span class="title-line title-cyan">Cérémonie du 15 Août</span>
+        <span class="title-line title-gold">La Célébration Nationale</span>
+      </h1>
+      <p class="live-subtitle">
+        Suivez la transmission officielle de la fête nationale et allumez l'unité dans tout le pays.
+      </p>
+    </header>
+
+    <!-- Main Video Section -->
+    <section class="video-section">
+      <div class="video-glow-frame">
+        <div class="video-container">
+          <iframe
+            [src]="videoUrl"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Overlay / Dashboard -->
+    <section class="stats-dashboard">
+      <div class="stats-grid">
+        <!-- Card 1: Flame Counter (Reusable Lottie component) -->
+        <div class="stat-card-container">
+          <app-flame-counter [total]="flamesTotal"></app-flame-counter>
+        </div>
+
+        <!-- Card 2: Pays participants -->
+        <div class="stat-card glass-card shadow-cyan">
+          <div class="card-glow-bg glow-cyan"></div>
+          <div class="stat-icon-wrapper wrapper-cyan">
+            <i class="pi pi-globe stat-icon"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number">{{ displayCountries | number }}</span>
+            <span class="stat-label">Pays participants</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Aujourd'hui -->
+        <div class="stat-card glass-card shadow-gold">
+          <div class="card-glow-bg glow-gold"></div>
+          <div class="stat-icon-wrapper wrapper-gold">
+            <i class="pi pi-chart-line stat-icon"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number">+{{ displayToday | number }}</span>
+            <span class="stat-label">Aujourd'hui</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Citation nationale banner -->
+    <section class="quote-section">
+      <div class="quote-container">
+        <p class="quote-text">
+          "Comme les eaux du fleuve Congo, nos flammes ne font qu’un."
+        </p>
+        <div class="quote-divider"></div>
+      </div>
+    </section>
+
+    <!-- CTA Button Section -->
+    <section class="cta-section">
+      <div class="cta-wrapper">
+        <button class="btn-primary-glow" type="button" routerLink="/" aria-label="Participez en direct">
+          <span class="btn-content">
+            <span class="btn-glow-layer"></span>
+            <span class="btn-shimmer"></span>
+            <span class="btn-text">Participez en direct</span>
+          </span>
+        </button>
+      </div>
+    </section>
+  </div>
+</div>

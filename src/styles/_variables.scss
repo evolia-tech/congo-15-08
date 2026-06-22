@@ -1,0 +1,37 @@
+// Color Palette - Institutional Light Theme
+$bg-primary: #ffffff;
+$bg-secondary: #f8f9fa;
+$bg-tertiary: #f1f3f5;
+
+$text-primary: #111215;
+$text-secondary: #495057;
+$text-muted: #868e96;
+$text-light: #ffffff;
+
+// Accent Colors
+$accent: #ffe259; // Gold accent color
+$accent-dark: #ffd54f;
+
+// National Flags Colors
+$congo-green: #009543;
+$congo-yellow: #ffde00;
+$congo-red: #d52b1e;
+
+// Card backgrounds for light theme glassmorphism
+$card-bg: rgba(255, 255, 255, 0.85);
+$card-border: rgba(0, 0, 0, 0.08);
+$card-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
+
+// Glows / Shadows
+$glow-green: rgba(0, 149, 67, 0.12);
+$glow-gold: rgba(255, 226, 89, 0.3);
+$glow-red: rgba(213, 43, 30, 0.12);
+$glow-dark: rgba(0, 0, 0, 0.05);
+
+// Typography
+$font-family-syne: 'Syne', sans-serif;
+$font-family-inter: 'Inter', sans-serif;
+$font-family-space: 'Space Grotesk', sans-serif;
+
+// Transitions
+$transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);

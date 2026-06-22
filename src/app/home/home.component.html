@@ -1,0 +1,6 @@
+<app-home-hero [flamesCount]="flamesCount" (allumerFlame)="incrementFlames()"></app-home-hero>
+<app-participation-form (submitSuccess)="onParticipationSuccess($event)"></app-participation-form>
+<app-stats-section [flamesCount]="flamesCount"></app-stats-section>
+<app-map #congoMap></app-map>
+<app-diaspora #diasporaSection></app-diaspora>
+<app-unity-section></app-unity-section>

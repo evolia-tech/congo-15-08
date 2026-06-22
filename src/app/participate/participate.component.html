@@ -1,0 +1,15 @@
+<div class="participate-page-wrapper">
+  <!-- Futuristic Background Elements -->
+  <div class="glow-orb glow-orb-cyan"></div>
+  <div class="glow-orb glow-orb-gold"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- Hero Section (Form is inside) -->
+  <app-participate-hero [flamesTotal]="flamesTotal" [showSuccess]="showSuccess" (formSuccess)="onFormSuccess($event)"
+    (resetSuccess)="onResetSuccess()"></app-participate-hero>
+
+  <!-- Reassurance Section (directly below hero) -->
+  <app-participate-reassurance></app-participate-reassurance>
+
+
+</div>

@@ -1,0 +1,406 @@
+@use '../../../../styles/variables' as *;
+
+.flame-counter-card {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.5rem;
+  border-radius: 24px;
+  box-sizing: border-box;
+
+  /* Liquid Frosted Glass (iPhone iOS Style) */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+  /* Double glossy borders and crisp reflections */
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.1),
+    0 8px 32px 0 rgba(0, 0, 0, 0.15);
+
+  overflow: hidden;
+  text-align: left;
+  width: 100%;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* iPhone glossy specular highlight reflection across the card */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 90%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 30%, transparent 30%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .flame-glow-bg {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 45px;
+    transform: translate(-50%, -50%);
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.25) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+    animation: breatheGlow 4s infinite alternate ease-in-out;
+  }
+
+  .flame-animation-wrapper {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 0;
+    width: 60px;
+    height: 70px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    filter: drop-shadow(0 0 10px rgba(255, 110, 0, 0.45));
+    margin-right: 0.8rem;
+    /* Gap between flame and counter display */
+
+    .css-flame {
+      position: relative;
+      width: 80px;
+      height: 100px;
+      transform: scale(0.6);
+      transform-origin: bottom center;
+
+      .flame-particle {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        border-radius: 50% 0 50% 50%;
+        transform: translateX(-50%) rotate(-45deg);
+        transform-origin: 50% 50%;
+
+        &.particle-red {
+          width: 65px;
+          height: 65px;
+          background: radial-gradient(circle at 35% 35%, #ff3300 0%, #cc0000 100%);
+          animation: flickerRed 1.8s infinite ease-in-out;
+          opacity: 0.7;
+          filter: blur(1.2px);
+          z-index: 1;
+        }
+
+        &.particle-orange {
+          width: 50px;
+          height: 50px;
+          background: radial-gradient(circle at 35% 35%, #ff6600 0%, #ff3300 100%);
+          animation: flickerOrange 1.4s infinite ease-in-out;
+          opacity: 0.85;
+          filter: blur(0.7px);
+          z-index: 2;
+        }
+
+        &.particle-yellow {
+          width: 35px;
+          height: 35px;
+          background: radial-gradient(circle at 35% 35%, #ffe259 0%, #ff8c00 100%);
+          animation: flickerYellow 1.1s infinite ease-in-out;
+          opacity: 0.92;
+          filter: blur(0.4px);
+          z-index: 3;
+        }
+
+        &.particle-white {
+          width: 20px;
+          height: 20px;
+          background: #ffffff;
+          animation: flickerWhite 0.8s infinite ease-in-out;
+          opacity: 0.95;
+          filter: blur(0.15px);
+          z-index: 4;
+        }
+      }
+
+      .flame-core {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 14px;
+        height: 24px;
+        background: linear-gradient(to top, rgba(0, 180, 255, 0.45), transparent);
+        border-radius: 50% 50% 0 0;
+        filter: blur(0.3px);
+        z-index: 5;
+      }
+    }
+
+    .flame-ember {
+      position: absolute;
+      bottom: 45px;
+      width: 4px;
+      height: 4px;
+      background: #ffe259;
+      border-radius: 50%;
+      filter: blur(0.2px);
+      opacity: 0;
+      z-index: 4;
+
+      &.ember-1 {
+        left: 45%;
+        animation: riseEmber1 2.2s infinite linear;
+      }
+
+      &.ember-2 {
+        left: 55%;
+        animation: riseEmber2 2.6s infinite linear;
+        animation-delay: 0.7s;
+      }
+
+      &.ember-3 {
+        left: 50%;
+        animation: riseEmber3 1.9s infinite linear;
+        animation-delay: 1.3s;
+      }
+    }
+  }
+
+  .counter-display {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 0.15rem;
+    margin-right: 2rem;
+    /* 3rem spacing between counter and countdown block */
+
+    .counter-val {
+      font-family: $font-family-space;
+      font-size: clamp(1.8rem, 4.5vw, 2.2rem);
+      /* Decreased slightly for million-scale readability */
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to bottom, #ffffff 0%, #e2e8f0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: #ffffff;
+      /* Contrast fix on dark backdrop */
+    }
+
+    .counter-lbl {
+      font-family: $font-family-inter;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-wrap: nowrap;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.65);
+      /* Contrast fix on dark backdrop */
+    }
+  }
+
+  .card-countdown-block {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #ffe259;
+    /* Full brand accent color background */
+    border-radius: 0 18px 18px 0;
+    /* Matches card border-radius */
+    text-align: center;
+    gap: 0.2rem;
+    width: 80px;
+    /* Slightly wider to easily fit the single line pill */
+    height: calc(100% + 1.6rem);
+    /* Full card height */
+    z-index: 1;
+    padding: 0.8rem 0.5rem;
+    /* Adjusted horizontal padding */
+    box-sizing: border-box;
+
+    .countdown-days {
+      font-family: $font-family-space;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #111215;
+      /* High-contrast dark grey on yellow background */
+      line-height: 1;
+    }
+
+    .countdown-date {
+      display: inline-block;
+      font-family: $font-family-inter;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #ffffff;
+      /* White text */
+      background: #000000;
+      /* Black background */
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      padding: 0.25rem 0.5rem;
+      white-space: nowrap;
+      /* Single line */
+    }
+  }
+
+  &.has-countdown {
+    @media (max-width: 375px) {
+      padding: 0.8rem 0 0.8rem 0.8rem;
+
+      .card-countdown-block {
+        width: 90px;
+        padding: 0.8rem 0.3rem;
+
+        .countdown-days {
+          font-size: 1.1rem;
+        }
+
+        .countdown-date {
+          font-size: 0.6rem;
+          padding: 0.2rem 0.3rem;
+        }
+      }
+    }
+  }
+}
+
+@keyframes breatheGlow {
+  0% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 0.8;
+  }
+}
+
+@keyframes flickerRed {
+
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-45deg) scale(1);
+  }
+
+  50% {
+    transform: translateX(-47%) rotate(-42deg) scale(1.08) skewX(2deg);
+  }
+}
+
+@keyframes flickerOrange {
+
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-45deg) scale(1);
+  }
+
+  50% {
+    transform: translateX(-53%) rotate(-49deg) scale(1.06) skewX(-2deg);
+  }
+}
+
+@keyframes flickerYellow {
+
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-45deg) scale(1);
+  }
+
+  50% {
+    transform: translateX(-48%) rotate(-43deg) scale(1.12) skewX(1deg);
+  }
+}
+
+@keyframes flickerWhite {
+
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-45deg) scale(1);
+  }
+
+  50% {
+    transform: translateX(-51%) rotate(-47deg) scale(1.06);
+  }
+}
+
+@keyframes riseEmber1 {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.8;
+  }
+
+  85% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(-75px) translateX(-15px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes riseEmber2 {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.8;
+  }
+
+  85% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(-85px) translateX(12px) scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes riseEmber3 {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.8;
+  }
+
+  85% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(-65px) translateX(-6px) scale(0.4);
+    opacity: 0;
+  }
+}

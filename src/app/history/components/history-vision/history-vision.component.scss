@@ -1,0 +1,98 @@
+@use '../../../../styles/variables' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.vision-section {
+  width: 100%;
+}
+
+.vision-container {
+  background: $card-bg;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  box-shadow: $card-shadow;
+  transition: $transition-smooth;
+  width: 100%;
+  padding: 4.5rem 3rem;
+  box-sizing: border-box;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 226, 89, 0.25);
+
+  &:hover {
+    border-color: rgba(255, 226, 89, 0.6);
+    box-shadow: 
+      0 15px 35px rgba(255, 226, 89, 0.08),
+      0 0 35px rgba(255, 226, 89, 0.12),
+      $card-shadow;
+    transform: translateY(-2px);
+  }
+
+  .vision-glow-bg {
+    position: absolute;
+    width: 250px;
+    height: 150px;
+    background: radial-gradient(ellipse, rgba(255, 226, 89, 0.12) 0%, transparent 70%);
+    filter: blur(25px);
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .quote-watermark {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 22rem;
+    line-height: 1;
+    font-family: Georgia, serif;
+    color: #ffe259;
+    opacity: 0.04;
+    user-select: none;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .vision-slogan {
+    font-family: $font-family-syne;
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, $congo-green 0%, #a38c00 50%, $congo-red 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.5rem;
+    z-index: 1;
+    position: relative;
+  }
+
+  .vision-text {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-weight: 400;
+    color: $text-secondary;
+    line-height: 1.8;
+    max-width: 750px;
+    margin: 0 auto 2.2rem;
+    z-index: 1;
+    position: relative;
+  }
+
+  .vision-divider {
+    height: 1px;
+    width: 100px;
+    background: linear-gradient(90deg, transparent, rgba(0, 149, 67, 0.2), transparent);
+    margin: 0 auto;
+    z-index: 1;
+    position: relative;
+  }
+}

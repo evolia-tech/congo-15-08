@@ -1,0 +1,123 @@
+@use '../../../../styles/variables' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.president-section {
+  width: 100%;
+  padding: 6rem 0;
+  background-color: #07080a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.president-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.president-section-title {
+  font-family: $font-family-inter;
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  font-weight: 200;
+  font-style: italic;
+  color: #ffffff;
+  margin-bottom: 2.5rem;
+  text-align: left;
+  letter-spacing: -0.5px;
+}
+
+.president-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 2rem;
+  align-items: stretch;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.president-video-card {
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #000000;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+
+  .video-iframe-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+    height: 0;
+    overflow: hidden;
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+  }
+}
+
+.president-info-card {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 3rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  height: 100%;
+
+  .president-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .president-card-title {
+    font-family: $font-family-inter;
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.35;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+
+  .president-bio-text {
+    font-family: $font-family-inter;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0;
+  }
+
+  .president-date {
+    font-family: $font-family-inter;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: auto;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 992px) {
+    padding: 2.2rem;
+  }
+}

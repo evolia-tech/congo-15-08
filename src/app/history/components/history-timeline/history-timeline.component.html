@@ -1,0 +1,31 @@
+<section class="timeline-section">
+  <h2 class="section-title text-center">La Frise du Destin National</h2>
+  <p class="section-subtitle text-center">
+    Suivez les étapes clés de l’indépendance à la transition numérique de notre symbole d’union.
+  </p>
+
+  <div class="timeline-container">
+    <!-- Vertical timeline central line -->
+    <div class="timeline-central-line"></div>
+
+    <!-- Timeline Cards Loop -->
+    <div 
+      *ngFor="let ev of timelineEvents; let i = index" 
+      class="timeline-item"
+      [ngClass]="i % 2 === 0 ? 'left-align' : 'right-align'">
+      
+      <!-- Glowing Cyan Point -->
+      <div class="timeline-bullet-wrapper">
+        <span class="timeline-bullet"></span>
+      </div>
+
+      <!-- Glassmorphic Content Card -->
+      <div class="timeline-card glass-card fade-in-stagger" [ngClass]="'delay-' + (i + 1)">
+        <div class="card-glow-indicator"></div>
+        <span class="event-year">{{ ev.year }}</span>
+        <h3 class="event-title">{{ ev.title }}</h3>
+        <p class="event-desc">{{ ev.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>

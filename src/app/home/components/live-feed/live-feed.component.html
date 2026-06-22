@@ -1,0 +1,29 @@
+<section class="live-feed-section">
+  <!-- Glowing background orbs -->
+  <div class="glow-orb-feed-cyan"></div>
+
+  <div class="section-header">
+    <h2 class="section-title">Activité en Direct</h2>
+    <p class="section-subtitle">Regardez les flammes s’allumer à travers le monde en temps réel.</p>
+  </div>
+
+  <div class="feed-container-wrapper">
+    <div class="feed-card">
+      <div class="feed-list">
+        @for (item of feedItems; track item.id) {
+        <div class="feed-item">
+          <div class="feed-item-icon">
+            <i class="pi pi-fire"></i>
+          </div>
+          <div class="feed-item-content">
+            <span class="feed-item-name">{{ item.name }}</span>
+            <span class="feed-item-text"> depuis </span>
+            <span class="feed-item-location">{{ item.location }}</span>
+            <span class="feed-item-text"> vient d'allumer une flamme</span>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,47 @@
+<section class="stats-section">
+  <!-- Decorative glowing backdrop -->
+  <div class="glow-orb-stats-cyan"></div>
+
+  <div class="section-header">
+    <h2 class="section-title">L'Impact en Chiffres</h2>
+    <p class="section-subtitle">Découvrez la force de notre mobilisation nationale et internationale en temps réel.</p>
+  </div>
+
+  <div class="stats-grid">
+    <!-- Card 1: Flammes allumées -->
+    <div class="stats-card">
+      <div class="stats-icon-wrapper wrapper-gold">
+        <i class="pi pi-fire stats-icon icon-gold"></i>
+      </div>
+      <span class="stats-number">{{ statsValues.flames | number }}</span>
+      <span class="stats-label">Flammes allumées</span>
+    </div>
+
+    <!-- Card 2: Pays participants -->
+    <div class="stats-card">
+      <div class="stats-icon-wrapper wrapper-cyan">
+        <i class="pi pi-globe stats-icon icon-cyan"></i>
+      </div>
+      <span class="stats-number">{{ statsValues.countries | number }}</span>
+      <span class="stats-label">Pays participants</span>
+    </div>
+
+    <!-- Card 3: Départements illuminés -->
+    <div class="stats-card">
+      <div class="stats-icon-wrapper wrapper-pink">
+        <i class="pi pi-map stats-icon icon-pink"></i>
+      </div>
+      <span class="stats-number">{{ statsValues.departments | number }} / 12</span>
+      <span class="stats-label">Départements illuminés</span>
+    </div>
+
+    <!-- Card 4: Messages partagés -->
+    <div class="stats-card">
+      <div class="stats-icon-wrapper wrapper-green">
+        <i class="pi pi-comments stats-icon icon-green"></i>
+      </div>
+      <span class="stats-number">{{ statsValues.messages | number }}</span>
+      <span class="stats-label">Messages partagés</span>
+    </div>
+  </div>
+</section>

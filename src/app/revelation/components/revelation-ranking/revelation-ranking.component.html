@@ -1,0 +1,23 @@
+<section class="ranking-section">
+  <div class="ranking-container">
+    <div class="ranking-header">
+      <h2 class="ranking-title">Participations par pays</h2>
+      <div class="title-divider"></div>
+    </div>
+
+    <div class="ranking-grid">
+      @for (country of participations; track country.code; let i = $index) {
+        <div class="ranking-item">
+          <div class="rank-badge" [class.rank-top]="i < 3">{{ i + 1 }}</div>
+          <div class="rank-info">
+            <span class="rank-country">{{ country.name }}</span>
+            <div class="rank-bar-wrapper">
+              <div class="rank-bar" [style.width.%]="getBarWidth(country.count)"></div>
+            </div>
+          </div>
+          <span class="rank-count">{{ country.count | number }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>

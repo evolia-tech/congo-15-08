@@ -1,0 +1,73 @@
+@use '../../../../styles/variables' as *;
+
+:host { display: block; width: 100%; height: 100%; }
+
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── SVG ─────────────────────────────────────────────────── */
+.world-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Country styles */
+:host ::ng-deep .country-default {
+  fill: #2d3139;
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 0.4;
+  pointer-events: none; /* Disable all mouse events and hover reactions */
+}
+
+:host ::ng-deep .country-participated {
+  fill: $accent;
+  stroke: rgba(255, 255, 255, 0.45);
+  stroke-width: 0.6;
+  cursor: pointer;
+  filter: url(#glow-gold);
+  transition: fill 0.25s ease, filter 0.25s ease;
+
+  &:hover {
+    fill: #ffd54f;
+    filter: url(#glow-hot);
+  }
+}
+
+/* ── Tooltip ─────────────────────────────────────────────── */
+.map-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: rgba(10, 12, 18, 0.92);
+  border: 1px solid rgba(255, 226, 89, 0.35);
+  border-radius: 10px;
+  padding: 0.5rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  z-index: 20;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  white-space: nowrap;
+
+  .tooltip-name {
+    font-family: $font-family-syne;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .tooltip-count {
+    font-family: $font-family-inter;
+    font-size: 0.75rem;
+    color: $accent;
+  }
+}
+
+@keyframes pulseCountry {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.72; }
+}

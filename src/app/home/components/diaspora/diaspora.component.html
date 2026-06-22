@@ -1,0 +1,75 @@
+<section class="diaspora-section">
+  <!-- Interactive Futuristic Background Glow Orbs -->
+  <div class="glow-orb-diaspora-cyan"></div>
+
+  <div class="diaspora-container-wrapper">
+    <div class="diaspora-card">
+      <div class="section-header">
+        <h2 class="section-title">Diaspora Internationale</h2>
+        <p class="section-subtitle">Découvrez l'élan de solidarité et les flammes allumées par les Congolais à l'étranger.</p>
+      </div>
+
+      <div class="diaspora-layout">
+        <!-- Left: Futuristic 3D CSS/SVG Wireframe Globe -->
+        <div class="diaspora-visual">
+          <div class="globe-wrapper">
+            <div class="globe-glow-overlay"></div>
+            <div class="globe-3d-sphere">
+              <!-- Center glowing globe icon -->
+              <div class="globe-core">
+                <i class="pi pi-globe core-globe-icon"></i>
+              </div>
+
+              <!-- SVG wireframe longitudes & latitudes -->
+              <svg viewBox="0 0 300 300" class="globe-svg-lines">
+                <!-- Outermost circle boundary -->
+                <circle cx="150" cy="150" r="140" class="globe-outline" />
+                
+                <!-- Latitudes -->
+                <ellipse cx="150" cy="150" rx="140" ry="110" class="globe-line lat-1" />
+                <ellipse cx="150" cy="150" rx="140" ry="70" class="globe-line lat-2" />
+                <ellipse cx="150" cy="150" rx="140" ry="30" class="globe-line lat-3" />
+                <line x1="10" y1="150" x2="290" y2="150" class="globe-line equator" />
+                
+                <!-- Longitudes -->
+                <ellipse cx="150" cy="150" rx="110" ry="140" class="globe-line long-1" />
+                <ellipse cx="150" cy="150" rx="70" ry="140" class="globe-line long-2" />
+                <ellipse cx="150" cy="150" rx="30" ry="140" class="globe-line long-3" />
+                <line x1="150" y1="10" x2="150" y2="290" class="globe-line prime-meridian" />
+
+                <!-- Rotating satellite nodes (dots) representing active regions -->
+                <circle cx="150" cy="40" r="4" class="globe-node node-1" />
+                <circle cx="50" cy="100" r="5" class="globe-node node-2" />
+                <circle cx="270" cy="180" r="3" class="globe-node node-3" />
+                <circle cx="90" cy="240" r="5.5" class="globe-node node-4" />
+                <circle cx="210" cy="120" r="4" class="globe-node node-5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Country Flame List with Gold Badges -->
+        <div class="diaspora-info">
+          <div class="info-card-header">
+            <h3>Pays Participants</h3>
+            <p>Nombre total de flammes numériques par nation</p>
+          </div>
+
+          <div class="countries-list-container">
+            @for (country of countriesData; track country.code) {
+            <div class="country-item" [class.active-flash]="activeFlashCountry === country.name">
+              <span class="country-flag">{{ country.flag }}</span>
+              <span class="country-name">{{ country.name }}</span>
+              
+              <div class="country-badge">
+                <i class="pi pi-fire badge-fire-icon"></i>
+                <span class="badge-count">{{ country.flames | number }}</span>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

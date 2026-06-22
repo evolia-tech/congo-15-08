@@ -1,0 +1,144 @@
+@use '../../../../styles/variables' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Glassmorphism Shared Card */
+.glass-card {
+  background: $card-bg;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 28px;
+  border: 1px solid $card-border;
+  box-shadow: $card-shadow;
+  transition: $transition-smooth;
+}
+
+/* Bottom Section (Holds statistics card under left side) */
+.participate-bottom-section {
+  position: relative;
+  width: 100%;
+  padding: 3rem 2rem 8rem;
+  z-index: 2;
+
+  @media (max-width: 992px) {
+    padding-top: 1rem;
+    padding-bottom: 5rem;
+  }
+
+  .bottom-container {
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .bottom-content-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 4rem;
+    align-items: start;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  .bottom-left {
+    width: 100%;
+  }
+
+  .bottom-right {
+    width: 100%;
+  }
+}
+
+.sidebar-stats-card {
+  width: 100%;
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  @extend .glass-card;
+
+  &.sidebar-cyan-glow {
+    border: 1px solid rgba(0, 149, 67, 0.15);
+    box-shadow: 
+      0 15px 35px rgba(0, 0, 0, 0.02),
+      0 0 25px rgba(0, 149, 67, 0.02),
+      $card-shadow;
+
+    &:hover {
+      border-color: $congo-green;
+      box-shadow: 
+        0 20px 45px rgba(0, 0, 0, 0.04),
+        0 0 35px rgba(0, 149, 67, 0.08),
+        $card-shadow;
+    }
+  }
+}
+
+.sidebar-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.5rem 0;
+
+  .sidebar-stat-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+
+    i {
+      font-size: 1.25rem;
+    }
+  }
+
+  .sidebar-icon-cyan {
+    color: $congo-green;
+    filter: drop-shadow(0 2px 4px rgba(0, 149, 67, 0.15));
+    background: rgba(0, 149, 67, 0.05);
+    border-color: rgba(0, 149, 67, 0.12);
+  }
+
+  .sidebar-icon-gold {
+    color: #d4b000;
+    filter: drop-shadow(0 2px 4px rgba(255, 226, 89, 0.15));
+    background: rgba(255, 226, 89, 0.05);
+    border-color: rgba(255, 226, 89, 0.12);
+  }
+
+  .sidebar-stat-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+
+    .sidebar-stat-val {
+      font-family: $font-family-space;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: $text-primary;
+      line-height: 1.1;
+    }
+
+    .sidebar-stat-lbl {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: $text-muted;
+    }
+  }
+}
+
+.sidebar-stat-divider {
+  height: 1px;
+  background: $card-border;
+  margin: 1.5rem 0;
+}

@@ -1,0 +1,360 @@
+@use '../../../../styles/variables' as *;
+
+:host {
+  display: block;
+  width: 100%;
+
+  .diaspora-section {
+    position: relative;
+    width: 100%;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    background: $bg-secondary;
+    border-top: 1px solid $card-border;
+  }
+
+  .glow-orb-diaspora-green {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: -2;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(0, 149, 67, 0.08) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.8;
+  }
+
+  .diaspora-container-wrapper {
+    width: 100%;
+    max-width: 1100px;
+    z-index: 2;
+  }
+
+  .diaspora-card {
+    background: $card-bg;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
+    border: 1px solid $card-border;
+    box-shadow: $card-shadow;
+    padding: 3.5rem;
+  }
+
+  .diaspora-layout {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  /* Globe Styling */
+  .diaspora-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .globe-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+  }
+
+  .globe-glow-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 149, 67, 0.05) 0%, transparent 75%);
+    box-shadow: 
+      0 0 35px rgba(0, 149, 67, 0.08),
+      inset 0 0 25px rgba(0, 149, 67, 0.05);
+    pointer-events: none;
+  }
+
+  .globe-3d-sphere {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 149, 67, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: visible;
+  }
+
+  .globe-core {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .core-globe-icon {
+    font-size: 4rem;
+    color: $congo-green;
+    filter: drop-shadow(0 0 15px rgba(0, 149, 67, 0.4));
+    animation: pulseCoreGlobe 3s infinite alternate ease-in-out;
+  }
+
+  .globe-svg-lines {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: rgba(0, 149, 67, 0.15);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    overflow: visible;
+  }
+
+  .globe-outline {
+    stroke: rgba(0, 149, 67, 0.25);
+    stroke-width: 2.5;
+    stroke-dasharray: 6 4;
+    animation: spinOuter 60s infinite linear;
+    transform-origin: 150px 150px;
+  }
+
+  .globe-line {
+    stroke: rgba(0, 149, 67, 0.08);
+  }
+
+  /* Longitude 3D Spin Simulation via rx scaling */
+  .long-1 {
+    animation: spinLongitude1 15s infinite linear;
+    transform-origin: 150px 150px;
+  }
+
+  .long-2 {
+    animation: spinLongitude2 15s infinite linear;
+    transform-origin: 150px 150px;
+  }
+
+  .long-3 {
+    animation: spinLongitude3 15s infinite linear;
+    transform-origin: 150px 150px;
+  }
+
+  /* Satellite dots representing activity */
+  .globe-node {
+    fill: $accent-dark;
+    stroke: rgba(255, 213, 79, 0.4);
+    stroke-width: 4px;
+    animation: pulseNode 3s infinite alternate ease-in-out;
+    transform-origin: 150px 150px;
+
+    &.node-1 { animation-delay: 0s; }
+    &.node-2 { animation-delay: -0.6s; }
+    &.node-3 { animation-delay: -1.2s; }
+    &.node-4 { animation-delay: -1.8s; }
+    &.node-5 { animation-delay: -2.4s; }
+  }
+
+  /* Country List Styling */
+  .diaspora-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .info-card-header {
+    h3 {
+      font-family: $font-family-syne;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: $text-primary;
+      margin-bottom: 0.25rem;
+    }
+    p {
+      font-size: 0.9rem;
+      color: $text-muted;
+    }
+  }
+
+  .countries-list-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+
+    /* Custom scrollbar */
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.02);
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 149, 67, 0.15);
+      border-radius: 3px;
+      &:hover {
+        background: rgba(0, 149, 67, 0.3);
+      }
+    }
+  }
+
+  .country-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 14px;
+    background: $bg-primary;
+    border: 1px solid $card-border;
+    transition: $transition-smooth;
+
+    &:hover {
+      background: $bg-tertiary;
+      border-color: rgba(0, 149, 67, 0.25);
+      transform: translateX(4px);
+    }
+
+    &.active-flash {
+      animation: flashCountry 1.2s ease-out;
+      background: rgba(0, 149, 67, 0.05) !important;
+      border-color: rgba(0, 149, 67, 0.4) !important;
+      
+      .country-badge {
+        background: rgba(0, 149, 67, 0.12) !important;
+        border-color: rgba(0, 149, 67, 0.25) !important;
+        color: $congo-green !important;
+        text-shadow: 0 0 8px rgba(0, 149, 67, 0.2) !important;
+      }
+      .badge-fire-icon {
+        color: $congo-green !important;
+        filter: drop-shadow(0 0 5px rgba(0, 149, 67, 0.4)) !important;
+      }
+    }
+  }
+
+  .country-flag {
+    font-size: 1.4rem;
+  }
+
+  .country-name {
+    font-family: $font-family-inter;
+    font-size: 0.95rem;
+    color: $text-primary;
+    font-weight: 500;
+  }
+
+  .country-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    background: rgba(255, 226, 89, 0.15);
+    border: 1px solid rgba(255, 226, 89, 0.4);
+    color: $text-primary;
+    margin-left: auto;
+    font-family: $font-family-space;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .badge-fire-icon {
+    font-size: 0.8rem;
+    color: $congo-red;
+    filter: drop-shadow(0 0 3px rgba(213, 43, 30, 0.3));
+  }
+
+  /* Section Header (fallback copy) */
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    z-index: 2;
+
+    .section-title {
+      font-family: $font-family-syne;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, $text-primary 0%, #495057 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    .section-subtitle {
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+      font-weight: 400;
+      color: $text-secondary;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+}
+
+/* Animations */
+@keyframes pulseCoreGlobe {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 20px rgba(0, 149, 67, 0.6)); }
+}
+
+@keyframes spinLongitude1 {
+  0% { rx: 140px; }
+  25% { rx: 0px; }
+  50% { rx: 140px; }
+  75% { rx: 0px; }
+  100% { rx: 140px; }
+}
+
+@keyframes spinLongitude2 {
+  0% { rx: 70px; }
+  12.5% { rx: 0px; }
+  37.5% { rx: 140px; }
+  62.5% { rx: 0px; }
+  87.5% { rx: 140px; }
+  100% { rx: 70px; }
+}
+
+@keyframes spinLongitude3 {
+  0% { rx: 30px; }
+  5% { rx: 0px; }
+  30% { rx: 140px; }
+  55% { rx: 0px; }
+  80% { rx: 140px; }
+  100% { rx: 30px; }
+}
+
+@keyframes pulseNode {
+  0%, 100% { opacity: 0.6; r: 3.5px; stroke-width: 2px; }
+  50% { opacity: 1; r: 5px; stroke-width: 6px; filter: drop-shadow(0 0 6px $accent); }
+}
+
+@keyframes spinOuter {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes flashCountry {
+  0% { box-shadow: 0 0 2px rgba(0, 149, 67, 1); }
+  30% { box-shadow: 0 0 20px rgba(0, 149, 67, 0.4); }
+  100% { box-shadow: 0 0 2px rgba(0, 149, 67, 0.05); }
+}
+
+/* Responsive breakdowns */
+@media (max-width: 1024px) {
+  :host .diaspora-layout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :host .diaspora-card {
+    padding: 2.5rem 1.5rem;
+  }
+}
