@@ -1,35 +1,51 @@
-<section class="participate-bottom-section">
-  <div class="bottom-container">
-    <div class="bottom-content-grid">
-      <div class="bottom-left">
-        <!-- Compact statistics boxes -->
-        <div class="sidebar-stats-card glass-card sidebar-cyan-glow">
-          <div class="sidebar-stat-row">
-            <div class="sidebar-stat-icon-box">
-              <i class="pi pi-globe sidebar-icon-cyan"></i>
+<section class="participate-stats-section">
+  <div class="stats-container">
+    <div class="stats-content-grid">
+      <!-- Left side: Stats cards grid (2x2) -->
+      <div class="stats-left">
+        <div class="stats-header">
+          <h2 class="stats-title">La flamme qui unit le Congo et sa Diaspora</h2>
+          <p class="stats-subtitle">
+            Des Congolais du monde entier répondent présents pour allumer leur flamme virtuelle.
+          </p>
+        </div>
+
+        <div class="stats-grid">
+
+          <!-- Diaspora Countries -->
+          <div class="stat-card glass-card stat-cyan">
+            <div class="stat-icon-box stat-icon-cyan">
+              <i class="pi pi-globe"></i>
             </div>
-            <div class="sidebar-stat-info">
-              <span class="sidebar-stat-val">{{ countriesCount | number }}</span>
-              <span class="sidebar-stat-lbl">Pays participants</span>
+            <div class="stat-body">
+              <span class="stat-value" *ngIf="!isLoading()">
+                {{ stats()?.diasporaCountries }}
+              </span>
+              <span class="stat-value skeleton" *ngIf="isLoading()">—</span>
+              <span class="stat-label">Pays de diaspora</span>
             </div>
+            <div class="stat-glow stat-glow-cyan"></div>
           </div>
-          
-          <div class="sidebar-stat-divider"></div>
-          
-          <div class="sidebar-stat-row">
-            <div class="sidebar-stat-icon-box">
-              <i class="pi pi-map sidebar-icon-gold"></i>
+
+          <!-- Departments Participated -->
+          <div class="stat-card glass-card stat-green">
+            <div class="stat-icon-box stat-icon-green">
+              <i class="pi pi-map"></i>
             </div>
-            <div class="sidebar-stat-info">
-              <span class="sidebar-stat-val">{{ departmentsCount }} / 12</span>
-              <span class="sidebar-stat-lbl">Départements illuminés</span>
+            <div class="stat-body">
+              <span class="stat-value" *ngIf="!isLoading()">
+                {{ stats()?.departmentsParticipated }} / 12
+              </span>
+              <span class="stat-value skeleton" *ngIf="isLoading()">—</span>
+              <span class="stat-label">Départements illuminés</span>
             </div>
+            <div class="stat-glow stat-glow-green"></div>
           </div>
         </div>
       </div>
-      
-      <!-- Right side empty for the form card overflow -->
-      <div class="bottom-right"></div>
+
+      <!-- Right side: empty space — the hero form card overflows here -->
+      <div class="stats-right"></div>
     </div>
   </div>
 </section>

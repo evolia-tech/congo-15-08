@@ -1,0 +1,73 @@
+<section class="messages-section">
+  <div class="messages-container">
+
+    <!-- Section header -->
+    <div class="messages-header">
+      <div class="header-eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow-text">Voix du Congo</span>
+      </div>
+      <h2 class="messages-title">Ils ont allumé leur flamme</h2>
+      <p class="messages-description">
+        Des milliers de Congolais à travers le monde partagent leur message d'unité et de paix.
+        Chaque mot porte la force d'un peuple uni.
+      </p>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="messages-grid" *ngIf="messages().length > 0">
+      @for (msg of messages(); track $index) {
+      <article class="message-card glass-card" [attr.aria-label]="'Message de ' + msg.firstName">
+        <!-- Card top: avatar + name + location -->
+        <div class="card-header">
+          <div class="card-identity">
+            <span class="card-name">{{ msg.firstName }}</span>
+            <span class="card-location">
+              <i class="pi pi-map-marker"></i>
+              {{ msg.location }}
+            </span>
+          </div>
+          <span class="card-date">{{ formatDate(msg.createdAt) }}</span>
+        </div>
+
+
+        <!-- Message body -->
+        <p class="card-message">{{ msg.message }}</p>
+      </article>
+      }
+    </div>
+
+    <!-- Skeleton placeholders while loading initial batch -->
+    <div class="messages-grid" *ngIf="messages().length === 0 && isLoading()">
+      <div class="message-card glass-card skeleton-card" *ngFor="let s of [1,2,3,4,5,6]">
+        <div class="sk sk-avatar"></div>
+        <div class="sk-lines">
+          <div class="sk sk-line sk-line--short"></div>
+          <div class="sk sk-line sk-line--long"></div>
+          <div class="sk sk-line sk-line--medium"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Load more footer -->
+    <div class="messages-footer" *ngIf="messages().length > 0">
+      <button id="load-more-messages-btn" class="btn-load-more" (click)="loadMore()"
+        [disabled]="isLoading() || !hasMore()" [class.btn--loading]="isLoading()"
+        [class.btn--exhausted]="!hasMore() && !isLoading()" aria-label="Voir plus de messages">
+        <span class="btn-inner" *ngIf="!isLoading() && hasMore()">
+          <i class="pi pi-refresh"></i>
+          Voir plus de messages
+        </span>
+        <span class="btn-inner" *ngIf="isLoading()">
+          <i class="pi pi-spin pi-spinner"></i>
+          Chargement…
+        </span>
+        <span class="btn-inner" *ngIf="!hasMore() && !isLoading()">
+          <i class="pi pi-check"></i>
+          Tous les messages affichés
+        </span>
+      </button>
+    </div>
+
+  </div>
+</section>

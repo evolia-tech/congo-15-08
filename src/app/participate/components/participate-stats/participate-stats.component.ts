@@ -1,14 +1,25 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { Component, computed, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ParticipationService,
+  ParticipationStats,
+} from '../../../shared/services/participation.service';
 
 @Component({
   selector: 'app-participate-stats',
   standalone: true,
-  imports: [CommonModule, DecimalPipe],
+  imports: [CommonModule],
   templateUrl: './participate-stats.component.html',
-  styleUrl: './participate-stats.component.scss'
+  styleUrl: './participate-stats.component.scss',
 })
 export class ParticipateStatsComponent {
-  @Input() countriesCount = 0;
-  @Input() departmentsCount = 0;
+  private participationService = inject<ParticipationService>(ParticipationService);
+
+  /** Derived signals — components only read, never write */
+  readonly stats = computed<ParticipationStats | null>(
+    () => this.participationService.stats()
+  );
+  readonly isLoading = computed<boolean>(
+    () => this.participationService.isLoadingStats()
+  );
 }

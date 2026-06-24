@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, computed } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
+import { ParticipationService } from '../../../shared/services/participation.service';
 
 interface Department {
   name: string;
@@ -13,7 +14,7 @@ interface Department {
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss',
 })
-export class MapComponent {
+export class MapComponent implements OnInit {
   departmentsData: Department[] = [
     { name: 'Brazzaville', flames: 5240 },
     { name: 'Pointe-Noire', flames: 3820 },
@@ -32,11 +33,20 @@ export class MapComponent {
   selectedDept: Department | null = null;
   activeFlashDept: string | null = null;
 
+  private participationService = inject<ParticipationService>(ParticipationService);
+
+  /** Reads diasporaCountries from the shared stats signal */
+  readonly diasporaCountries = computed<number>(
+    () => this.participationService.stats()?.diasporaCountries ?? 0
+  );
+
   get totalFlames(): number {
     return this.departmentsData.reduce((acc, curr) => acc + curr.flames, 0);
   }
 
-  constructor() {
+  ngOnInit(): void {
+    // Trigger stats load (no-op if already loaded by another component)
+    this.participationService.loadStats();
     // Select Brazzaville by default to show details
     this.selectedDept = this.departmentsData[0];
   }

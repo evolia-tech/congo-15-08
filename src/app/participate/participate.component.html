@@ -8,8 +8,11 @@
   <app-participate-hero [flamesTotal]="flamesTotal" [showSuccess]="showSuccess" (formSuccess)="onFormSuccess($event)"
     (resetSuccess)="onResetSuccess()"></app-participate-hero>
 
-  <!-- Reassurance Section (directly below hero) -->
+  <!-- Stats Section — overlaps below the hero with the form card floating on top -->
+  <app-participate-stats></app-participate-stats>
+
+  <!-- Reassurance Section -->
   <app-participate-reassurance></app-participate-reassurance>
 
-
+  <app-participate-messages></app-participate-messages>
 </div>

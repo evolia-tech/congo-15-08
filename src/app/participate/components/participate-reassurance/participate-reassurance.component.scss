@@ -8,7 +8,7 @@
 .reassurance-section {
   position: relative;
   width: 100%;
-  height: 60rem;
+  height: 50rem;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -47,131 +47,25 @@
   box-sizing: border-box;
   position: relative;
   z-index: 1;
-}
-
-.reassurance-content {
-  max-width: 680px;
-}
-
-/* Badge */
-.reassurance-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 226, 89, 0.12);
-  border: 1px solid rgba(255, 226, 89, 0.3);
-  border-radius: 50px;
-  padding: 0.4rem 1.1rem;
-  margin-bottom: 1.8rem;
-  font-family: $font-family-inter;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: $accent;
-
-  .badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: $accent;
-    box-shadow: 0 0 8px rgba(255, 226, 89, 0.6);
-    animation: pulseDot 2s ease-in-out infinite;
-  }
-}
-
-/* Title */
-.reassurance-title {
-  font-family: $font-family-syne;
-  font-size: clamp(1.9rem, 4vw, 2.8rem);
-  font-weight: 800;
-  text-transform: uppercase;
-  line-height: 1.15;
-  color: #ffffff;
-  margin: 0 0 1.5rem;
-
-  .title-highlight {
-    display: block;
-    background: linear-gradient(135deg, $accent 0%, $accent-dark 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+  height: 100%;
 }
 
 /* Description text */
 .reassurance-text {
+  padding: 2rem;
   font-family: $font-family-inter;
-  font-size: 1.05rem;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.75;
-  margin: 0 0 2.5rem;
-
-  strong {
-    color: #ffffff;
-    font-weight: 600;
-  }
-}
-
-/* Stats row */
-.reassurance-stats {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 2.5rem;
-}
-
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-
-  .stat-icon {
-    font-size: 1.6rem;
-    line-height: 1;
-  }
-
-  .stat-text {
-    display: flex;
-    flex-direction: column;
-
-    strong {
-      font-family: $font-family-syne;
-      font-size: 1rem;
-      font-weight: 700;
-      color: #ffffff;
-      line-height: 1.2;
-    }
-
-    span {
-      font-family: $font-family-inter;
-      font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.6);
-    }
-  }
-}
-
-.stat-divider {
-  width: 1px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.15);
-  flex-shrink: 0;
-}
-
-/* Inspirational tagline */
-.reassurance-tagline {
-  font-family: $font-family-syne;
   font-size: 1rem;
-  font-weight: 600;
-  font-style: italic;
-  color: $accent;
-  border-left: 3px solid rgba(255, 226, 89, 0.5);
-  padding-left: 1.2rem;
-  margin: 0;
+  font-weight: 400;
+  color: $text-primary;
   line-height: 1.6;
-  opacity: 0.9;
+  background-color: $bg-primary;
+  border-radius: 1rem;
+  position: absolute;
+  left: 0;
+  bottom: 2rem;
+
+  max-width: 400px;
+
 }
 
 /* Animation */

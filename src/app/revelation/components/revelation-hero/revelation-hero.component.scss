@@ -1,6 +1,9 @@
 @use '../../../../styles/variables' as *;
 
-:host { display: block; width: 100%; }
+:host {
+  display: block;
+  width: 100%;
+}
 
 .hero-section {
   position: relative;
@@ -26,18 +29,19 @@
   inset: 0;
   background-size: 50px 50px;
   background-image:
-    linear-gradient(to right, rgba(0,0,0,0.012) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0,0,0,0.012) 1px, transparent 1px);
+    linear-gradient(to right, rgba(0, 0, 0, 0.012) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.012) 1px, transparent 1px);
   mask-image: radial-gradient(circle at 50% 40%, black 25%, transparent 90%);
 }
 
 .glow-orb-center {
   position: absolute;
-  top: 45%; left: 50%;
+  top: 45%;
+  left: 50%;
   transform: translate(-50%, -50%);
   width: min(80vw, 600px);
   height: min(80vw, 600px);
-  background: radial-gradient(circle, rgba(255,226,89,0.14) 0%, rgba(0,149,67,0.04) 55%, transparent 80%);
+  background: radial-gradient(circle, rgba(255, 226, 89, 0.14) 0%, rgba(0, 149, 67, 0.04) 55%, transparent 80%);
   filter: blur(80px);
   animation: breatheGlow 7s infinite alternate ease-in-out;
 }
@@ -51,88 +55,101 @@
   gap: 0;
 }
 
-/* ── Flame ─── */
+/* ── Intégration modulaire de la flamme réutilisable ─── */
 .flame-wrapper {
-  width: 300px; height: 380px;
-  display: flex; align-items: flex-end; justify-content: center;
-  filter: drop-shadow(0 0 30px rgba(255,110,0,0.5));
+  width: 300px;
+  height: 380px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  filter: drop-shadow(0 0 30px rgba(255, 110, 0, 0.5));
   animation: floatFlame 7s ease-in-out infinite;
-}
 
-.css-flame {
-  position: relative;
-  width: 80px; height: 100px;
-  transform: scale(3.8);
-  transform-origin: bottom center;
-
-  .flame-particle {
-    position: absolute; bottom: 10px; left: 50%;
-    border-radius: 50% 0 50% 50%;
-    transform: translateX(-50%) rotate(-45deg);
-    transform-origin: 50% 50%;
-
-    &.particle-red    { width:65px; height:65px; background: radial-gradient(circle at 35% 35%,#ff3300,#cc0000); animation: flickerRed 1.8s infinite ease-in-out; opacity:.75; filter:blur(1px); z-index:1; }
-    &.particle-orange { width:50px; height:50px; background: radial-gradient(circle at 35% 35%,#ff6600,#ff3300); animation: flickerOrange 1.4s infinite ease-in-out; opacity:.88; filter:blur(.6px); z-index:2; }
-    &.particle-yellow { width:35px; height:35px; background: radial-gradient(circle at 35% 35%,#ffe259,#ff8c00); animation: flickerYellow 1.1s infinite ease-in-out; opacity:.95; filter:blur(.3px); z-index:3; }
-    &.particle-white  { width:20px; height:20px; background:#fff; animation: flickerWhite .8s infinite ease-in-out; opacity:.98; z-index:4; }
-  }
-
-  .flame-core {
-    position:absolute; bottom:10px; left:50%;
-    transform:translateX(-50%);
-    width:14px; height:24px;
-    background: linear-gradient(to top, rgba(0,180,255,.4), transparent);
-    border-radius: 50% 50% 0 0;
-    filter:blur(.3px); z-index:5;
-  }
-
-  .flame-ember {
-    position:absolute; bottom:45px;
-    width:4px; height:4px;
-    background:#ffe259; border-radius:50%; opacity:0; z-index:4;
-    &.ember-1 { left:45%; animation: riseEmber1 2.2s infinite linear; }
-    &.ember-2 { left:55%; animation: riseEmber2 2.6s infinite linear; animation-delay:.7s; }
-    &.ember-3 { left:50%; animation: riseEmber3 1.9s infinite linear; animation-delay:1.3s; }
+  app-flame {
+    display: block;
+    width: 80px;
+    height: 100px;
+    transform: scale(3.8);
+    transform-origin: bottom center;
   }
 }
 
 /* ── Counter ─── */
 .counter-block {
-  display: flex; flex-direction: column; align-items: center; gap: .4rem;
-  animation: fadeInUp 1s cubic-bezier(0.16,1,.3,1) .3s both;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+  animation: fadeInUp 1s cubic-bezier(0.16, 1, .3, 1) .3s both;
 }
 
 .massive-counter {
   font-family: $font-family-space;
   font-size: clamp(3.5rem, 10vw, 6.5rem);
-  font-weight: 700; line-height: 1; letter-spacing: -2px; margin: 0;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -2px;
+  margin: 0;
   background: linear-gradient(135deg, $congo-green 10%, #f5a623 55%, $congo-red 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .counter-label {
   font-family: $font-family-inter;
-  font-size: clamp(.75rem,1.5vw,.9rem);
-  font-weight: 600; text-transform: uppercase; letter-spacing: 4px; color: $text-secondary;
+  font-size: clamp(.75rem, 1.5vw, .9rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: $text-secondary;
 }
 
+/* ── Keyframes d'ambiance globales (On ne garde que ce qui est utile au Hero) ─── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px)
+  }
 
-/* ── Keyframes ─── */
-@keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-@keyframes floatFlame { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+  to {
+    opacity: 1;
+    transform: translateY(0)
+  }
+}
+
+@keyframes floatFlame {
+
+  0%,
+  100% {
+    transform: translateY(0)
+  }
+
+  50% {
+    transform: translateY(-12px)
+  }
+}
+
 @keyframes breatheGlow {
-  0%{transform:translate(-50%,-50%) scale(.88);opacity:.6}
-  100%{transform:translate(-50%,-50%) scale(1.15);opacity:1}
-}
-@keyframes flickerRed    { 0%,100%{transform:translateX(-50%) rotate(-45deg) scale(1)} 50%{transform:translateX(-47%) rotate(-42deg) scale(1.08) skewX(2deg)} }
-@keyframes flickerOrange { 0%,100%{transform:translateX(-50%) rotate(-45deg) scale(1)} 50%{transform:translateX(-53%) rotate(-49deg) scale(1.06) skewX(-2deg)} }
-@keyframes flickerYellow { 0%,100%{transform:translateX(-50%) rotate(-45deg) scale(1)} 50%{transform:translateX(-48%) rotate(-43deg) scale(1.12) skewX(1deg)} }
-@keyframes flickerWhite  { 0%,100%{transform:translateX(-50%) rotate(-45deg) scale(1)} 50%{transform:translateX(-51%) rotate(-47deg) scale(1.06)} }
-@keyframes riseEmber1 { 0%{transform:translateY(0) scale(1);opacity:0} 15%{opacity:.8} 85%{opacity:.8} 100%{transform:translateY(-75px) translateX(-15px) scale(.3);opacity:0} }
-@keyframes riseEmber2 { 0%{transform:translateY(0) scale(1);opacity:0} 15%{opacity:.8} 85%{opacity:.8} 100%{transform:translateY(-85px) translateX(12px) scale(.2);opacity:0} }
-@keyframes riseEmber3 { 0%{transform:translateY(0) scale(1);opacity:0} 15%{opacity:.8} 85%{opacity:.8} 100%{transform:translateY(-65px) translateX(-6px) scale(.4);opacity:0} }
+  0% {
+    transform: translate(-50%, -50%) scale(.88);
+    opacity: .6
+  }
 
+  100% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 1
+  }
+}
+
+/* ── Responsive Tablette / Mobile ─── */
 @media (max-width:768px) {
-  .flame-wrapper { width:200px; height:260px; }
-  .css-flame { transform:scale(2.6); }
+  .flame-wrapper {
+    width: 200px;
+    height: 260px;
+
+    app-flame {
+      transform: scale(2.6);
+    }
+  }
 }

@@ -1,1 +1,5 @@
+@if (showIntro()) {
+<app-intro-animation (animationFinished)="onIntroFinished()"></app-intro-animation>
+}
+
 <router-outlet></router-outlet>

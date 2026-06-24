@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParticipateHeroComponent } from './components/participate-hero/participate-hero.component';
 import { ParticipateReassuranceComponent } from './components/participate-reassurance/participate-reassurance.component';
+import { ParticipateStatsComponent } from './components/participate-stats/participate-stats.component';
+import { ParticipationService } from '../shared/services/participation.service';
+import { ParticipateMessagesComponent } from './components/participate-messages/participate-messages.component';
 
 @Component({
   selector: 'app-participate',
@@ -9,12 +12,14 @@ import { ParticipateReassuranceComponent } from './components/participate-reassu
   imports: [
     CommonModule,
     ParticipateHeroComponent,
-    ParticipateReassuranceComponent
+    ParticipateReassuranceComponent,
+    ParticipateStatsComponent,
+    ParticipateMessagesComponent
   ],
   templateUrl: './participate.component.html',
   styleUrl: './participate.component.scss',
 })
-export class ParticipateComponent {
+export class ParticipateComponent implements OnInit {
   showSuccess = false;
 
   // Mock static stats
@@ -22,7 +27,15 @@ export class ParticipateComponent {
   countriesCount = 195;
   departmentsCount = 12;
 
-  onFormSuccess(event: { firstName: string, location: string }): void {
+  private participationService = inject(ParticipationService);
+
+  ngOnInit(): void {
+    // Trigger the HTTP request; the result is stored in the service signal
+    // and consumed reactively by ParticipateStatsComponent
+    this.participationService.loadStats();
+  }
+
+  onFormSuccess(event: { firstName: string; location: string }): void {
     this.flamesTotal++;
     this.showSuccess = true;
   }

@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { HomeHeroComponent } from './components/home-hero/home-hero.component';
 import { ParticipationFormComponent } from '../shared/components/participation-form/participation-form.component';
 import { MapComponent } from './components/map/map.component';
-import { DiasporaComponent } from './components/diaspora/diaspora.component';
 import { StatsSectionComponent } from './components/stats-section/stats-section.component';
 import { UnitySectionComponent } from './components/unity-section/unity-section.component';
 
@@ -13,7 +12,6 @@ import { UnitySectionComponent } from './components/unity-section/unity-section.
     HomeHeroComponent,
     ParticipationFormComponent,
     MapComponent,
-    DiasporaComponent,
     StatsSectionComponent,
     UnitySectionComponent
   ],
@@ -24,7 +22,6 @@ export class HomeComponent {
   flamesCount = 15420;
 
   @ViewChild('congoMap') congoMap!: MapComponent;
-  @ViewChild('diasporaSection') diasporaSection!: DiasporaComponent;
 
   incrementFlames(): void {
     this.flamesCount += Math.floor(Math.random() * 500) + 150;
@@ -34,9 +31,6 @@ export class HomeComponent {
     this.incrementFlames();
     if (this.congoMap) {
       this.congoMap.incrementDepartmentFlames(event.location);
-    }
-    if (this.diasporaSection) {
-      this.diasporaSection.incrementCountryFlames(event.location);
     }
   }
 }

@@ -10,135 +10,259 @@
   background: $card-bg;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-radius: 28px;
+  border-radius: 24px;
   border: 1px solid $card-border;
   box-shadow: $card-shadow;
   transition: $transition-smooth;
 }
 
-/* Bottom Section (Holds statistics card under left side) */
-.participate-bottom-section {
+/* ----------------------------------------
+   SECTION LAYOUT
+   The section sits directly below the hero.
+   Its left column aligns under the hero-left
+   while the right column is empty — letting
+   the hero form card overflow on top of it.
+   ---------------------------------------- */
+.participate-stats-section {
   position: relative;
   width: 100%;
-  padding: 3rem 2rem 8rem;
-  z-index: 2;
+  padding: 2.5rem 2rem 6rem;
+  z-index: 1; // hero form card (z-index: 10) sits on top
+  margin-top: 2rem; // pull up slightly to create overlap visual
 
   @media (max-width: 992px) {
-    padding-top: 1rem;
-    padding-bottom: 5rem;
-  }
-
-  .bottom-container {
-    max-width: 1300px;
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  .bottom-content-grid {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 4rem;
-    align-items: start;
-
-    @media (max-width: 992px) {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-  }
-
-  .bottom-left {
-    width: 100%;
-  }
-
-  .bottom-right {
-    width: 100%;
+    padding: 2rem 1rem 4rem;
+    margin-top: 0;
   }
 }
 
-.sidebar-stats-card {
+.stats-container {
+  max-width: 1300px;
   width: 100%;
-  padding: 2.2rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* Grid mirrors the hero's 1.1fr / 0.9fr split */
+.stats-content-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  align-items: start;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.stats-right {
+  /* Intentionally empty — hero form card floats over here */
+  pointer-events: none;
+
+  @media (max-width: 992px) {
+    display: none;
+  }
+}
+
+/* ----------------------------------------
+   HEADER
+   ---------------------------------------- */
+.stats-header {
+  margin-bottom: 2.5rem;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  @extend .glass-card;
+  gap: 0.6rem;
+}
 
-  &.sidebar-cyan-glow {
-    border: 1px solid rgba(0, 149, 67, 0.15);
-    box-shadow: 
-      0 15px 35px rgba(0, 0, 0, 0.02),
-      0 0 25px rgba(0, 149, 67, 0.02),
-      $card-shadow;
+.stats-title {
+  font-family: $font-family-syne;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  font-weight: 800;
+  color: $text-primary;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+}
 
-    &:hover {
-      border-color: $congo-green;
-      box-shadow: 
-        0 20px 45px rgba(0, 0, 0, 0.04),
-        0 0 35px rgba(0, 149, 67, 0.08),
-        $card-shadow;
-    }
+.stats-subtitle {
+  font-family: $font-family-inter;
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: $text-muted;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 480px;
+}
+
+/* ----------------------------------------
+   2×2 STATS GRID
+   ---------------------------------------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
   }
 }
 
-.sidebar-stat-row {
+/* ----------------------------------------
+   INDIVIDUAL STAT CARD
+   ---------------------------------------- */
+.stat-card {
+  position: relative;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+}
+
+.stat-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  padding: 0.5rem 0;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid transparent;
 
-  .sidebar-stat-icon-box {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid transparent;
-
-    i {
-      font-size: 1.25rem;
-    }
-  }
-
-  .sidebar-icon-cyan {
-    color: $congo-green;
-    filter: drop-shadow(0 2px 4px rgba(0, 149, 67, 0.15));
-    background: rgba(0, 149, 67, 0.05);
-    border-color: rgba(0, 149, 67, 0.12);
-  }
-
-  .sidebar-icon-gold {
-    color: #d4b000;
-    filter: drop-shadow(0 2px 4px rgba(255, 226, 89, 0.15));
-    background: rgba(255, 226, 89, 0.05);
-    border-color: rgba(255, 226, 89, 0.12);
-  }
-
-  .sidebar-stat-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-
-    .sidebar-stat-val {
-      font-family: $font-family-space;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: $text-primary;
-      line-height: 1.1;
-    }
-
-    .sidebar-stat-lbl {
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: $text-muted;
-    }
+  i {
+    font-size: 1.3rem;
   }
 }
 
-.sidebar-stat-divider {
-  height: 1px;
-  background: $card-border;
-  margin: 1.5rem 0;
+.stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-value {
+  font-family: $font-family-space;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  font-weight: 700;
+  color: $text-primary;
+  line-height: 1;
+
+  &.skeleton {
+    color: $text-muted;
+    opacity: 0.4;
+  }
+}
+
+.stat-label {
+  font-family: $font-family-inter;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: $text-muted;
+  line-height: 1.3;
+}
+
+/* Glow radial blob in background of each card */
+.stat-glow {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  filter: blur(30px);
+  right: -20px;
+  bottom: -20px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ---- Gold variant ---- */
+.stat-gold {
+  border-color: rgba(255, 226, 89, 0.2);
+
+  &:hover {
+    border-color: rgba(255, 226, 89, 0.45);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04), 0 0 25px rgba(255, 226, 89, 0.12), $card-shadow;
+  }
+}
+
+.stat-icon-gold {
+  background: rgba(255, 226, 89, 0.08);
+  border-color: rgba(255, 226, 89, 0.2);
+  color: #d4b000;
+  filter: drop-shadow(0 2px 4px rgba(255, 226, 89, 0.2));
+}
+
+.stat-glow-gold {
+  background: radial-gradient(circle, rgba(255, 226, 89, 0.35) 0%, transparent 70%);
+}
+
+/* ---- Cyan (green) variant ---- */
+.stat-cyan {
+  border-color: rgba(0, 149, 67, 0.15);
+
+  &:hover {
+    border-color: rgba(0, 149, 67, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04), 0 0 25px rgba(0, 149, 67, 0.1), $card-shadow;
+  }
+}
+
+.stat-icon-cyan {
+  background: rgba(0, 149, 67, 0.07);
+  border-color: rgba(0, 149, 67, 0.15);
+  color: $congo-green;
+  filter: drop-shadow(0 2px 4px rgba(0, 149, 67, 0.2));
+}
+
+.stat-glow-cyan {
+  background: radial-gradient(circle, rgba(0, 149, 67, 0.3) 0%, transparent 70%);
+}
+
+/* ---- Green variant ---- */
+.stat-green {
+  border-color: rgba(0, 200, 100, 0.15);
+
+  &:hover {
+    border-color: rgba(0, 200, 100, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04), 0 0 25px rgba(0, 200, 100, 0.1), $card-shadow;
+  }
+}
+
+.stat-icon-green {
+  background: rgba(0, 200, 100, 0.07);
+  border-color: rgba(0, 200, 100, 0.18);
+  color: #00c864;
+  filter: drop-shadow(0 2px 4px rgba(0, 200, 100, 0.2));
+}
+
+.stat-glow-green {
+  background: radial-gradient(circle, rgba(0, 200, 100, 0.28) 0%, transparent 70%);
+}
+
+/* ---- Purple variant ---- */
+.stat-purple {
+  border-color: rgba(147, 51, 234, 0.15);
+
+  &:hover {
+    border-color: rgba(147, 51, 234, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04), 0 0 25px rgba(147, 51, 234, 0.1), $card-shadow;
+  }
+}
+
+.stat-icon-purple {
+  background: rgba(147, 51, 234, 0.07);
+  border-color: rgba(147, 51, 234, 0.18);
+  color: #9333ea;
+  filter: drop-shadow(0 2px 4px rgba(147, 51, 234, 0.2));
+}
+
+.stat-glow-purple {
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.28) 0%, transparent 70%);
 }
