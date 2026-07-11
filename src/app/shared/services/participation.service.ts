@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { io, Socket } from 'socket.io-client';
 
 export interface ParticipationPayload {
   firstName: string;
@@ -9,7 +10,7 @@ export interface ParticipationPayload {
   countryId: string;
   department?: string;
   message: string;
-  photo: File;
+  card: File;
 }
 
 export interface ParticipationResponse {
@@ -19,9 +20,18 @@ export interface ParticipationResponse {
   countryId: string;
   department?: string;
   message: string;
-  photoUrl: string;
+  cardUrl: string;
   isApproved: boolean;
   createdAt: string;
+}
+
+export interface CachedParticipation {
+  id: string;
+  firstName: string;
+  location: string;
+  cardUrl: string | null;
+  dataUrl: string;
+  message: string;
 }
 
 export interface ParticipationStats {
@@ -29,6 +39,8 @@ export interface ParticipationStats {
   departmentsParticipated: number;
   diasporaCountries: number;
   localParticipations: number;
+  departments?: { name: string; count: number }[];
+  countries?: { countryId: string; count: number }[];
 }
 
 /** Lightweight shape used for the public message wall */
@@ -43,10 +55,10 @@ export interface ParticipationMessage {
 // ── Mock data ────────────────────────────────────────────────────────────────
 
 const MOCK_STATS: ParticipationStats = {
-  totalParticipations: 742158,
-  departmentsParticipated: 12,
-  diasporaCountries: 48,
-  localParticipations: 684320,
+  totalParticipations: 0,
+  departmentsParticipated: 0,
+  diasporaCountries: 0,
+  localParticipations: 0,
 };
 
 const LOCATIONS = [
@@ -97,8 +109,11 @@ function generateMockMessages(count: number, offset: number): ParticipationMessa
   providedIn: 'root',
 })
 export class ParticipationService {
-  private readonly apiUrl = 'http://localhost:3000/api/participations';
+  //private readonly apiUrl = 'http://localhost:3000/api/participations';
+
+  private readonly apiUrl = 'https://api.celebratecongo.com';
   private readonly PAGE_SIZE = 20;
+  private socket?: Socket;
 
   // ── Stats signals ──────────────────────────────────────────────────────────
   private readonly _stats = signal<ParticipationStats | null>(null);
@@ -117,7 +132,89 @@ export class ParticipationService {
   readonly isLoadingMessages = this._isLoadingMessages.asReadonly();
   readonly hasMoreMessages = this._hasMoreMessages.asReadonly();
 
-  constructor(private http: HttpClient) {}
+  // ── Local Storage Cache signals ──────────────────────────────────────────
+  private readonly _localParticipations = signal<CachedParticipation[]>([]);
+  readonly localParticipations = this._localParticipations.asReadonly();
+
+  private readonly _activeParticipationId = signal<string | null>(null);
+  readonly activeParticipationId = this._activeParticipationId.asReadonly();
+
+  private readonly _showShareModal = signal<boolean>(false);
+  readonly showShareModal = this._showShareModal.asReadonly();
+
+  constructor(private http: HttpClient) {
+    this.loadLocalParticipations();
+    this.initSocketConnection();
+    this.loadStats();
+  }
+
+  loadLocalParticipations(): void {
+    try {
+      const stored = localStorage.getItem('congo_participations');
+      if (stored) {
+        this._localParticipations.set(JSON.parse(stored));
+      }
+    } catch (e) {
+      console.error('Failed to parse local participations:', e);
+    }
+  }
+
+  addLocalParticipation(p: CachedParticipation): void {
+    const current = this._localParticipations();
+    // Prevent duplicate entries by email or ID
+    const updated = current.filter(x => x.id !== p.id);
+    updated.push(p);
+    this._localParticipations.set(updated);
+    try {
+      localStorage.setItem('congo_participations', JSON.stringify(updated));
+    } catch (e) {
+      console.error('Failed to save local participations:', e);
+    }
+  }
+
+  openShareModal(activeId?: string): void {
+    if (activeId) {
+      this._activeParticipationId.set(activeId);
+    } else {
+      const list = this._localParticipations();
+      if (list.length > 0) {
+        this._activeParticipationId.set(list[list.length - 1].id);
+      } else {
+        this._activeParticipationId.set(null);
+      }
+    }
+    this._showShareModal.set(true);
+  }
+
+  closeShareModal(): void {
+    this._showShareModal.set(false);
+    this._activeParticipationId.set(null);
+  }
+
+
+  private initSocketConnection(): void {
+    // Connect to backend Socket.io server
+    this.socket = io(this.apiUrl);
+
+    this.socket.on('connect', () => {
+      console.log('🔌 Connected to real-time WebSockets counter');
+    });
+
+    this.socket.on('participationCountUpdated', (data: { count: number }) => {
+      console.log('🔥 Real-time counter updated:', data.count);
+      this._stats.update((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          totalParticipations: data.count,
+        };
+      });
+    });
+
+    this.socket.on('disconnect', () => {
+      console.log('🔌 Disconnected from WebSockets counter');
+    });
+  }
 
   // ── Stats ──────────────────────────────────────────────────────────────────
 
@@ -171,7 +268,7 @@ export class ParticipationService {
     const offset = this._currentPage * this.PAGE_SIZE;
 
     this.http
-      .get<ParticipationMessage[]>(
+      .get<any[]>(
         `${this.apiUrl}?limit=${this.PAGE_SIZE}&offset=${offset}&approved=true`
       )
       .pipe(
@@ -181,7 +278,50 @@ export class ParticipationService {
       )
       .subscribe({
         next: (data) => {
-          this._messages.update((prev) => [...prev, ...data]);
+          const mapped = data.map((item: any) => {
+            // If it's already mapped (like in mock messages)
+            if (item.location !== undefined) {
+              return item as ParticipationMessage;
+            }
+
+            // Map backend fields to frontend ParticipationMessage
+            const getCountryName = (code: string): string => {
+              const list = [
+                { name: 'République du Congo', code: 'CG' },
+                { name: 'France', code: 'FR' },
+                { name: 'Belgique', code: 'BE' },
+                { name: 'Canada', code: 'CA' },
+                { name: 'États-Unis', code: 'US' },
+                { name: 'Sénégal', code: 'SN' },
+                { name: 'Côte d\'Ivoire', code: 'CI' },
+                { name: 'Cameroun', code: 'CM' },
+              ];
+              const match = list.find((c) => c.code.toUpperCase() === code.toUpperCase());
+              return match ? match.name : code;
+            };
+
+            let locationLabel = '';
+            const isCongo = item.countryId?.toUpperCase() === 'CG';
+            if (isCongo) {
+              if (item.department) {
+                locationLabel = `${item.department}, Congo`;
+              } else {
+                locationLabel = 'Congo';
+              }
+            } else {
+              locationLabel = getCountryName(item.countryId || '');
+            }
+
+            return {
+              id: item.id,
+              firstName: item.firstName,
+              location: locationLabel,
+              message: item.message,
+              createdAt: item.createdAt,
+            } as ParticipationMessage;
+          });
+
+          this._messages.update((prev) => [...prev, ...mapped]);
           // If fewer items than page size → no more pages
           this._hasMoreMessages.set(data.length === this.PAGE_SIZE);
           this._isLoadingMessages.set(false);
@@ -208,10 +348,16 @@ export class ParticipationService {
     }
 
     formData.append('message', payload.message);
-    formData.append('photo', payload.photo);
+    formData.append('card', payload.card);
 
     return this.http
       .post<ParticipationResponse>(this.apiUrl, formData)
+      .pipe(catchError(this.handleError));
+  }
+
+  subscribeToNewsletter(email: string): Observable<any> {
+    return this.http
+      .post<any>(`${this.apiUrl}/api/newsletter/subscribe`, { email })
       .pipe(catchError(this.handleError));
   }
 

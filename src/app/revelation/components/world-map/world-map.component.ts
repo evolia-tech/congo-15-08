@@ -71,6 +71,10 @@ export class WorldMapComponent implements OnInit, OnChanges {
     this.countryPaths = [];
     for (const feature of features) {
       const geoName = feature.properties?.name || '';
+      // Skip Antarctica
+      if (geoName.toLowerCase().includes('antarcti')) {
+        continue;
+      }
       const participation = this.participationByGeoName.get(geoName.toLowerCase()) || null;
       const d = this.geometryToPath(feature.geometry);
       if (d) {

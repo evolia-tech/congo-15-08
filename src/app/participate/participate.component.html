@@ -5,7 +5,7 @@
   <div class="grid-overlay"></div>
 
   <!-- Hero Section (Form is inside) -->
-  <app-participate-hero [flamesTotal]="flamesTotal" [showSuccess]="showSuccess" (formSuccess)="onFormSuccess($event)"
+  <app-participate-hero [flamesTotal]="flamesTotal" [isLoading]="isLoadingStats()" [showSuccess]="showSuccess" (formSuccess)="onFormSuccess($event)"
     (resetSuccess)="onResetSuccess()"></app-participate-hero>
 
   <!-- Stats Section — overlaps below the hero with the form card floating on top -->

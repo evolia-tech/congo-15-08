@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 interface TimelineEvent {
   year: string;
@@ -9,10 +8,11 @@ interface TimelineEvent {
 
 @Component({
   selector: 'app-history-timeline',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './history-timeline.component.html',
-  styleUrl: './history-timeline.component.scss'
+  styleUrl: './history-timeline.component.scss',
+  imports: [
+
+  ]
 })
 export class HistoryTimelineComponent {
   timelineEvents: TimelineEvent[] = [

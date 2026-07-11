@@ -6,6 +6,7 @@ import { LiveComponent } from './live/live.component';
 import { RevelationComponent } from './revelation/revelation.component';
 import { ParticipateComponent } from './participate/participate.component';
 import { HistoryComponent } from './history/history.component';
+import { UnsubscribeComponent } from './unsubscribe/unsubscribe';
 
 export const routes: Routes = [
   // 1. Pages AVEC Header/Footer
@@ -22,11 +23,12 @@ export const routes: Routes = [
     ],
   },
 
-  // 2. Pages SANS Header/Footer (ex: Checkout, Login)
+  // 2. Pages SANS Header/Footer (ex: Checkout, Login, Désinscription)
   {
     path: '',
     component: EmptyLayout,
     children: [
+      { path: 'desinscription', component: UnsubscribeComponent },
     //  { path: 'checkout', component: CheckoutComponent },
     ],
   },
@@ -34,3 +36,4 @@ export const routes: Routes = [
   // Redirection si page inconnue
   { path: '**', redirectTo: '' },
 ];
+

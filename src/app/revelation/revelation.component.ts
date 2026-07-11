@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, computed, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CountryParticipation } from './components/world-map/world-map.component';
 import { RevelationHeroComponent } from './components/revelation-hero/revelation-hero.component';
 import { RevelationMapComponent } from './components/revelation-map/revelation-map.component';
 import { RevelationRankingComponent } from './components/revelation-ranking/revelation-ranking.component';
+import { ParticipationService } from '../shared/services/participation.service';
 
 @Component({
   selector: 'app-revelation',
@@ -17,51 +18,82 @@ import { RevelationRankingComponent } from './components/revelation-ranking/reve
   ]
 })
 export class RevelationComponent implements OnInit, OnDestroy {
-  targetFlames = 742158;
+  private participationService = inject(ParticipationService);
+  readonly stats = computed(() => this.participationService.stats());
+
   displayFlames = signal<number>(0);
   private animationFrameId?: number;
+  private hasAnimated = false;
+
+  private readonly countryMeta: { [code: string]: { name: string; geoName: string } } = {
+    'CG': { name: 'République du Congo', geoName: 'Republic of the Congo' },
+    'CD': { name: 'RD Congo', geoName: 'Democratic Republic of the Congo' },
+    'FR': { name: 'France', geoName: 'France' },
+    'BE': { name: 'Belgique', geoName: 'Belgium' },
+    'CA': { name: 'Canada', geoName: 'Canada' },
+    'US': { name: 'États-Unis', geoName: 'United States of America' },
+    'GA': { name: 'Gabon', geoName: 'Gabon' },
+    'CM': { name: 'Cameroun', geoName: 'Cameroon' },
+    'GB': { name: 'Royaume-Uni', geoName: 'United Kingdom' },
+    'DE': { name: 'Allemagne', geoName: 'Germany' },
+    'SN': { name: 'Sénégal', geoName: 'Senegal' },
+    'CI': { name: "Côte d'Ivoire", geoName: 'Ivory Coast' },
+    'NG': { name: 'Nigéria', geoName: 'Nigeria' },
+    'AO': { name: 'Angola', geoName: 'Angola' },
+    'ZA': { name: 'Afrique du Sud', geoName: 'South Africa' },
+    'IT': { name: 'Italie', geoName: 'Italy' },
+    'ES': { name: 'Espagne', geoName: 'Spain' },
+    'AE': { name: 'Émirats Arabes Unis', geoName: 'United Arab Emirates' },
+    'BR': { name: 'Brésil', geoName: 'Brazil' },
+    'CH': { name: 'Suisse', geoName: 'Switzerland' },
+    'AU': { name: 'Australie', geoName: 'Australia' },
+    'PT': { name: 'Portugal', geoName: 'Portugal' },
+    'MA': { name: 'Maroc', geoName: 'Morocco' },
+    'ML': { name: 'Mali', geoName: 'Mali' },
+    'GN': { name: 'Guinée', geoName: 'Guinea' }
+  };
 
   /**
-   * Participation data — geoName must match the English country name in world.geojson
+   * Participation data derived reactively from backend stats
    */
-  countryParticipations: CountryParticipation[] = [
-    { code: 'CG', name: 'République du Congo', geoName: 'Republic of the Congo', count: 285430 },
-    { code: 'CD', name: 'RD Congo', geoName: 'Democratic Republic of the Congo', count: 112850 },
-    { code: 'FR', name: 'France', geoName: 'France', count: 98240 },
-    { code: 'BE', name: 'Belgique', geoName: 'Belgium', count: 42180 },
-    { code: 'CA', name: 'Canada', geoName: 'Canada', count: 35620 },
-    { code: 'US', name: 'États-Unis', geoName: 'United States of America', count: 28950 },
-    { code: 'GA', name: 'Gabon', geoName: 'Gabon', count: 24310 },
-    { code: 'CM', name: 'Cameroun', geoName: 'Cameroon', count: 19870 },
-    { code: 'GB', name: 'Royaume-Uni', geoName: 'United Kingdom', count: 15640 },
-    { code: 'DE', name: 'Allemagne', geoName: 'Germany', count: 12380 },
-    { code: 'SN', name: 'Sénégal', geoName: 'Senegal', count: 9820 },
-    { code: 'CI', name: "Côte d'Ivoire", geoName: "Ivory Coast", count: 8740 },
-    { code: 'NG', name: 'Nigéria', geoName: 'Nigeria', count: 7650 },
-    { code: 'AO', name: 'Angola', geoName: 'Angola', count: 6430 },
-    { code: 'ZA', name: 'Afrique du Sud', geoName: 'South Africa', count: 5210 },
-    { code: 'IT', name: 'Italie', geoName: 'Italy', count: 4890 },
-    { code: 'ES', name: 'Espagne', geoName: 'Spain', count: 3760 },
-    { code: 'AE', name: 'Émirats Arabes Unis', geoName: 'United Arab Emirates', count: 2540 },
-    { code: 'BR', name: 'Brésil', geoName: 'Brazil', count: 2180 },
-    { code: 'CH', name: 'Suisse', geoName: 'Switzerland', count: 1890 },
-    { code: 'AU', name: 'Australie', geoName: 'Australia', count: 1340 },
-    { code: 'PT', name: 'Portugal', geoName: 'Portugal', count: 980 },
-    { code: 'MA', name: 'Maroc', geoName: 'Morocco', count: 870 },
-    { code: 'ML', name: 'Mali', geoName: 'Mali', count: 650 },
-    { code: 'GN', name: 'Guinée', geoName: 'Guinea', count: 540 },
-  ].sort((a, b) => b.count - a.count);
+  readonly countryParticipations = computed<CountryParticipation[]>(() => {
+    const dbStats = this.stats();
+    if (!dbStats?.countries) {
+      return [];
+    }
+
+    return dbStats.countries.map(c => {
+      const codeUpper = c.countryId.toUpperCase();
+      const meta = this.countryMeta[codeUpper] || { name: c.countryId, geoName: c.countryId };
+      return {
+        code: codeUpper,
+        name: meta.name,
+        geoName: meta.geoName,
+        count: c.count
+      };
+    }).sort((a, b) => b.count - a.count);
+  });
+
+  constructor() {
+    effect(() => {
+      const currentStats = this.stats();
+      if (currentStats && !this.hasAnimated) {
+        this.hasAnimated = true;
+        this.animateCounter(currentStats.totalParticipations, 3500);
+      }
+    });
+  }
 
   get totalParticipants(): number {
-    return this.countryParticipations.reduce((s, c) => s + c.count, 0);
+    return this.countryParticipations().reduce((s, c) => s + c.count, 0);
   }
 
   get activeCountries(): number {
-    return this.countryParticipations.length;
+    return this.countryParticipations().length;
   }
 
   ngOnInit(): void {
-    this.animateCounter(this.targetFlames, 3500);
+    this.participationService.loadStats();
   }
 
   ngOnDestroy(): void {

@@ -15,9 +15,21 @@ import { Flame } from '../flame/flame';
 export class FlameCounterComponent implements OnChanges {
   @Input() total: number = 0;
   @Input() showCountdown: boolean = false;
+  @Input() isLoading: boolean = false;
 
   displayValue = signal<number>(0);
   private animationFrameId?: number;
+
+  get countdownText(): string {
+    const target = new Date(2026, 7, 15, 0, 0, 0); // August 15, 2026 (Month is 0-indexed)
+    const now = new Date();
+    const diff = target.getTime() - now.getTime();
+    if (diff <= 0) {
+      return 'J-0';
+    }
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    return `J-${days}`;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['total']) {

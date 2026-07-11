@@ -1,292 +1,132 @@
-<ng-container>
-<form [formGroup]="participationForm" (ngSubmit)="onSubmit()" [class.participation-form]="compact">
-  @if (compact) {
-    <!-- Row 1: Prénom & Email -->
-    <div class="form-grid-2">
-      <!-- Prénom Field -->
-      <div class="form-field-group">
-        <p-floatlabel>
-          <input id="firstName" type="text" pInputText formControlName="firstName"
-            [class.ng-dirty]="participationForm.get('firstName')?.touched" class="w-full-custom"
-            placeholder="Entrez votre prénom">
-          <label for="firstName">Prénom</label>
-        </p-floatlabel>
-        @if (participationForm.get('firstName')?.invalid && participationForm.get('firstName')?.touched) {
-        <small class="error-text">Le prénom est requis (min. 2 caractères).</small>
-        }
-      </div>
-
-      <!-- Email Field -->
-      <div class="form-field-group">
-        <p-floatlabel>
-          <input id="email" type="email" pInputText formControlName="email"
-            [class.ng-dirty]="participationForm.get('email')?.touched" class="w-full-custom"
-            placeholder="Ex: jean.dupont@email.com">
-          <label for="email">Adresse Email</label>
-        </p-floatlabel>
-        @if (participationForm.get('email')?.invalid && participationForm.get('email')?.touched) {
-        <small class="error-text">Veuillez entrer une adresse email valide.</small>
-        }
-      </div>
-    </div>
-
-    <!-- Row 2: Pays & Département (conditionnel) -->
-    <div class="form-grid-2">
-      <!-- Pays Dropdown -->
-      <div class="form-field-group">
-        <p-floatlabel>
-          <p-select id="country" formControlName="country" [options]="countries" optionLabel="name" [filter]="true"
-            filterBy="name" [showClear]="false" placeholder="Sélectionnez un pays"
-            class="w-full-select-custom"></p-select>
-          <label for="country">Pays de Résidence</label>
-        </p-floatlabel>
-        @if (participationForm.get('country')?.invalid && participationForm.get('country')?.touched) {
-        <small class="error-text">La sélection du pays est requise.</small>
-        }
-      </div>
-
-      <!-- Département Dropdown (seulement si pays = Congo) -->
-      <div class="form-field-group" [class.hidden-field]="!showDepartment">
-        @if (showDepartment) {
-        <p-floatlabel>
-          <p-select id="department" formControlName="department" [options]="departments" optionLabel="name"
-            [filter]="true" filterBy="name" [showClear]="true" placeholder="Sélectionnez un département"
-            class="w-full-select-custom"></p-select>
-          <label for="department">Département</label>
-        </p-floatlabel>
-        @if (participationForm.get('department')?.invalid && participationForm.get('department')?.touched) {
-        <small class="error-text">Le département est requis pour la République du Congo.</small>
-        }
-        }
-      </div>
-    </div>
-
-    <!-- Row 3: Message -->
+<form [formGroup]="participationForm" (ngSubmit)="onSubmit()" class="participation-form">
+  <!-- Row 1: Prénom & Email -->
+  <div class="form-grid-2">
+    <!-- Prénom Field -->
     <div class="form-field-group">
       <p-floatlabel>
-        <textarea id="message" pTextarea formControlName="message" rows="3" [autoResize]="false"
-          [class.ng-dirty]="participationForm.get('message')?.touched"
-          class="w-full-custom textarea-custom"
-          placeholder="Saisissez votre message d'espoir..."></textarea>
-        <label for="message">Message d'unité ou de paix (max 120 caractères)</label>
+        <input id="firstName" type="text" pInputText formControlName="firstName"
+          [class.ng-dirty]="participationForm.get('firstName')?.touched" class="w-full-custom"
+          placeholder="Entrez votre prénom">
+        <label for="firstName">Prénom</label>
       </p-floatlabel>
-      <div class="char-counter" [class.counter-warn]="messageLength > 100">
-        {{ messageLength }} / 120 caractères
-      </div>
-      @if (participationForm.get('message')?.invalid && participationForm.get('message')?.touched) {
-      <small class="error-text">Le message est requis (max 120 caractères).</small>
+      @if (participationForm.get('firstName')?.invalid && participationForm.get('firstName')?.touched) {
+      <small class="error-text">Le prénom est requis (min. 2 caractères).</small>
       }
     </div>
 
-    <!-- Row 4: Upload Photo (Custom glass design) -->
+    <!-- Email Field -->
     <div class="form-field-group">
-      <span class="upload-label">Votre Photo</span>
+      <p-floatlabel>
+        <input id="email" type="email" pInputText formControlName="email"
+          [class.ng-dirty]="participationForm.get('email')?.touched" class="w-full-custom"
+          placeholder="Ex: jean.dupont@email.com">
+        <label for="email">Adresse Email</label>
+      </p-floatlabel>
+      @if (participationForm.get('email')?.invalid && participationForm.get('email')?.touched) {
+      <small class="error-text">Veuillez entrer une adresse email valide.</small>
+      }
+    </div>
+  </div>
 
-      <div class="file-upload-wrapper" [class.has-preview]="imagePreview" [class.drag-over]="false">
-        <input type="file" id="photo-upload" accept="image/*" (change)="onFileChange($event)"
-          class="file-input-hidden">
-
-        @if (!imagePreview) {
-        <label for="photo-upload" class="upload-dropzone">
-          <i class="pi pi-cloud-upload upload-icon"></i>
-          <span class="upload-title">Glissez-déposez ou cliquez pour importer</span>
-          <span class="upload-subtitle">Formats acceptés : JPG, PNG, WEBP (Max 5Mo)</span>
-        </label>
-        } @else {
-        <div class="upload-preview-container">
-          <img [src]="imagePreview" alt="Aperçu de votre photo" class="upload-preview-img">
-          <div class="preview-overlay">
-            <button type="button" class="btn-remove-img" (click)="removeImage($event)"
-              aria-label="Supprimer la photo">
-              <i class="pi pi-trash"></i>
-            </button>
-          </div>
-        </div>
-        }
-      </div>
-      @if (participationForm.get('photo')?.invalid && participationForm.get('photo')?.touched) {
-      <small class="error-text">Veuillez importer une photo.</small>
+  <!-- Row 2: Pays & Département (conditionnel) -->
+  <div class="form-grid-2">
+    <!-- Pays Dropdown -->
+    <div class="form-field-group">
+      <p-floatlabel>
+        <p-select id="country" formControlName="country" [options]="countries" optionLabel="name" [filter]="true"
+          filterBy="name" [showClear]="false" placeholder="Sélectionnez un pays"
+          class="w-full-select-custom"></p-select>
+        <label for="country">Pays de Résidence</label>
+      </p-floatlabel>
+      @if (participationForm.get('country')?.invalid && participationForm.get('country')?.touched) {
+      <small class="error-text">La sélection du pays est requise.</small>
       }
     </div>
 
-    <!-- Submit Button -->
-    <div class="submit-wrapper">
-      <button type="submit" [disabled]="participationForm.invalid || isSubmitting" class="btn-submit-glow">
-        <span class="btn-content">
-          @if (isSubmitting) {
-          <span class="btn-spinner-container">
-            <svg class="spinner-svg" viewBox="0 0 50 50">
-              <circle class="spinner-path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-            </svg>
-          </span>
-          <span>Envoi en cours...</span>
-          } @else {
-          <span class="btn-glow-layer"></span>
-          <span class="btn-text">Allumer ma flamme</span>
-          }
-        </span>
-      </button>
+    <!-- Département Dropdown (seulement si pays = Congo) -->
+    <div class="form-field-group" [class.hidden-field]="!showDepartment">
+      @if (showDepartment) {
+      <p-floatlabel>
+        <p-select id="department" formControlName="department" [options]="departments" optionLabel="name"
+          [filter]="true" filterBy="name" [showClear]="true" placeholder="Sélectionnez un département"
+          class="w-full-select-custom"></p-select>
+        <label for="department">Département</label>
+      </p-floatlabel>
+      @if (participationForm.get('department')?.invalid && participationForm.get('department')?.touched) {
+      <small class="error-text">Le département est requis pour la République du Congo.</small>
+      }
+      }
     </div>
-  } @else {
-    <section class="participation-section">
-      <!-- Glowing background orbs for visual depth -->
-      <div class="glow-orb glow-orb-form-cyan"></div>
-      <div class="glow-orb glow-orb-form-gold"></div>
+  </div>
 
-      <div class="participation-content-wrapper">
-        <div class="section-header">
-          <h2 class="section-title">Rejoignez l'Union Numérique</h2>
-          <p class="section-subtitle">En allumant votre flamme virtuelle, vous rejoignez des milliers de citoyens au Congo et à travers le monde pour célébrer l'unité nationale, le progrès et la solidarité de notre patrie. Chaque flamme allumée est un symbole d'espoir et un engagement pour un avenir prospère et fraternel.</p>
-        </div>
+  <!-- Row 3: Message -->
+  <div class="form-field-group">
+    <p-floatlabel>
+      <textarea id="message" pTextarea formControlName="message" rows="3" [autoResize]="false"
+        [class.ng-dirty]="participationForm.get('message')?.touched" class="w-full-custom textarea-custom"
+        placeholder="Saisissez votre message d'espoir..."></textarea>
+      <label for="message">Message d'unité ou de paix (max 120 caractères)</label>
+    </p-floatlabel>
+    <div class="char-counter" [class.counter-warn]="messageLength > 100">
+      {{ messageLength }} / 120 caractères
+    </div>
+    @if (participationForm.get('message')?.invalid && participationForm.get('message')?.touched) {
+    <small class="error-text">Le message est requis (max 120 caractères).</small>
+    }
+  </div>
 
-        <div class="form-container-wrapper">
-          <div class="participation-card">
-            <div class="participation-form">
-              <!-- Row 1: Prénom & Email -->
-              <div class="form-grid-2">
-                <!-- Prénom Field -->
-                <div class="form-field-group">
-                  <p-floatlabel>
-                    <input id="firstName-normal" type="text" pInputText formControlName="firstName"
-                      [class.ng-dirty]="participationForm.get('firstName')?.touched" class="w-full-custom"
-                      placeholder="Entrez votre prénom">
-                    <label for="firstName-normal">Prénom</label>
-                  </p-floatlabel>
-                  @if (participationForm.get('firstName')?.invalid && participationForm.get('firstName')?.touched) {
-                  <small class="error-text">Le prénom est requis (min. 2 caractères).</small>
-                  }
-                </div>
+  <!-- Row 4: Upload Photo (Custom glass design) -->
+  <div class="form-field-group">
+    <span class="upload-label">Votre Photo</span>
 
-                <!-- Email Field -->
-                <div class="form-field-group">
-                  <p-floatlabel>
-                    <input id="email-normal" type="email" pInputText formControlName="email"
-                      [class.ng-dirty]="participationForm.get('email')?.touched" class="w-full-custom"
-                      placeholder="Ex: jean.dupont@email.com">
-                    <label for="email-normal">Adresse Email</label>
-                  </p-floatlabel>
-                  @if (participationForm.get('email')?.invalid && participationForm.get('email')?.touched) {
-                  <small class="error-text">Veuillez entrer une adresse email valide.</small>
-                  }
-                </div>
-              </div>
+    <div class="file-upload-wrapper" [class.has-preview]="imagePreview" [class.drag-over]="false">
+      <input type="file" id="photo-upload" accept="image/*" (change)="onFileChange($event)" class="file-input-hidden">
 
-              <!-- Row 2: Pays & Département (conditionnel) -->
-              <div class="form-grid-2">
-                <!-- Pays Dropdown -->
-                <div class="form-field-group">
-                  <p-floatlabel>
-                    <p-select id="country-normal" formControlName="country" [options]="countries" optionLabel="name" [filter]="true"
-                      filterBy="name" [showClear]="false" placeholder="Sélectionnez un pays"
-                      class="w-full-select-custom"></p-select>
-                    <label for="country-normal">Pays de Résidence</label>
-                  </p-floatlabel>
-                  @if (participationForm.get('country')?.invalid && participationForm.get('country')?.touched) {
-                  <small class="error-text">La sélection du pays est requise.</small>
-                  }
-                </div>
-
-                <!-- Département Dropdown (seulement si pays = Congo) -->
-                <div class="form-field-group" [class.hidden-field]="!showDepartment">
-                  @if (showDepartment) {
-                  <p-floatlabel>
-                    <p-select id="department-normal" formControlName="department" [options]="departments" optionLabel="name"
-                      [filter]="true" filterBy="name" [showClear]="true" placeholder="Sélectionnez un département"
-                      class="w-full-select-custom"></p-select>
-                    <label for="department-normal">Département</label>
-                  </p-floatlabel>
-                  @if (participationForm.get('department')?.invalid && participationForm.get('department')?.touched) {
-                  <small class="error-text">Le département est requis pour la République du Congo.</small>
-                  }
-                  }
-                </div>
-              </div>
-
-              <!-- Row 3: Message -->
-              <div class="form-field-group">
-                <p-floatlabel>
-                  <textarea id="message-normal" pTextarea formControlName="message" rows="3" [autoResize]="false"
-                    [class.ng-dirty]="participationForm.get('message')?.touched"
-                    class="w-full-custom textarea-custom"
-                    placeholder="Saisissez votre message d'espoir..."></textarea>
-                  <label for="message-normal">Message d'unité ou de paix (max 120 caractères)</label>
-                </p-floatlabel>
-                <div class="char-counter" [class.counter-warn]="messageLength > 100">
-                  {{ messageLength }} / 120 caractères
-                </div>
-                @if (participationForm.get('message')?.invalid && participationForm.get('message')?.touched) {
-                <small class="error-text">Le message est requis (max 120 caractères).</small>
-                }
-              </div>
-
-              <!-- Row 4: Upload Photo (Custom glass design) -->
-              <div class="form-field-group">
-                <span class="upload-label">Votre Photo</span>
-
-                <div class="file-upload-wrapper" [class.has-preview]="imagePreview" [class.drag-over]="false">
-                  <input type="file" id="photo-upload-normal" accept="image/*" (change)="onFileChange($event)"
-                    class="file-input-hidden">
-
-                  @if (!imagePreview) {
-                  <label for="photo-upload-normal" class="upload-dropzone">
-                    <i class="pi pi-cloud-upload upload-icon"></i>
-                    <span class="upload-title">Glissez-déposez ou cliquez pour importer</span>
-                    <span class="upload-subtitle">Formats acceptés : JPG, PNG, WEBP (Max 5Mo)</span>
-                  </label>
-                  } @else {
-                  <div class="upload-preview-container">
-                    <img [src]="imagePreview" alt="Aperçu de votre photo" class="upload-preview-img">
-                    <div class="preview-overlay">
-                      <button type="button" class="btn-remove-img" (click)="removeImage($event)"
-                        aria-label="Supprimer la photo">
-                        <i class="pi pi-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                  }
-                </div>
-                @if (participationForm.get('photo')?.invalid && participationForm.get('photo')?.touched) {
-                <small class="error-text">Veuillez importer une photo.</small>
-                }
-              </div>
-
-              <!-- Submit Button -->
-              <div class="submit-wrapper">
-                <button type="submit" [disabled]="participationForm.invalid || isSubmitting" class="btn-submit-glow">
-                  <span class="btn-content">
-                    @if (isSubmitting) {
-                    <span class="btn-spinner-container">
-                      <svg class="spinner-svg" viewBox="0 0 50 50">
-                        <circle class="spinner-path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-                      </svg>
-                    </span>
-                    <span>Envoi en cours...</span>
-                    } @else {
-                    <span class="btn-glow-layer"></span>
-                    <span class="btn-text">Allumer ma flamme</span>
-                    }
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
+      @if (!imagePreview) {
+      <label for="photo-upload" class="upload-dropzone">
+        <i class="pi pi-cloud-upload upload-icon"></i>
+        <span class="upload-title">Glissez-déposez ou cliquez pour importer</span>
+        <span class="upload-subtitle">Formats acceptés : JPG, PNG, WEBP (Max 5Mo)</span>
+      </label>
+      } @else {
+      <div class="upload-preview-container">
+        <img [src]="imagePreview" alt="Aperçu de votre photo" class="upload-preview-img">
+        <div class="preview-overlay">
+          <button type="button" class="btn-remove-img" (click)="removeImage($event)" aria-label="Supprimer la photo">
+            <i class="pi pi-trash"></i>
+          </button>
         </div>
       </div>
+      }
+    </div>
+    @if (participationForm.get('photo')?.invalid && participationForm.get('photo')?.touched) {
+    <small class="error-text">Veuillez importer une photo.</small>
+    }
+  </div>
 
-      <img src="/images/home/jeunes-congolais.webp" alt="">
-    </section>
+  @if (submissionError) {
+  <div class="alert-danger-custom">
+    <i class="pi pi-exclamation-triangle"></i>
+    <span>{{ submissionError }}</span>
+  </div>
   }
+
+  <!-- Submit Button -->
+  <div class="submit-wrapper">
+    <button type="submit" [disabled]="participationForm.invalid || isSubmitting" class="btn-submit-glow">
+      <span class="btn-content">
+        @if (isSubmitting) {
+        <span class="btn-spinner-container">
+          <svg class="spinner-svg" viewBox="0 0 50 50">
+            <circle class="spinner-path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+          </svg>
+        </span>
+        <span>Envoi en cours...</span>
+        } @else {
+        <span class="btn-glow-layer"></span>
+        <span class="btn-text">Allumer ma flamme</span>
+        }
+      </span>
+    </button>
+  </div>
 </form>
-
-<!-- Share Modal — shown after successful submission -->
-@if (showShareModal) {
-  <app-share-modal
-    [imageDataUrl]="composedImageDataUrl"
-    [fileName]="composedFileName"
-    [firstName]="modalFirstName"
-    [message]="modalMessage"
-    (closed)="closeShareModal()">
-  </app-share-modal>
-}
-
-</ng-container>

@@ -1,0 +1,166 @@
+@use '../../../../styles/variables' as *;
+
+/* Glassmorphism Card Base */
+.glass-card {
+  background: $card-bg;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid $card-border;
+  box-shadow: $card-shadow;
+  transition: $transition-smooth;
+}
+
+/* Glowing Background Orbs */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: -2;
+  opacity: 0.05;
+  animation: floatOrb 25s infinite alternate ease-in-out;
+
+  &-form-cyan {
+    width: 400px;
+    height: 400px;
+    background: #00f2fe;
+    top: 10%;
+    left: -100px;
+  }
+
+  &-form-gold {
+    width: 500px;
+    height: 500px;
+    background: #ffe259;
+    bottom: 10%;
+    right: -150px;
+  }
+}
+
+/* Outer section container */
+.participation-section {
+  position: relative;
+  width: 100%;
+  padding: 8rem 0 20rem 0; // Padding top & bottom
+  z-index: 1;
+  background: $bg-secondary;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Image covers the full width, positioned absolutely at the bottom edge */
+  .background-img {
+    inset: unset !important;
+    bottom: -12rem !important;
+    object-position: top;
+    object-fit: cover;
+    z-index: -1;
+  }
+
+  /* Second parent content container */
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 2;
+    margin: 0 auto;
+
+    .section-header {
+      text-align: left;
+      margin-bottom: 0;
+      z-index: 2;
+      width: 100%;
+
+      .section-title {
+        font-family: $font-family-syne;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        letter-spacing: -1px;
+        line-height: 1.1;
+      }
+
+      .section-subtitle {
+        font-size: 1rem;
+        font-weight: 400;
+        color: $text-secondary;
+        line-height: 1.6;
+        margin: 0;
+      }
+    }
+
+    .form-container-wrapper {
+      width: 100%;
+
+      .participation-card {
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        @extend .glass-card;
+        width: 100%;
+        max-width: 800px;
+        border: 1px solid $card-border;
+        box-sizing: border-box;
+      }
+    }
+  }
+}
+
+/* --- Responsive Adaptations --- */
+@media (max-width: 1024px) {
+  .participation-section {
+    padding: 6rem 0 14rem 0; // Reduce padding bottom for smaller screens
+
+    img {
+      inset: unset !important;
+      bottom: 0 !important;
+      height: 36rem !important;
+    }
+
+    .content {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+
+        .section-subtitle {
+          margin: 0 auto;
+        }
+      }
+
+      .form-container-wrapper {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .participation-section {
+    padding: 4.5rem 0 10rem 0;
+
+    .content {
+      gap: 2.2rem;
+    }
+  }
+}
+
+@keyframes floatOrb {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  50% {
+    transform: translate(30px, -40px) scale(1.08);
+  }
+
+  100% {
+    transform: translate(-20px, 20px) scale(0.92);
+  }
+}

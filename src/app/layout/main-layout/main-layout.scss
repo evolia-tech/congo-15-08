@@ -1,0 +1,86 @@
+@use '../../../styles/variables' as *;
+
+.btn-floating-flames {
+  position: fixed;
+  top: 83vh; // Center vertically along the left edge
+  left: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(17, 18, 21, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 226, 89, 0.4);
+  border-bottom: none; // Bottom edge touches the screen edge when rotated
+  border-radius: 12px 12px 0 0; // Curved on outer edge, flat on screen edge
+  cursor: pointer;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  width: fit-content;
+
+  // Position vertically centered, aligned perfectly to the left edge:
+  transform: rotate(90deg);
+  transform-origin: 0 0;
+  animation: tabIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  .badge-content {
+    font-family: $font-family-syne;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffe259;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    background: #ffe259;
+    border-color: #ffe259;
+    transform: rotate(90deg) translate(-50%, -100%) scale(1.03);
+
+    .badge-content {
+      color: #111215;
+    }
+  }
+
+  &:active {
+    transform: rotate(90deg) translate(-50%, -100%) scale(0.97);
+  }
+
+  /* Pulse Ring is disabled */
+  .pulse-ring {
+    display: none;
+  }
+}
+
+@keyframes tabIn {
+  from {
+    opacity: 0;
+    transform: rotate(90deg) translate(-50%, -100%) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(90deg) translate(-50%, -100%) scale(1);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 576px) {
+  .btn-floating-flames {
+    top: 50%;
+    left: 0;
+    right: auto;
+    padding: 0.6rem 1rem;
+    border-width: 1px;
+
+    .badge-content {
+      font-size: 0.78rem;
+      letter-spacing: 0.5px;
+    }
+  }
+}

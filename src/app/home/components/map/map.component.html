@@ -1,6 +1,6 @@
 <section class="map-section-wrapper">
   <!-- Full screen background image overlay is styled in SCSS -->
-  <div class="map-bg-image"></div>
+  <img class="map-bg-image" ngSrc="images/home/fleuve-congo.png" alt="" fill>
   <div class="map-overlay"></div>
 
   <div class="map-max-container">
@@ -423,33 +423,74 @@
             <div class="stat-separator"></div>
 
             <div class="stat-box">
-              <span class="stat-num">12</span>
+              <span class="stat-num">{{ stats()?.departmentsParticipated || 0 }}</span>
               <span class="stat-label">Départements<br>unis</span>
             </div>
 
             <div class="stat-separator"></div>
 
             <div class="stat-box">
-              <span class="stat-num">{{ diasporaCountries() || 48 }}</span>
+              <span class="stat-num">{{ diasporaCountries() || 0 }}</span>
               <span class="stat-label">Pays de<br>diaspora</span>
             </div>
           </div>
 
-          <!-- Department Rankings List -->
+          <!-- Department & Diaspora Rankings List -->
           <div class="dept-rankings">
+            <div class="tabs-header">
+              <button type="button" class="tab-btn" [class.active]="activeTab() === 'departments'"
+                (click)="activeTab.set('departments')">
+                <i class="pi pi-map"></i> Départements
+              </button>
+              <button type="button" class="tab-btn" [class.active]="activeTab() === 'diaspora'"
+                (click)="activeTab.set('diaspora')">
+                <i class="pi pi-globe"></i> Diaspora
+              </button>
+            </div>
+
             <div class="rankings-list">
-              <div *ngFor="let dept of departmentsData; let i = index" class="rank-item">
+              <!-- Departments List -->
+              @if (activeTab() === 'departments') {
+              @for (dept of departmentsData; track dept.name) {
+              <div class="rank-item clickable-rank" [class.selected-dept-item]="selectedDept?.name === dept.name"
+                (click)="selectDept(dept.name)">
                 <div class="rank-name-wrapper">
-                  <span class="rank-idx">#{{ i + 1 }}</span>
+                  <span class="rank-idx">#{{ $index + 1 }}</span>
                   <span class="rank-name">{{ dept.name }}</span>
                 </div>
                 <div class="rank-stat-stack">
                   <span class="rank-val">{{ dept.flames | number }}</span>
                   <div class="rank-bar-bg">
-                    <div class="rank-bar-fill" [style.width.%]="(dept.flames / departmentsData[0].flames) * 100"></div>
+                    <div class="rank-bar-fill" [style.width.%]="(dept.flames / (departmentsData[0].flames || 1)) * 100">
+                    </div>
                   </div>
                 </div>
               </div>
+              }
+              }
+
+              <!-- Diaspora (Countries) List -->
+              @if (activeTab() === 'diaspora') {
+              @if (diasporaData().length === 0) {
+              <div class="no-data-msg">Aucune participation de la diaspora pour le moment.</div>
+              } @else {
+              @for (country of diasporaData(); track country.name) {
+              <div class="rank-item">
+                <div class="rank-name-wrapper">
+                  <span class="rank-idx">#{{ $index + 1 }}</span>
+                  <span class="rank-name">{{ country.name }}</span>
+                </div>
+                <div class="rank-stat-stack">
+                  <span class="rank-val">{{ country.flames | number }}</span>
+                  <div class="rank-bar-bg">
+                    <div class="rank-bar-fill"
+                      [style.width.%]="(country.flames / (diasporaData()[0].flames || 1)) * 100"></div>
+                  </div>
+                </div>
+              </div>
+              }
+              }
+              }
             </div>
           </div>
 

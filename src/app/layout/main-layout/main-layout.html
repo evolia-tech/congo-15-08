@@ -3,3 +3,16 @@
   <router-outlet></router-outlet>
 </main>
 <app-footer></app-footer>
+
+<!-- Floating "Nos Flammes" badge if local participations exist and scrolled past 100vh -->
+@if (participationService.localParticipations().length > 0 && showFloatingButton()) {
+  <button class="btn-floating-flames" (click)="participationService.openShareModal()" aria-label="Voir mes participations">
+    <span class="badge-content">🔥 Mes Flammes</span>
+  </button>
+}
+
+<!-- Global Share Modal -->
+@if (participationService.showShareModal()) {
+  <app-share-modal></app-share-modal>
+}
+

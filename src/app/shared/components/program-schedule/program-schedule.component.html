@@ -1,0 +1,65 @@
+<div class="program-schedule-container">
+  <div class="program-header">
+    <h2 class="program-title">Déroulement des Célébrations</h2>
+    <p class="program-subtitle">
+      Suivez les grands moments et cérémonies officielles marquants de la fête nationale.
+    </p>
+  </div>
+
+  <!-- Tab Selectors -->
+  <div class="tabs-wrapper">
+    <button class="tab-btn" [class.active]="selectedDay() === '14'" (click)="setDay('14')">
+      <span class="tab-date">14 Août</span>
+      <span class="tab-desc">Cérémonies de la Veille</span>
+    </button>
+    <button class="tab-btn" [class.active]="selectedDay() === '15'" (click)="setDay('15')">
+      <span class="tab-date">15 Août</span>
+      <span class="tab-desc">Journée de l'Indépendance</span>
+    </button>
+  </div>
+
+  <!-- Timeline Content -->
+  <div class="timeline-wrapper">
+    @if (selectedDay() === '14') {
+    <div class="timeline-list fade-in">
+      @for (item of program14; track item.title) {
+      <div class="event-card">
+        <div class="time-location">
+          <span class="time-badge">
+            <i class="pi pi-clock"></i>
+            {{ item.time }}
+          </span> |
+          <span class="location-badge">
+            <i class="pi pi-map-marker"></i>
+            {{ item.location }}
+          </span>
+        </div>
+        <h3 class="event-title">{{ item.title }}</h3>
+        <p class="event-description">{{ item.description }}</p>
+      </div>
+      }
+    </div>
+    }
+
+    @if (selectedDay() === '15') {
+    <div class="timeline-list fade-in">
+      @for (item of program15; track item.title) {
+      <div class="event-card">
+        <div class="time-location">
+          <span class="time-badge">
+            <i class="pi pi-clock"></i>
+            {{ item.time }}
+          </span> |
+          <span class="location-badge">
+            <i class="pi pi-map-marker"></i>
+            {{ item.location }}
+          </span>
+        </div>
+        <h3 class="event-title">{{ item.title }}</h3>
+        <p class="event-description">{{ item.description }}</p>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,287 @@
+@use '../../../../styles/variables' as *;
+
+.program-schedule-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 768px) {
+    padding: 3rem 1rem;
+  }
+
+  .program-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.5rem;
+    }
+
+    .program-badge {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      background: rgba(255, 226, 89, 0.08);
+      border: 1px solid rgba(255, 226, 89, 0.2);
+      border-radius: 20px;
+      font-family: $font-family-inter;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #ffe259;
+      letter-spacing: 1px;
+      margin-bottom: 0.8rem;
+    }
+
+    .program-title {
+      font-family: $font-family-syne;
+      font-size: clamp(1.7rem, 4vw, 3rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, $text-primary 30%, #495057 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0 0 1rem 0;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+    .program-subtitle {
+      font-family: $font-family-inter;
+      font-size: 1rem;
+      color: $text-secondary;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+  }
+
+  .tabs-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      flex-direction: row; // Keep dates side-by-side
+      align-items: stretch;
+      gap: 0.8rem;
+      margin-bottom: 2.5rem;
+    }
+
+    @media (max-width: 480px) {
+      gap: 0.5rem;
+    }
+
+    .tab-btn {
+      flex: 1;
+      max-width: 280px;
+      padding: 0.8rem 1rem;
+      background: $card-bg;
+      border: 1px solid $card-border;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: $card-shadow;
+
+      @media (max-width: 768px) {
+        max-width: 220px;
+        padding: 0.8rem 0.5rem; // Reduced side padding
+        border-radius: 12px;
+      }
+
+      @media (max-width: 480px) {
+        padding: 0.6rem 0.25rem; // Further reduced padding for very small screens
+      }
+
+      .tab-date {
+        font-family: $font-family-syne;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: $text-secondary;
+        transition: color 0.3s ease;
+
+        @media (max-width: 768px) {
+          font-size: 1.1rem;
+        }
+
+        @media (max-width: 480px) {
+          font-size: 0.95rem;
+        }
+      }
+
+      .tab-desc {
+        font-family: $font-family-inter;
+        font-size: 0.78rem;
+        color: $text-muted;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: color 0.3s ease;
+
+        @media (max-width: 768px) {
+          font-size: 0.68rem;
+        }
+
+        @media (max-width: 480px) {
+          font-size: 0.58rem;
+          letter-spacing: 0.2px;
+        }
+      }
+
+      &:hover {
+        border-color: rgba(255, 226, 89, 0.3);
+        transform: translateY(-2px);
+      }
+
+      &.active {
+        background: $accent;
+
+        .tab-date {
+          color: $text-primary;
+        }
+
+        .tab-desc {
+          color: $text-primary;
+        }
+      }
+    }
+  }
+
+  .timeline-wrapper {
+    position: relative;
+    width: 100%;
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+
+      @media (max-width: 768px) {
+        gap: 0.9rem;
+      }
+
+      .event-card {
+        background: $bg-tertiary;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-radius: 20px;
+        border: 1px solid $card-border;
+        padding: 1.5rem 1.8rem;
+        box-shadow: $card-shadow;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+
+        @media (max-width: 768px) {
+          padding: 1.2rem 1.4rem;
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 4px;
+          height: 100%;
+          background: linear-gradient(to bottom, #009543, #ffe259, #d52b1e);
+          opacity: 0.8;
+        }
+
+        &:hover {
+          transform: translateX(4px);
+          border-color: rgba(255, 226, 89, 0.25);
+          box-shadow: 0 10px 25px rgba(255, 226, 89, 0.05), $card-shadow;
+        }
+
+        .time-location {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 0.4rem;
+          margin-bottom: 0.8rem;
+          font-size: 0.9rem;
+
+          @media (max-width: 768px) {
+            gap: 0.3rem;
+            font-size: 0.8rem;
+          }
+
+          .time-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 700;
+            font-family: $font-family-space;
+            font-size: 0.88rem;
+
+            @media (max-width: 768px) {
+              font-size: 0.8rem;
+            }
+          }
+
+          .location-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: $text-muted;
+            font-weight: 500;
+            font-size: 0.88rem;
+
+            @media (max-width: 768px) {
+              font-size: 0.8rem;
+            }
+          }
+        }
+
+        .event-title {
+          font-family: $font-family-syne;
+          font-size: 1.15rem;
+          font-weight: 800;
+          color: $text-primary;
+          margin: 0 0 0.5rem 0;
+          line-height: 1.3;
+          letter-spacing: normal;
+
+          @media (max-width: 768px) {
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+          }
+        }
+
+        .event-description {
+          font-family: $font-family-inter;
+          font-size: 0.9rem;
+          color: $text-secondary;
+          margin: 0;
+          line-height: 1.5;
+
+          @media (max-width: 768px) {
+            font-size: 0.85rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.fade-in {
+  animation: listFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes listFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

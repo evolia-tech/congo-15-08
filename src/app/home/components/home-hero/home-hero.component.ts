@@ -10,6 +10,7 @@ import { FlameCounterComponent } from '../../../shared/components/flame-counter/
 })
 export class HomeHeroComponent {
   @Input() flamesCount: number = 0;
+  @Input() isLoading: boolean = false;
   @Output() allumerFlame = new EventEmitter<void>();
 
   allumer(): void {

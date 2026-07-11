@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParticipateHeroComponent } from './components/participate-hero/participate-hero.component';
 import { ParticipateReassuranceComponent } from './components/participate-reassurance/participate-reassurance.component';
@@ -21,13 +21,15 @@ import { ParticipateMessagesComponent } from './components/participate-messages/
 })
 export class ParticipateComponent implements OnInit {
   showSuccess = false;
-
-  // Mock static stats
-  flamesTotal = 742158;
-  countriesCount = 195;
-  departmentsCount = 12;
+  private localIncrement = 0;
 
   private participationService = inject(ParticipationService);
+  readonly stats = computed(() => this.participationService.stats());
+  readonly isLoadingStats = this.participationService.isLoadingStats;
+
+  get flamesTotal(): number {
+    return (this.stats()?.totalParticipations || 0) + this.localIncrement;
+  }
 
   ngOnInit(): void {
     // Trigger the HTTP request; the result is stored in the service signal
@@ -36,7 +38,7 @@ export class ParticipateComponent implements OnInit {
   }
 
   onFormSuccess(event: { firstName: string; location: string }): void {
-    this.flamesTotal++;
+    this.localIncrement++;
     this.showSuccess = true;
   }
 

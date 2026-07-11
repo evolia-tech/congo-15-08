@@ -9,13 +9,21 @@
 
   <!-- Display Counter digits -->
   <div class="counter-display">
-    <span class="counter-val">{{ displayValue() | number }}</span>
+    @if (isLoading) {
+      <div class="counter-loader" aria-label="Chargement du compteur...">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    } @else {
+      <span class="counter-val">{{ displayValue() | number }}</span>
+    }
     <span class="counter-lbl">flammes allumées</span>
   </div>
 
   @if (showCountdown) {
   <div class="card-countdown-block">
-    <span class="countdown-days">J-30</span>
+    <span class="countdown-days">{{ countdownText }}</span>
     <span class="countdown-date">15 Août</span>
   </div>
   }

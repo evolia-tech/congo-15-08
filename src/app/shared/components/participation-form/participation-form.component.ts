@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputText } from 'primeng/inputtext';
@@ -7,7 +7,6 @@ import { Textarea } from 'primeng/textarea';
 import { FloatLabel } from 'primeng/floatlabel';
 import { ParticipationService } from '../../services/participation.service';
 import { ImageComposerService } from '../../services/image-composer.service';
-import { ShareModalComponent } from '../share-modal/share-modal.component';
 
 @Component({
   selector: 'app-participation-form',
@@ -18,26 +17,19 @@ import { ShareModalComponent } from '../share-modal/share-modal.component';
     InputText,
     Select,
     Textarea,
-    FloatLabel,
-    ShareModalComponent
+    FloatLabel
   ],
   templateUrl: './participation-form.component.html',
   styleUrl: './participation-form.component.scss',
 })
 export class ParticipationFormComponent implements OnInit {
-  @Input() compact: boolean = false;
   @Output() submitSuccess = new EventEmitter<{ firstName: string, location: string }>();
 
   participationForm!: FormGroup;
   imagePreview: string | null = null;
   isSubmitting = false;
+  submissionError: string | null = null;
 
-  // Share modal state
-  showShareModal = false;
-  composedImageDataUrl = '';
-  composedFileName = 'flamme-congo.png';
-  modalFirstName = '';
-  modalMessage = '';
 
   countries = [
     { name: 'République du Congo', code: 'CG' },
@@ -68,7 +60,8 @@ export class ParticipationFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private participationService: ParticipationService,
-    private imageComposer: ImageComposerService
+    private imageComposer: ImageComposerService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -140,60 +133,90 @@ export class ParticipationFormComponent implements OnInit {
       return;
     }
     
+    this.submissionError = null;
     this.isSubmitting = true;
     const formValue = this.participationForm.value;
-    
-    const payload = {
-      firstName: formValue.firstName,
-      email: formValue.email,
-      countryId: formValue.country.code,
-      department: formValue.department ? formValue.department.name : undefined,
-      message: formValue.message,
-      photo: formValue.photo
-    };
-
-    // Capture image preview BEFORE resetting the form
+    const location = formValue.department ? `${formValue.department.name}, Congo` : formValue.country.name;
     const photoDataUrl = this.imagePreview || '';
 
-    this.participationService.submitParticipation(payload).subscribe({
-      next: async (response) => {
-        this.isSubmitting = false;
-        
-        const location = payload.department ? payload.department : formValue.country.name;
-        this.submitSuccess.emit({ firstName: payload.firstName, location });
-        
-        this.participationForm.reset();
-        this.imagePreview = null;
+    if (!photoDataUrl) {
+      this.isSubmitting = false;
+      this.submissionError = 'Veuillez sélectionner une photo.';
+      return;
+    }
 
-        // Generate the composed image and show the share modal
-        if (photoDataUrl) {
-          try {
-            const composed = await this.imageComposer.compose({
-              photoDataUrl,
-              firstName: payload.firstName,
-              message: payload.message,
-              location
-            });
-            this.composedImageDataUrl = composed.dataUrl;
-            this.composedFileName = composed.fileName;
-            this.modalFirstName = payload.firstName;
-            this.modalMessage = payload.message;
-            this.showShareModal = true;
-          } catch (err) {
-            console.error('Image composition failed:', err);
-          }
+    // 1. Generate the composed image canvas first client-side
+    const stats = this.participationService.stats();
+    const flameNumber = (stats?.totalParticipations || 0) + 1;
+
+    this.imageComposer.compose({
+      photoDataUrl,
+      firstName: formValue.firstName,
+      message: formValue.message,
+      location,
+      flameNumber
+    }).then((composed) => {
+      // 2. Convert base64 data URL to a File object
+      const cardFile = this.dataURLtoFile(composed.dataUrl, composed.fileName);
+
+      const payload = {
+        firstName: formValue.firstName,
+        email: formValue.email,
+        countryId: formValue.country.code,
+        department: formValue.department ? formValue.department.name : undefined,
+        message: formValue.message,
+        card: cardFile
+      };
+
+      // 3. Submit to the backend
+      this.participationService.submitParticipation(payload).subscribe({
+        next: (response) => {
+          this.isSubmitting = false;
+          
+          this.submitSuccess.emit({ firstName: payload.firstName, location });
+          
+          // Save to local storage cache
+          this.participationService.addLocalParticipation({
+            id: response.id,
+            firstName: response.firstName,
+            location: location,
+            cardUrl: response.cardUrl || null,
+            dataUrl: composed.dataUrl,
+            message: payload.message
+          });
+
+          // Open the global share modal
+          this.participationService.openShareModal(response.id);
+          
+          this.participationForm.reset();
+          this.imagePreview = null;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          this.isSubmitting = false;
+          this.submissionError = err.message || 'Une erreur est survenue lors de l\'enregistrement.';
+          this.cdr.detectChanges();
         }
-      },
-      error: (err) => {
-        this.isSubmitting = false;
-        alert(`Erreur lors de l'enregistrement : ${err.message}`);
-      }
+      });
+    }).catch((err) => {
+      this.isSubmitting = false;
+      this.submissionError = err.message || 'Erreur de génération graphique.';
+      this.cdr.detectChanges();
     });
   }
 
-  closeShareModal(): void {
-    this.showShareModal = false;
+  private dataURLtoFile(dataurl: string, filename: string): File {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)![1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
   }
+
 
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {

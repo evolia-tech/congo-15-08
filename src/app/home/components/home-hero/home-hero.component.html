@@ -1,13 +1,10 @@
 <div class="hero-container">
-  <!-- Interactive Futuristic Background Glow Blobs -->
-  <div class="glow-orb glow-orb-cyan"></div>
-  <div class="glow-orb glow-orb-violet"></div>
-  <div class="glow-orb glow-orb-gold"></div>
+
 
   <!-- Ambient Grid Overlay for a tech/futuristic texture -->
   <div class="grid-overlay"></div>
 
-  <div class="hero-wrapper">
+  <div class="hero-wrapper large-container">
     <!-- Left Column: Title & CTA -->
     <div class="hero-text-content">
       <h1 class="hero-title">
@@ -32,6 +29,6 @@
       </div>
     </div>
 
-    <app-flame-counter [total]="flamesCount" [showCountdown]="true"></app-flame-counter>
+    <app-flame-counter [total]="flamesCount" [isLoading]="isLoading" [showCountdown]="true"></app-flame-counter>
   </div>
 </div>

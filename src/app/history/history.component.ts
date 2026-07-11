@@ -4,7 +4,6 @@ import { HistoryHeroComponent } from './components/history-hero/history-hero.com
 import { HeroesCarouselComponent } from './components/heroes-carousel/heroes-carousel.component';
 import { PresidentAllocutionComponent } from './components/president-allocution/president-allocution.component';
 import { HistoryTimelineComponent } from './components/history-timeline/history-timeline.component';
-import { HistorySymbolComponent } from './components/history-symbol/history-symbol.component';
 import { HistoryVisionComponent } from './components/history-vision/history-vision.component';
 import { HistoryActionsComponent } from './components/history-actions/history-actions.component';
 
@@ -17,7 +16,6 @@ import { HistoryActionsComponent } from './components/history-actions/history-ac
     HeroesCarouselComponent,
     PresidentAllocutionComponent,
     HistoryTimelineComponent,
-    HistorySymbolComponent,
     HistoryVisionComponent,
     HistoryActionsComponent
   ],

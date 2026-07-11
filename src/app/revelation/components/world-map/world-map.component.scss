@@ -1,11 +1,17 @@
 @use '../../../../styles/variables' as *;
 
-:host { display: block; width: 100%; height: 100%; }
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 
 .map-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
+  z-index: 3;
+
 }
 
 /* ── SVG ─────────────────────────────────────────────────── */
@@ -17,10 +23,11 @@
 
 /* Country styles */
 :host ::ng-deep .country-default {
-  fill: #2d3139;
+  fill: #b9b9b947;
   stroke: rgba(255, 255, 255, 0.15);
   stroke-width: 0.4;
-  pointer-events: none; /* Disable all mouse events and hover reactions */
+  pointer-events: none;
+  /* Disable all mouse events and hover reactions */
 }
 
 :host ::ng-deep .country-participated {
@@ -50,7 +57,7 @@
   gap: 0.15rem;
   z-index: 20;
   backdrop-filter: blur(8px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   white-space: nowrap;
 
   .tooltip-name {
@@ -68,6 +75,13 @@
 }
 
 @keyframes pulseCountry {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.72; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.72;
+  }
 }

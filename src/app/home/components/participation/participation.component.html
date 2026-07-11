@@ -1,0 +1,24 @@
+<section class="participation-section">
+  <!-- Glowing background orbs for visual depth -->
+  <div class="glow-orb glow-orb-form-cyan"></div>
+  <div class="glow-orb glow-orb-form-gold"></div>
+
+  <div class="content large-container">
+    <div class="section-header">
+      <h2 class="section-title">Rejoignez l'Union Numérique</h2>
+      <p class="section-subtitle">
+        En allumant votre flamme virtuelle, vous rejoignez des milliers de citoyens au Congo et à travers le monde pour
+        célébrer l'unité nationale, le progrès et la solidarité de notre patrie. Chaque flamme allumée est un symbole
+        d'espoir et un engagement pour un avenir prospère et fraternel.
+      </p>
+    </div>
+
+    <div class="form-container-wrapper">
+      <div class="participation-card">
+        <app-participation-form (submitSuccess)="submitSuccess.emit($event)"></app-participation-form>
+      </div>
+    </div>
+  </div>
+
+  <img ngSrc="/images/home/jeunes-congolais.webp" alt="Jeunes Congolais" class="background-img" fill>
+</section>

@@ -36,15 +36,13 @@
       </div>
     </section>
 
-    <!-- Statistics Overlay / Dashboard -->
+    <!-- Statistics Overlay / Dashboard
     <section class="stats-dashboard">
       <div class="stats-grid">
-        <!-- Card 1: Flame Counter (Reusable Lottie component) -->
         <div class="stat-card-container">
           <app-flame-counter [total]="flamesTotal"></app-flame-counter>
         </div>
 
-        <!-- Card 2: Pays participants -->
         <div class="stat-card glass-card shadow-cyan">
           <div class="card-glow-bg glow-cyan"></div>
           <div class="stat-icon-wrapper wrapper-cyan">
@@ -56,7 +54,6 @@
           </div>
         </div>
 
-        <!-- Card 3: Aujourd'hui -->
         <div class="stat-card glass-card shadow-gold">
           <div class="card-glow-bg glow-gold"></div>
           <div class="stat-icon-wrapper wrapper-gold">
@@ -69,28 +66,9 @@
         </div>
       </div>
     </section>
+ -->
 
-    <!-- Citation nationale banner -->
-    <section class="quote-section">
-      <div class="quote-container">
-        <p class="quote-text">
-          "Comme les eaux du fleuve Congo, nos flammes ne font qu’un."
-        </p>
-        <div class="quote-divider"></div>
-      </div>
-    </section>
-
-    <!-- CTA Button Section -->
-    <section class="cta-section">
-      <div class="cta-wrapper">
-        <button class="btn-primary-glow" type="button" routerLink="/" aria-label="Participez en direct">
-          <span class="btn-content">
-            <span class="btn-glow-layer"></span>
-            <span class="btn-shimmer"></span>
-            <span class="btn-text">Participez en direct</span>
-          </span>
-        </button>
-      </div>
-    </section>
+    <!-- Ceremony Program Schedule -->
+    <app-program-schedule></app-program-schedule>
   </div>
 </div>

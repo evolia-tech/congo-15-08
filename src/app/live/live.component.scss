@@ -574,7 +574,7 @@
 @media (max-width: 768px) {
   :host {
     .live-container {
-      padding: 4rem 1.5rem 6rem;
+      padding: 10rem 1.5rem 6rem;
     }
 
     .live-wrapper {
@@ -588,6 +588,15 @@
 
     .video-container {
       border-radius: 14px;
+    }
+  }
+}
+
+
+@media (max-width: 480px) {
+  :host {
+    .live-container {
+      padding: 8rem 1.5rem 5rem;
     }
   }
 }

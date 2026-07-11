@@ -26,12 +26,28 @@
 
   &:hover {
     border-color: rgba(255, 226, 89, 0.6);
-    box-shadow: 
+    box-shadow:
       0 15px 35px rgba(255, 226, 89, 0.08),
       0 0 35px rgba(255, 226, 89, 0.12),
       $card-shadow;
     transform: translateY(-2px);
   }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  img {
+    object-fit: cover;
+  }
+
 
   .vision-glow-bg {
     position: absolute;
@@ -65,6 +81,7 @@
     font-family: $font-family-syne;
     font-size: clamp(1.8rem, 5vw, 2.6rem);
     font-weight: 800;
+    letter-spacing: -1px;
     text-transform: uppercase;
     background: linear-gradient(135deg, $congo-green 0%, #a38c00 50%, $congo-red 100%);
     -webkit-background-clip: text;
@@ -77,10 +94,10 @@
   .vision-text {
     font-family: Georgia, serif;
     font-style: italic;
-    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-size: clamp(1rem, 2vw, 1.35rem);
     font-weight: 400;
-    color: $text-secondary;
-    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.91);
+    line-height: 1.6;
     max-width: 750px;
     margin: 0 auto 2.2rem;
     z-index: 1;

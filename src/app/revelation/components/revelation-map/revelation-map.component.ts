@@ -1,14 +1,18 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { WorldMapComponent, CountryParticipation } from '../world-map/world-map.component';
 
 @Component({
   selector: 'app-revelation-map',
-  standalone: true,
-  imports: [CommonModule, WorldMapComponent],
   templateUrl: './revelation-map.component.html',
-  styleUrl: './revelation-map.component.scss'
+  styleUrl: './revelation-map.component.scss',
+  imports: [
+    NgOptimizedImage,
+    CommonModule,
+    WorldMapComponent
+  ]
 })
+
 export class RevelationMapComponent {
   @Input() participations: CountryParticipation[] = [];
   @Input() totalParticipants = 0;

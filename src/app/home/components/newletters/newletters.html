@@ -1,0 +1,47 @@
+<section class="newsletter-section">
+  <!-- Decorative background glow -->
+  <div class="glow-orb glow-orb-green"></div>
+  <div class="glow-orb glow-orb-red"></div>
+
+  <div class="newsletter-container">
+    <div class="newsletter-card">
+      <div class="newsletter-header">
+        <h2>Restez informé des célébrations</h2>
+        <p>
+          Abonnez-vous pour recevoir les moments forts du 15 Août, les bilans de participation et les grandes annonces
+          nationales directement dans votre boîte mail.
+        </p>
+      </div>
+
+      <form (ngSubmit)="onSubmit()" class="newsletter-form">
+        <div class="input-wrapper">
+          <i class="pi pi-envelope mail-icon"></i>
+          <input type="email" name="email" [(ngModel)]="email" placeholder="Votre adresse email (ex: jean@congo.cg)"
+            required [disabled]="isSubmitting()" class="newsletter-input" />
+        </div>
+
+        <button type="submit" [disabled]="isSubmitting() || !email" class="newsletter-submit-btn">
+          @if (isSubmitting()) {
+          <span class="spinner-inline"></span>
+          } @else {
+          <span>S'abonner</span>
+          }
+        </button>
+      </form>
+
+      <!-- Alert Messages -->
+      @if (successMessage()) {
+      <div class="alert alert-success">
+        <i class="pi pi-check-circle"></i>
+        <span>{{ successMessage() }}</span>
+      </div>
+      }
+      @if (errorMessage()) {
+      <div class="alert alert-danger">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span>{{ errorMessage() }}</span>
+      </div>
+      }
+    </div>
+  </div>
+</section>

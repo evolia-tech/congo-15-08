@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "evolia-angular-starter": {
+    "congo-15-08-public": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -30,7 +30,8 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/primeicons/primeicons.css"
             ]
           },
           "configurations": {
@@ -61,10 +62,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "evolia-angular-starter:build:production"
+              "buildTarget": "congo-15-08-public:build:production"
             },
             "development": {
-              "buildTarget": "evolia-angular-starter:build:development"
+              "buildTarget": "congo-15-08-public:build:development"
             }
           },
           "defaultConfiguration": "development"

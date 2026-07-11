@@ -1,10 +1,13 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-history-hero',
   standalone: true,
-  imports: [],
   templateUrl: './history-hero.component.html',
-  styleUrl: './history-hero.component.scss'
+  styleUrl: './history-hero.component.scss',
+  imports: [
+    NgOptimizedImage
+  ],
 })
-export class HistoryHeroComponent {}
+export class HistoryHeroComponent { }

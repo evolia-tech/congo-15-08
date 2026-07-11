@@ -9,12 +9,11 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: $bg-primary;
+  background: #101216;
 }
 
 .hero-bg {
@@ -144,12 +143,33 @@
 
 /* ── Responsive Tablette / Mobile ─── */
 @media (max-width:768px) {
-  .flame-wrapper {
-    width: 200px;
-    height: 260px;
+  .hero-section {
+    height: 40rem;
 
-    app-flame {
-      transform: scale(2.6);
+    .hero-content {
+      .flame-wrapper {
+        width: 200px;
+        height: 260px;
+
+        app-flame {
+          transform: scale(2.6);
+        }
+      }
+    }
+  }
+}
+
+/* ── Responsive Tablette / Mobile ─── */
+@media (max-width:480px) {
+  .hero-section {
+    height: 35rem;
+
+    .hero-content {
+      .flame-wrapper {
+        app-flame {
+          transform: scale(2.3);
+        }
+      }
     }
   }
 }

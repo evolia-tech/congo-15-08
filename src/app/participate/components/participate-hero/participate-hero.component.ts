@@ -13,6 +13,7 @@ import { ParticipationFormComponent } from '../../../shared/components/participa
 })
 export class ParticipateHeroComponent {
   @Input() flamesTotal = 0;
+  @Input() isLoading = false;
   @Input() showSuccess = false;
   
   @Output() formSuccess = new EventEmitter<{ firstName: string, location: string }>();

@@ -1,6 +1,6 @@
 <div class="revelation-page">
   <app-revelation-hero [displayFlames]="displayFlames()"></app-revelation-hero>
-  <app-revelation-map [participations]="countryParticipations" [totalParticipants]="totalParticipants"
+  <app-revelation-map [participations]="countryParticipations()" [totalParticipants]="totalParticipants"
     [activeCountries]="activeCountries">
   </app-revelation-map>
-  <app-revelation-ranking [participations]="countryParticipations"></app-revelation-ranking>
+  <app-revelation-ranking [participations]="countryParticipations()"></app-revelation-ranking>

@@ -1,0 +1,61 @@
+<div class="unsubscribe-page">
+  <div class="unsubscribe-card">
+
+    <!-- Flag stripe top -->
+    <div class="flag-stripe">
+      <div class="s-green"></div>
+      <div class="s-yellow"></div>
+      <div class="s-red"></div>
+    </div>
+
+    <div class="card-body">
+      <!-- Brand -->
+      <div class="brand">
+        <span class="flag-icon">🇨🇬</span>
+        <span class="brand-name">Flamme Numérique du Congo</span>
+      </div>
+
+      <!-- Loading -->
+      @if (state() === 'loading') {
+        <div class="state-block">
+          <div class="spinner"></div>
+          <p>Traitement en cours…</p>
+        </div>
+      }
+
+      <!-- Success -->
+      @if (state() === 'success') {
+        <div class="state-block success">
+          <div class="state-icon">✅</div>
+          <h1>Désinscription confirmée</h1>
+          <p>
+            Vous avez été retiré de notre liste de diffusion. Vous ne recevrez plus
+            d'emails de notre part.
+          </p>
+          <a routerLink="/" class="back-btn">Retourner à l'accueil</a>
+        </div>
+      }
+
+      <!-- Error -->
+      @if (state() === 'error') {
+        <div class="state-block error">
+          <div class="state-icon">⚠️</div>
+          <h1>Désinscription impossible</h1>
+          <p>{{ errorMessage() }}</p>
+          <a routerLink="/" class="back-btn">Retourner à l'accueil</a>
+        </div>
+      }
+
+      <!-- Invalid token -->
+      @if (state() === 'invalid') {
+        <div class="state-block error">
+          <div class="state-icon">🔗</div>
+          <h1>Lien invalide</h1>
+          <p>Ce lien de désinscription est manquant ou mal formé.</p>
+          <a routerLink="/" class="back-btn">Retourner à l'accueil</a>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

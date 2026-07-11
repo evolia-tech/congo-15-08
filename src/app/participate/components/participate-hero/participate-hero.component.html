@@ -1,11 +1,11 @@
 <section class="participate-hero">
   <div class="hero-bg-image-wrapper">
-    <img src="/images/home/hero.webp" alt="Drapeau du Congo et célébrations" class="hero-bg-img">
+    <img src="/images/home/jeunes-congolais.webp" alt="Drapeau du Congo et célébrations" class="hero-bg-img">
     <!-- Dark overlay gradients for contrast and header navigation readability -->
     <div class="hero-gradient-overlay"></div>
   </div>
 
-  <div class="hero-container">
+  <div class="hero-container large-container">
     <div class="hero-content">
       <!-- Left Side: Title Text & Reused Flame Counter Card in space-between layout -->
       <div class="hero-left">
@@ -16,15 +16,15 @@
               <span class="title-line title-cyan">l'unité nationale</span>
             </h1>
             <p class="participate-subtitle">
-              Rejoignez des milliers de Congolais à travers le monde pour allumer votre flamme virtuelle. 
-              Un geste simple, un symbole puissant — votre participation construit l'avenir d'un Congo uni, 
+              Rejoignez des milliers de Congolais à travers le monde pour allumer votre flamme virtuelle.
+              Un geste simple, un symbole puissant — votre participation construit l'avenir d'un Congo uni,
               fort et solidaire pour les générations à venir.
             </p>
           </div>
 
           <!-- Reusable Flame Counter (matching the homepage hero banner card) -->
           <div class="flame-counter-wrapper">
-            <app-flame-counter [total]="flamesTotal" [showCountdown]="true"></app-flame-counter>
+            <app-flame-counter [total]="flamesTotal" [isLoading]="isLoading" [showCountdown]="true"></app-flame-counter>
           </div>
         </div>
       </div>
@@ -32,11 +32,11 @@
       <!-- Right Side: Long Form that overflows the hero banner -->
       <div class="hero-right">
         <!-- Case 1: Form Card -->
-          <div *ngIf="!showSuccess" class="participate-card glass-card gold-border white-bg">
-            <!-- Shared participation form component exactly as in homepage -->
-            <app-participation-form [compact]="true" class="white-form"
-              (submitSuccess)="onFormSubmitSuccess($event)"></app-participation-form>
-          </div>
+        <div *ngIf="!showSuccess" class="participate-card glass-card gold-border white-bg">
+          <!-- Shared participation form component exactly as in homepage -->
+          <app-participation-form class="white-form"
+            (submitSuccess)="onFormSubmitSuccess($event)"></app-participation-form>
+        </div>
 
         <!-- Case 2: Success Card -->
         <div *ngIf="showSuccess" class="success-card glass-card success-gold-glow">

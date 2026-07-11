@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { FlameCounterComponent } from '../shared/components/flame-counter/flame-counter.component';
+import { ProgramScheduleComponent } from '../shared/components/program-schedule/program-schedule.component';
 
 @Component({
   selector: 'app-live',
   standalone: true,
-  imports: [DecimalPipe, RouterLink, FlameCounterComponent],
+  imports: [DecimalPipe, ProgramScheduleComponent],
   templateUrl: './live.component.html',
   styleUrl: './live.component.scss',
 })
@@ -49,7 +48,7 @@ export class LiveComponent implements OnInit, OnDestroy {
       const progress = Math.min((now - startTime) / duration, 1);
       // Cubic ease-out curve for smooth deceleration
       const easeProgress = 1 - Math.pow(1 - progress, 3);
-      
+
       this[key] = Math.floor(start + easeProgress * (end - start));
 
       if (progress < 1) {
