@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   readonly isLoadingStats = this.participationService.isLoadingStats;
 
   get flamesCount(): number {
-    return this.stats()?.totalParticipations || 15420;
+    return this.stats()?.totalParticipations || 0;
   }
 
   ngOnInit(): void {

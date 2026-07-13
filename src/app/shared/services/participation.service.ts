@@ -111,7 +111,7 @@ function generateMockMessages(count: number, offset: number): ParticipationMessa
 export class ParticipationService {
   //private readonly apiUrl = 'http://localhost:3000/api/participations';
 
-  private readonly apiUrl = 'https://api.celebratecongo.com';
+  private readonly apiUrl = 'https://api.celebratecongo.com/api/participations';
   private readonly PAGE_SIZE = 20;
   private socket?: Socket;
 
