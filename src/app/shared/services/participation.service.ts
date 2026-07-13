@@ -357,7 +357,7 @@ export class ParticipationService {
 
   subscribeToNewsletter(email: string): Observable<any> {
     return this.http
-      .post<any>(`${this.apiUrl}/api/newsletter/subscribe`, { email })
+      .post<any>('https://api.celebratecongo.com/api/newsletter/subscribe', { email })
       .pipe(catchError(this.handleError));
   }
 
