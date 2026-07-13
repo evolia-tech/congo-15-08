@@ -90,12 +90,21 @@
       </label>
       } @else {
       <div class="upload-preview-container">
-        <img [src]="imagePreview" alt="Aperçu de votre photo" class="upload-preview-img">
+        @if (isImageLoading) {
+        <div class="upload-spinner-container">
+          <svg class="spinner-svg" viewBox="0 0 50 50">
+            <circle class="spinner-path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+          </svg>
+        </div>
+        }
+        <img [src]="imagePreview" alt="Aperçu de votre photo" class="upload-preview-img" [class.hidden-img]="isImageLoading" (load)="onImageLoaded()" (error)="onImageError()">
+        @if (!isImageLoading) {
         <div class="preview-overlay">
           <button type="button" class="btn-remove-img" (click)="removeImage($event)" aria-label="Supprimer la photo">
             <i class="pi pi-trash"></i>
           </button>
         </div>
+        }
       </div>
       }
     </div>

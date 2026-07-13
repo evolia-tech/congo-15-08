@@ -29,6 +29,7 @@
   padding: 2.5rem 2rem 6rem;
   z-index: 1; // hero form card (z-index: 10) sits on top
   margin-top: 2rem; // pull up slightly to create overlap visual
+  pointer-events: none;
 
   @media (max-width: 992px) {
     padding: 2rem 1rem 4rem;

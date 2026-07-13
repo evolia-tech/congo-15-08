@@ -137,6 +137,23 @@
     align-items: center;
     background: #f8f9fa;
 
+    .upload-spinner-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+
+      .spinner-svg {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    .hidden-img {
+      display: none !important;
+    }
+
     .upload-preview-img {
       width: 100%;
       height: 100%;

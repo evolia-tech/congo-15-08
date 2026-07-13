@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputText } from 'primeng/inputtext';
@@ -22,13 +22,14 @@ import { ImageComposerService } from '../../services/image-composer.service';
   templateUrl: './participation-form.component.html',
   styleUrl: './participation-form.component.scss',
 })
-export class ParticipationFormComponent implements OnInit {
+export class ParticipationFormComponent implements OnInit, OnDestroy {
   @Output() submitSuccess = new EventEmitter<{ firstName: string, location: string }>();
 
   participationForm!: FormGroup;
   imagePreview: string | null = null;
   isSubmitting = false;
   submissionError: string | null = null;
+  isImageLoading = false;
 
 
   countries = [
@@ -107,23 +108,46 @@ export class ParticipationFormComponent implements OnInit {
       this.participationForm.patchValue({ photo: file });
       this.participationForm.get('photo')?.updateValueAndValidity();
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-      };
-      reader.readAsDataURL(file);
+      if (this.imagePreview && this.imagePreview.startsWith('blob:')) {
+        URL.revokeObjectURL(this.imagePreview);
+      }
+
+      this.isImageLoading = true;
+      this.imagePreview = URL.createObjectURL(file);
+      this.cdr.detectChanges();
     }
+  }
+
+  onImageLoaded(): void {
+    this.isImageLoading = false;
+    this.cdr.detectChanges();
+  }
+
+  onImageError(): void {
+    this.isImageLoading = false;
+    this.cdr.detectChanges();
   }
 
   removeImage(event: Event): void {
     event.stopPropagation();
+    if (this.imagePreview && this.imagePreview.startsWith('blob:')) {
+      URL.revokeObjectURL(this.imagePreview);
+    }
     this.imagePreview = null;
+    this.isImageLoading = false;
     this.participationForm.patchValue({ photo: null });
     this.participationForm.get('photo')?.updateValueAndValidity();
     
     const fileInput = document.getElementById('photo-upload') as HTMLInputElement;
     if (fileInput) {
       fileInput.value = '';
+    }
+    this.cdr.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    if (this.imagePreview && this.imagePreview.startsWith('blob:')) {
+      URL.revokeObjectURL(this.imagePreview);
     }
   }
 
@@ -189,7 +213,11 @@ export class ParticipationFormComponent implements OnInit {
           this.participationService.openShareModal(response.id);
           
           this.participationForm.reset();
+          if (this.imagePreview && this.imagePreview.startsWith('blob:')) {
+            URL.revokeObjectURL(this.imagePreview);
+          }
           this.imagePreview = null;
+          this.isImageLoading = false;
           this.cdr.detectChanges();
         },
         error: (err) => {
