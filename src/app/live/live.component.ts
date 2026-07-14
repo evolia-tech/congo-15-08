@@ -1,14 +1,13 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ProgramScheduleComponent } from '../shared/components/program-schedule/program-schedule.component';
 
 @Component({
   selector: 'app-live',
   standalone: true,
-  imports: [DecimalPipe, ProgramScheduleComponent],
   templateUrl: './live.component.html',
   styleUrl: './live.component.scss',
+  imports: [ProgramScheduleComponent],
 })
 export class LiveComponent implements OnInit, OnDestroy {
   private sanitizer = inject(DomSanitizer);

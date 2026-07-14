@@ -32,16 +32,7 @@ export class ParticipationFormComponent implements OnInit, OnDestroy {
   isImageLoading = false;
 
 
-  countries = [
-    { name: 'République du Congo', code: 'CG' },
-    { name: 'France', code: 'FR' },
-    { name: 'Belgique', code: 'BE' },
-    { name: 'Canada', code: 'CA' },
-    { name: 'États-Unis', code: 'US' },
-    { name: 'Sénégal', code: 'SN' },
-    { name: 'Côte d\'Ivoire', code: 'CI' },
-    { name: 'Cameroun', code: 'CM' },
-  ];
+  countries: { name: string, code: string, flag: string }[] = [];
 
   departments = [
     { name: 'Brazzaville' },
@@ -67,6 +58,32 @@ export class ParticipationFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
+    this.loadCountries();
+  }
+
+  loadCountries(): void {
+    const regionNames = new Intl.DisplayNames(['fr'], { type: 'region' });
+    const isoCodes = [
+      "AF","ZA","AL","DZ","DE","AD","AO","AG","SA","AR","AM","AU","AT","AZ","BS","BH","BD","BB","BY","BE","BZ","BJ","BT","BO","BA","BW","BR","BN","BG","BF","BI","KH","CM","CA","CV","CF","CL","CN","CY","CO","KM","CG","CD","KR","KP","CR","CI","HR","CU","DK","DJ","DO","DM","EG","SV","AE","EC","ER","ES","EE","SZ","US","ET","FJ","FI","FR","GA","GM","GE","GH","GR","GD","GT","GN","GQ","GW","GY","HT","HN","HU","IN","ID","IQ","IR","IE","IS","IL","IT","JM","JP","JO","KZ","KE","KG","KI","KW","LA","LS","LV","LB","LR","LY","LI","LT","LU","MG","MY","MW","MV","ML","MT","MA","MU","MR","MX","FM","MD","MC","MN","ME","MZ","MM","NA","NR","NP","NI","NE","NG","NO","NZ","OM","UG","UZ","PK","PW","PS","PA","PG","PY","NL","PE","PH","PL","PT","QA","RO","GB","RU","RW","SM","WS","ST","SN","RS","SC","SL","SG","SK","SI","SO","SD","SS","LK","SE","CH","SR","SY","TJ","TW","TZ","TD","CZ","TH","TG","TO","TT","TN","TM","TR","TV","UA","UY","VU","VE","VN","YE","ZM","ZW"
+    ];
+
+    let allCountries = isoCodes.map(code => {
+      let name = regionNames.of(code) || code;
+      const flag = `https://flagcdn.com/w20/${code.toLowerCase()}.png`;
+      if (code === 'CG') name = 'République du Congo';
+      if (code === 'CD') name = 'Rép. démocratique du Congo';
+      return { name, code, flag };
+    });
+
+    allCountries.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+
+    const congoIndex = allCountries.findIndex(c => c.code === 'CG');
+    if (congoIndex > -1) {
+      const congo = allCountries.splice(congoIndex, 1)[0];
+      allCountries.unshift(congo);
+    }
+
+    this.countries = allCountries;
   }
 
   initForm(): void {

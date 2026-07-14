@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 type PageState = 'loading' | 'success' | 'error' | 'invalid';
 
@@ -28,8 +29,7 @@ export class UnsubscribeComponent implements OnInit {
     }
 
     this.http
-      //.get(`http://localhost:3000/api/newsletter/unsubscribe?token=${token}`)
-      .get(`https://api.celebratecongo.com/api/newsletter/unsubscribe?token=${token}`)
+      .get(`${environment.apiUrl}/newsletter/unsubscribe?token=${token}`)
       .subscribe({
         next: () => this.state.set('success'),
         error: (err) => {

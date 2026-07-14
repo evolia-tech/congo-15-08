@@ -23,7 +23,6 @@ export class MainLayout {
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
-    console.log("here");
     if (typeof window === 'undefined') return;
     const threshold = window.innerHeight;
     this.showFloatingButton.set(window.scrollY > threshold);

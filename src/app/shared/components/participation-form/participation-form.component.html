@@ -34,8 +34,23 @@
     <div class="form-field-group">
       <p-floatlabel>
         <p-select id="country" formControlName="country" [options]="countries" optionLabel="name" [filter]="true"
-          filterBy="name" [showClear]="false" placeholder="Sélectionnez un pays"
-          class="w-full-select-custom"></p-select>
+          filterBy="name" [showClear]="false" placeholder="Sélectionnez un pays" emptyMessage="Aucun pays trouvé"
+          emptyFilterMessage="Aucun pays trouvé" class="w-full-select-custom">
+          <ng-template #selectedItem let-selectedCountry>
+            @if(selectedCountry){
+            <div class="country-item">
+              <img [src]="selectedCountry.flag" alt="Flag" class="country-flag-img">
+              <span>{{ selectedCountry.name }}</span>
+            </div>
+            }
+          </ng-template>
+          <ng-template let-country #item>
+            <div class="country-item">
+              <img [src]="country.flag" alt="Flag" class="country-flag-img">
+              <span>{{ country.name }}</span>
+            </div>
+          </ng-template>
+        </p-select>
         <label for="country">Pays de Résidence</label>
       </p-floatlabel>
       @if (participationForm.get('country')?.invalid && participationForm.get('country')?.touched) {
@@ -97,7 +112,8 @@
           </svg>
         </div>
         }
-        <img [src]="imagePreview" alt="Aperçu de votre photo" class="upload-preview-img" [class.hidden-img]="isImageLoading" (load)="onImageLoaded()" (error)="onImageError()">
+        <img [src]="imagePreview" alt="Aperçu de votre photo" class="upload-preview-img"
+          [class.hidden-img]="isImageLoading" (load)="onImageLoaded()" (error)="onImageError()">
         @if (!isImageLoading) {
         <div class="preview-overlay">
           <button type="button" class="btn-remove-img" (click)="removeImage($event)" aria-label="Supprimer la photo">

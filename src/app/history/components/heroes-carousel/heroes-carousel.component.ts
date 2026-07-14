@@ -1,7 +1,8 @@
 import { Component, ElementRef, ViewChild, HostListener, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 interface MediaItem {
   type: 'image' | 'video';
@@ -43,7 +44,7 @@ export class HeroesCarouselComponent implements OnInit {
   }
 
   loadHeroes(): void {
-    this.http.get<HistoricalFigure[]>('https://api.celebratecongo.com/api/heroes').subscribe({
+    this.http.get<HistoricalFigure[]>(`${environment.apiUrl}/heroes`).subscribe({
       next: (data) => {
         this.heroes = data;
       },

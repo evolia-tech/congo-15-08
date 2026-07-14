@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { io, Socket } from 'socket.io-client';
+import { environment } from '../../../environments/environment';
 
 export interface ParticipationPayload {
   firstName: string;
@@ -109,9 +110,7 @@ function generateMockMessages(count: number, offset: number): ParticipationMessa
   providedIn: 'root',
 })
 export class ParticipationService {
-  //private readonly apiUrl = 'http://localhost:3000/api/participations';
-
-  private readonly apiUrl = 'https://api.celebratecongo.com/api/participations';
+  private readonly apiUrl = `${environment.apiUrl}/participations`;
   private readonly PAGE_SIZE = 20;
   private socket?: Socket;
 
@@ -194,7 +193,9 @@ export class ParticipationService {
 
   private initSocketConnection(): void {
     // Connect to backend Socket.io server
-    this.socket = io(this.apiUrl);
+    // Socket.io se connecte à la racine du serveur (sans le /api/participations)
+    const socketUrl = environment.apiUrl.replace(/\/api\/?$/, '');
+    this.socket = io(socketUrl);
 
     this.socket.on('connect', () => {
       console.log('🔌 Connected to real-time WebSockets counter');
@@ -357,7 +358,7 @@ export class ParticipationService {
 
   subscribeToNewsletter(email: string): Observable<any> {
     return this.http
-      .post<any>('https://api.celebratecongo.com/api/newsletter/subscribe', { email })
+      .post<any>(`${environment.apiUrl}/newsletter/subscribe`, { email })
       .pipe(catchError(this.handleError));
   }
 

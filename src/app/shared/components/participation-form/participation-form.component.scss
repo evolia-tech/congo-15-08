@@ -335,6 +335,18 @@
     }
   }
 
+  .country-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .country-flag-img {
+    width: 20px;
+    height: auto;
+    border-radius: 2px;
+  }
+
   .p-inputtext,
   .p-textarea {
     background: #ffffff !important;
