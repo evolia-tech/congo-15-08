@@ -53,22 +53,15 @@
       font-family: $font-family-syne;
       font-weight: 800;
       text-transform: uppercase;
-      font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+      font-size: clamp(1.8rem, 4.5vw, 2.6rem);
       color: #ffffff;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
       letter-spacing: -1px;
       line-height: 1.2;
-      max-width: 900px;
+      max-width: 800px;
 
       @media (max-width: 992px) {
         font-size: clamp(1.6rem, 6vw, 2.5rem);
-      }
-
-      .title-gold {
-        background-image: linear-gradient(135deg, #ffe259 0%, #ffea00 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 2px 4px rgba(255, 226, 89, 0.25));
       }
     }
 

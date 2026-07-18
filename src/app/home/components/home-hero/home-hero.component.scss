@@ -51,39 +51,20 @@
     font-weight: 800;
     margin-top: 10rem;
     text-transform: uppercase;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
 
     .title-line {
-      line-height: 1;
+      line-height: 1.1;
       letter-spacing: -1px;
       display: block;
       width: 100%;
       white-space: nowrap;
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       opacity: 0;
       transform: translateY(30px);
       animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    /* National Flag color gradients for high contrast on dark overlay */
-    .title-gold {
-      background-image: linear-gradient(135deg, $congo-green 0%, #007d34 100%);
-      animation-delay: 0.1s;
-    }
-
-    .title-cyan {
-      background-image: linear-gradient(135deg, #ffe259 0%, #ff9800 100%);
-      animation-delay: 0.3s;
-    }
-
-    .title-violet {
-      background-image: linear-gradient(135deg, $congo-red 0%, #c62828 100%);
-      animation-delay: 0.5s;
+      color: $bg-primary;
     }
   }
 
