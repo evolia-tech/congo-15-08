@@ -1,6 +1,6 @@
 @use '../../../../styles/variables' as *;
 
-/* ─── Backdrop ───────────────────────────────────────────── */
+/* ─── Backdrop ───────────────────────────────────────────────── */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -11,9 +11,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 1rem;
   box-sizing: border-box;
-  /* Entry: plays automatically when element enters DOM – no JS needed */
   animation: backdropIn 0.28s ease both;
 
   &.is-closing {
@@ -22,22 +21,22 @@
   }
 }
 
-/* ─── Panel ─────────────────────────────────────────────────── */
+/* ─── Panel ──────────────────────────────────────────────────── */
 .modal-panel {
   background: #ffffff;
-  color: #111111;
-  border-radius: 24px;
+  border-radius: 20px;
   width: 100%;
-  max-width: 420px;
-  max-height: 95vh;
+  max-width: 580px;
+  max-height: 92vh;
+  height: 100%;
+  overflow-y: auto;
   position: relative;
-  padding: 3.5rem 1.5rem 1.5rem;
+  padding: 2.5rem 1.5rem 1rem;
   box-sizing: border-box;
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-  /* Entry: plays automatically when element enters DOM – no JS needed */
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.30);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
   animation: panelIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   &.is-closing {
@@ -48,10 +47,10 @@
 /* ─── Close button ───────────────────────────────────────────── */
 .btn-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 34px;
-  height: 34px;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.08);
@@ -60,8 +59,7 @@
   justify-content: center;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.5);
-  transition: all 0.2s ease;
-  z-index: 10;
+  transition: background 0.2s;
 
   &:hover {
     background: rgba(0, 0, 0, 0.12);
@@ -69,244 +67,201 @@
   }
 }
 
-/* ─── Header ─────────────────────────────────────────────────── */
-.modal-header {
-  text-align: center;
-  margin-bottom: 0.9rem;
-}
-
+/* ─── Subtitle text ──────────────────────────────────────────── */
 .modal-subtitle {
   font-family: $font-family-inter;
   font-size: 0.92rem;
-  color: rgba(0, 0, 0, 0.55);
-  line-height: 1.4;
+  color: rgba(0, 0, 0, 0.52);
   margin: 0;
+  line-height: 1.5;
 
   b {
-    color: black;
+    color: #111111;
   }
 }
 
-/* ─── Multi-profile Tabs ───────────────────────────────────────── */
-.profile-tabs-container {
-  margin-bottom: 0.9rem;
+/* ─── Action buttons row ─────────────────────────────────────── */
+.action-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1rem;
+
+  .btn-action {
+    width: "fit-content";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 10px;
+    font-family: $font-family-inter;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &.btn-download {
+      background: #f3f4f6;
+      border: 1.5px solid rgba(0, 0, 0, 0.10);
+      color: #111111;
+
+      &:hover {
+        background: linear-gradient(135deg, #ffe259, #ffa751);
+        border-color: #ffa751;
+        color: #000;
+        box-shadow: 0 4px 14px rgba(255, 167, 81, 0.30);
+      }
+    }
+
+    &.btn-share {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1.5px solid rgba(16, 185, 129, 0.25);
+      color: #065f46;
+
+      &:hover {
+        background: #10b981;
+        border-color: #10b981;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.28);
+      }
+    }
+
+    &.btn-invite {
+      background: rgba(59, 130, 246, 0.08);
+      border: 1.5px solid rgba(59, 130, 246, 0.25);
+      color: #1e3a8a;
+
+      &:hover {
+        background: #3b82f6;
+        border-color: #3b82f6;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(59, 130, 246, 0.28);
+      }
+    }
+  }
+}
+
+.image-action {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 2rem;
+
+  /* ─── Card image (full width, no crop) ──────────────────────── */
+  .composed-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+}
+
+
+/* ─── Multi-profile Tabs ─────────────────────────────────────── */
+.profile-tabs {
+  display: flex;
+  flex-direction: column;
   gap: 0.4rem;
-  text-align: center;
-  width: 100%;
 }
 
 .tabs-label {
   font-family: $font-family-inter;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.38);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
 }
 
-.profile-tabs-scroll {
+.tabs-row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  width: 100%;
-  max-width: 100%;
+  gap: 0.4rem;
 }
 
-.profile-tab-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.6rem;
+.tab-btn {
+  padding: 0.3rem 0.65rem;
   background: rgba(0, 0, 0, 0.04);
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   font-family: $font-family-inter;
-  font-size: 0.92rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.55);
   cursor: pointer;
   transition: all 0.2s ease;
-  line-height: 1;
 
   &:hover {
     background: rgba(0, 0, 0, 0.08);
-    color: #000000;
+    color: #000;
   }
 
   &.is-active {
     background: linear-gradient(135deg, #ffe259, #ffa751);
     border-color: #ffa751;
-    color: #000000;
-    box-shadow: 0 4px 10px rgba(255, 167, 81, 0.25);
-
-    .tab-dot {
-      background: #000000;
-    }
+    color: #000;
+    box-shadow: 0 3px 8px rgba(255, 167, 81, 0.22);
   }
 }
 
-/* ─── Image preview ──────────────────────────────────────────── */
-.image-preview-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 300px;
-  /* Larger preview as requested */
-  aspect-ratio: 1 / 1;
-  border-radius: 14px;
-  overflow: hidden;
-  margin: 0 auto 1rem auto;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-
-  .composed-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .preview-shimmer {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg,
-        transparent 40%,
-        rgba(255, 255, 255, 0.04) 50%,
-        transparent 60%);
-    background-size: 200% 200%;
-    animation: shimmer 3s linear infinite;
-    pointer-events: none;
-  }
-}
-
-/* ─── Actions ────────────────────────────────────────────────── */
-.modal-actions {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 0.2rem;
-}
-
-.action-buttons-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.8rem;
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-.btn-action-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.65);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-
-  svg {
-    transition: transform 0.25s ease;
-  }
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-
-    svg {
-      transform: scale(1.1);
-    }
-  }
-
-  /* Platform Colors for hover states */
-  &.btn-download:hover {
-    background: linear-gradient(135deg, #ffe259, #ffa751);
-    border-color: #ffa751;
-    color: #000000;
-    box-shadow: 0 5px 15px rgba(255, 167, 81, 0.35);
-  }
-
-  &.btn-whatsapp:hover {
-    background: #25D366;
-    border-color: #25D366;
-    color: #ffffff;
-    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
-  }
-
-  &.btn-facebook:hover {
-    background: #1877F2;
-    border-color: #1877F2;
-    color: #ffffff;
-    box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3);
-  }
-
-  &.btn-twitter:hover {
-    background: #111111;
-    border-color: #111111;
-    color: #ffffff;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
-  }
-
-  &.btn-tiktok:hover {
-    background: #010101;
-    border-color: #FE2C55;
-    color: #ffffff;
-    box-shadow: 0 5px 15px rgba(254, 44, 85, 0.3);
-  }
-}
-
-/* ─── Keyframe animations ────────────────────────────────────────── */
+/* ─── Animations ─────────────────────────────────────────────── */
 @keyframes backdropIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes backdropOut {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-@keyframes panelIn {
-  from { opacity: 0; transform: translateY(24px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-@keyframes panelOut {
-  from { opacity: 1; transform: translateY(0) scale(1); }
-  to   { opacity: 0; transform: translateY(24px) scale(0.97); }
-}
-@keyframes shimmer {
-  0%   { background-position: -200% -200%; }
-  100% { background-position: 200% 200%; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
-/* ─── Responsive ─────────────────────────────────────────────────── */
-@media (max-width: 576px) {
+@keyframes backdropOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes panelOut {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+}
+
+/* ─── Mobile (très petits écrans) ───────────────────────────── */
+@media (max-width: 420px) {
   .modal-backdrop {
-    padding: 1rem;
+    padding: 0;
+    align-items: flex-end;
   }
 
   .modal-panel {
-    border-radius: 20px;
-    max-height: 95vh;
-    padding: 1.8rem 1.2rem 1.5rem;
-  }
-
-  .action-buttons-row {
-    gap: 0.6rem;
-  }
-
-  .btn-action-icon {
-    width: 40px;
-    height: 40px;
-
-    svg {
-      width: 18px;
-      height: 18px;
-    }
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    max-height: 96vh;
   }
 }

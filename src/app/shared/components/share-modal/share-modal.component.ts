@@ -143,4 +143,24 @@ export class ShareModalComponent implements OnInit {
   shareOnTikTok(): void {
     window.open('https://www.tiktok.com/upload', '_blank');
   }
+
+  async inviteFriend(): Promise<void> {
+    const inviteUrl = 'https://celebratecongo.com/participer';
+    const text = `Faisons briller notre nation ensemble ! 🇨🇬🔥\n\nJe t'invite à célébrer le 66e anniversaire de l'indépendance du Congo en allumant toi aussi ta flamme citoyenne ici :\n👉 ${inviteUrl}\n\n#Congo15Août #JallumeMaFlamme`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Allume ta flamme pour le Congo',
+          text: text,
+          url: inviteUrl
+        });
+      } catch (error) {
+        console.error("Erreur lors du partage de l'invitation:", error);
+      }
+    } else {
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+  }
 }

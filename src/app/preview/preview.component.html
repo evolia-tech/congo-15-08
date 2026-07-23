@@ -1,0 +1,94 @@
+<div class="preview-page-container">
+  <div class="preview-header-section">
+    <h1>🇨🇬 Choisissez le style de votre carte</h1>
+    <p>Comparez les deux modèles en direct et téléchargez celui qui correspond le mieux à votre message.</p>
+  </div>
+
+  <div class="preview-layout">
+    <!-- Controls Column -->
+    <div class="preview-controls-card">
+      <h2 class="control-title">Configuration</h2>
+
+      <!-- Card Color -->
+      <div class="control-field">
+        <label for="bgColor">Couleur de fond de la carte</label>
+        <div class="color-picker-wrap">
+          <input type="color" id="bgColor" [(ngModel)]="cardBgColor" (change)="onInputsChange()" />
+          <span class="color-val">{{ cardBgColor }}</span>
+        </div>
+      </div>
+
+      <!-- Photo upload -->
+      <div class="control-field">
+        <label>Photo de profil</label>
+        <div class="preview-dropzone" (click)="fileInput.click()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" [class.dragover]="isDragOver">
+          <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none" />
+          <span class="dropzone-icon">📸</span>
+          <span class="dropzone-text" *ngIf="!selectedImageSrc">Cliquez ou glissez une photo</span>
+          <span class="dropzone-text-success" *ngIf="selectedImageSrc">✓ Photo chargée avec succès</span>
+        </div>
+      </div>
+
+      <!-- Prénom & Nom -->
+      <div class="control-field">
+        <label for="userName">Prénom et Nom</label>
+        <input type="text" id="userName" [(ngModel)]="userName" (ngModelChange)="onInputsChange()" placeholder="Ex: Sophie Bennett" />
+      </div>
+
+      <!-- Message -->
+      <div class="control-field">
+        <label for="userMessage">Message (max 120 caractères)</label>
+        <textarea id="userMessage" [(ngModel)]="userMessage" (ngModelChange)="onInputsChange()" placeholder="Rédigez votre message pour le Congo..." maxlength="120"></textarea>
+        <div class="char-count">{{ userMessage.length }}/120</div>
+      </div>
+
+      <!-- Fixed inputs (read-only for info) -->
+      <div class="section-divider">Paramètres Fixes</div>
+      <div class="row-fixed">
+        <div class="fixed-item">
+          <span class="fixed-label">N° Flamme</span>
+          <span class="fixed-val">🔥 9e</span>
+        </div>
+        <div class="fixed-item">
+          <span class="fixed-label">Localisation</span>
+          <span class="fixed-val">📍 Citoyen, Brazzaville</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards Previews Column -->
+    <div class="cards-preview-grid">
+      <!-- Card Style 7 (Classic) -->
+      <div class="card-preview-box">
+        <div class="card-preview-header">
+          <h3>Modèle Classique (Preview 7)</h3>
+          <p>Format rectangulaire bord à bord minimaliste</p>
+        </div>
+        <div class="canvas-container">
+          <canvas id="canvasClassic"></canvas>
+        </div>
+        <div class="download-wrap">
+          <button class="btn-dl-card" (click)="downloadCard('classic')" [disabled]="!isImageLoaded">
+            <span>📥</span> Télécharger ce modèle
+          </button>
+        </div>
+      </div>
+
+      <!-- Card Style 8 (Celebration) -->
+      <div class="card-preview-box">
+        <div class="card-preview-header">
+          <h3>Modèle Célébration (Preview 8)</h3>
+          <p>Photo circulaire et drapeau ondulant en vagues</p>
+        </div>
+        <div class="canvas-container">
+          <canvas id="canvasCelebration"></canvas>
+        </div>
+        <div class="download-wrap">
+          <button class="btn-dl-card btn-gold" (click)="downloadCard('celebration')" [disabled]="!isImageLoaded">
+            <span>📥</span> Télécharger ce modèle
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

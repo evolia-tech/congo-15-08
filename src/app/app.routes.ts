@@ -7,6 +7,10 @@ import { RevelationComponent } from './revelation/revelation.component';
 import { ParticipateComponent } from './participate/participate.component';
 import { HistoryComponent } from './history/history.component';
 import { UnsubscribeComponent } from './unsubscribe/unsubscribe';
+import { MentionsLegalesComponent } from './legal/mentions-legales';
+import { ConfidentialiteComponent } from './legal/confidentialite';
+import { SponsorsComponent } from './sponsors/sponsors.component';
+import { PreviewComponent } from './preview/preview.component';
 
 export const routes: Routes = [
   // 1. Pages AVEC Header/Footer
@@ -19,6 +23,10 @@ export const routes: Routes = [
       { path: 'revelation', component: RevelationComponent },
       { path: 'participer', component: ParticipateComponent },
       { path: 'histoire', component: HistoryComponent },
+      { path: 'mentions-legales', component: MentionsLegalesComponent },
+      { path: 'confidentialite', component: ConfidentialiteComponent },
+      { path: 'sponsors', component: SponsorsComponent },
+      { path: 'preview', component: PreviewComponent },
     //  { path: 'about', component: AboutComponent },
     ],
   },

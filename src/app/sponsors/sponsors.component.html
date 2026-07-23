@@ -1,0 +1,45 @@
+<div class="sponsors-page">
+  <div class="glow-orb glow-orb-green"></div>
+  <div class="glow-orb glow-orb-gold"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="sponsors-container">
+    <div class="sponsors-header">
+      <span class="badge">Partenaires & Sponsors</span>
+      <h1 class="sponsors-title">Ceux qui font briller la Flamme</h1>
+      <p class="sponsors-subtitle">
+        Découvrez les institutions, entreprises et médias engagés qui soutiennent l'élan d'unité nationale pour le Congo
+        15 Août 2026.
+      </p>
+    </div>
+
+    <!-- Masonry Layout Grid -->
+    <div class="masonry-grid">
+      @for (sponsor of sponsors; track sponsor.name) {
+      <div class="masonry-item" [class]="sponsor.heightClass">
+        <div class="sponsor-card">
+          <!-- Stylized Brand Logo Container -->
+          <div class="brand-logo-container" [style.background-color]="sponsor.bgColor">
+            <span class="brand-logo-text" [style.color]="sponsor.textColor">{{ sponsor.logoText }}</span>
+          </div>
+
+          <div class="sponsor-content">
+            <span class="category-badge" [class]="sponsor.category">
+              {{ sponsor.categoryLabel }}
+            </span>
+            <h3 class="sponsor-name">{{ sponsor.name }}</h3>
+            <p class="sponsor-description">{{ sponsor.description }}</p>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="sponsors-cta">
+      <h3>Devenir Partenaire ?</h3>
+      <p>Vous souhaitez associer l'image de votre organisation à cet élan patriotique historique ? Contactez le comité
+        d'organisation.</p>
+      <a href="mailto:contact@celebratecongo.com" class="btn-contact">Écrivez-nous</a>
+    </div>
+  </div>
+</div>

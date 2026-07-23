@@ -1,7 +1,7 @@
 <div class="header" [class.scrolled]="isScrolled()">
   <div class="content large-container ">
     <a routerLink="/" (click)="closeMobileMenu()" class="header-logo" aria-label="Congo 15 Août - Accueil">
-      <span class="logo-text">Congo <span class="text-gold">15 Août</span></span>
+      <span class="logo-text">Celebrate Congo </span>
     </a>
 
     <!-- Desktop Navigation -->
@@ -16,6 +16,10 @@
 
       <a routerLink="/revelation" routerLinkActive="active" class="nav-link">
         Révélation
+      </a>
+
+      <a routerLink="/sponsors" routerLinkActive="active" class="nav-link">
+        Sponsors
       </a>
 
       <a routerLink="/live" routerLinkActive="active" class="nav-link nav-live">
@@ -49,6 +53,10 @@
 
           <a routerLink="/revelation" routerLinkActive="active" (click)="closeMobileMenu()" class="mobile-link">
             Révélation
+          </a>
+
+          <a routerLink="/sponsors" routerLinkActive="active" (click)="closeMobileMenu()" class="mobile-link">
+            Sponsors
           </a>
 
           <a routerLink="/live" routerLinkActive="active" (click)="closeMobileMenu()" class="mobile-link mobile-live">

@@ -1,0 +1,191 @@
+@use '../../styles/variables' as *;
+
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background-color: $bg-primary;
+  color: $text-primary;
+  font-family: $font-family-inter;
+  position: relative;
+  overflow-x: hidden;
+
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-size: 50px 50px;
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.012) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.012) 1px, transparent 1px);
+    mask-image: radial-gradient(circle at 50% 30%, black 40%, transparent 95%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.8;
+    animation: floatOrb 25s infinite alternate ease-in-out;
+
+    &-green {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 149, 67, 0.04) 0%, transparent 70%);
+      top: 15%;
+      left: -5%;
+    }
+
+    &-gold {
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(255, 226, 89, 0.12) 0%, transparent 70%);
+      bottom: 20%;
+      right: -10%;
+      animation-delay: -7s;
+    }
+  }
+
+  .legal-container {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 8rem 2rem 10rem;
+    z-index: 2;
+
+    @media (max-width: 768px) {
+      padding: 6rem 1.25rem 8rem;
+    }
+  }
+
+  .legal-card {
+    background: $card-bg;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid $card-border;
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: $card-shadow;
+
+    @media (max-width: 768px) {
+      padding: 2rem 1.5rem;
+    }
+  }
+
+  .legal-title {
+    font-family: $font-family-syne;
+    font-size: 3rem;
+    line-height: 1;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, $text-primary, #4b5563);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+
+  .legal-intro {
+    font-size: 0.95rem;
+    color: $text-muted;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid $card-border;
+    padding-bottom: 1rem;
+  }
+
+  .legal-section {
+    margin-bottom: 2.5rem;
+
+    h2 {
+      font-family: $font-family-space;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: $text-primary;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: $text-secondary;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+
+      li {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: $text-secondary;
+        margin-bottom: 0.5rem;
+
+        strong {
+          color: $text-primary;
+        }
+
+        a {
+          color: $congo-green;
+          text-decoration: none;
+          font-weight: 600;
+          transition: $transition-smooth;
+
+          &:hover {
+            color: $text-primary;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .legal-actions {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .btn-back {
+    display: inline-block;
+    background-color: $text-primary;
+    color: $text-light;
+    font-family: $font-family-space;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.8rem 2rem;
+    border-radius: 99px;
+    text-decoration: none;
+    transition: $transition-smooth;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background-color: $congo-green;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 149, 67, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+@keyframes floatOrb {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  50% {
+    transform: translate(30px, -45px) scale(1.06);
+  }
+
+  100% {
+    transform: translate(-25px, 25px) scale(0.94);
+  }
+}
