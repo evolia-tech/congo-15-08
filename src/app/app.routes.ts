@@ -23,11 +23,11 @@ export const routes: Routes = [
       { path: 'revelation', component: RevelationComponent },
       { path: 'participer', component: ParticipateComponent },
       { path: 'histoire', component: HistoryComponent },
-      { path: 'mentions-legales', component: MentionsLegalesComponent },
-      { path: 'confidentialite', component: ConfidentialiteComponent },
-      { path: 'sponsors', component: SponsorsComponent },
-      { path: 'preview', component: PreviewComponent },
-    //  { path: 'about', component: AboutComponent },
+      { path: 'mentions-legales', component: MentionsLegalesComponent, data: { isBackgrounded: true } },
+      { path: 'confidentialite', component: ConfidentialiteComponent, data: { isBackgrounded: true } },
+      { path: 'sponsors', component: SponsorsComponent, data: { isBackgrounded: true } },
+      { path: 'preview', component: PreviewComponent, data: { isBackgrounded: true } },
+      //  { path: 'about', component: AboutComponent },
     ],
   },
 
@@ -37,7 +37,7 @@ export const routes: Routes = [
     component: EmptyLayout,
     children: [
       { path: 'desinscription', component: UnsubscribeComponent },
-    //  { path: 'checkout', component: CheckoutComponent },
+      //  { path: 'checkout', component: CheckoutComponent },
     ],
   },
 

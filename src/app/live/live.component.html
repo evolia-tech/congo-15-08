@@ -10,12 +10,14 @@
   <div class="live-wrapper">
     <!-- Hero Live Section Header -->
     <header class="live-header">
-      <div class="live-badge-wrapper">
-        <span class="live-badge">
-          <span class="pulse-dot"></span>
-          EN DIRECT
-        </span>
-      </div>
+      @if (hasVideo) {
+        <div class="live-badge-wrapper">
+          <span class="live-badge">
+            <span class="pulse-dot"></span>
+            EN DIRECT
+          </span>
+        </div>
+      }
       <h1 class="live-title">
         <span class="title-line title-gold">Cérémonie de La Célébration Nationale</span>
       </h1>
@@ -28,13 +30,36 @@
     <section class="video-section">
       <div class="video-glow-frame">
         <div class="video-container">
-          <iframe [src]="videoUrl" title="YouTube video player" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
+          @if (isLoading) {
+            <div class="loader-placeholder">
+              <div class="spinner"></div>
+              <span>Chargement du direct...</span>
+            </div>
+          } @else if (hasVideo && videoUrl) {
+            <iframe [src]="videoUrl" title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          } @else {
+            <div class="waiting-placeholder">
+              <div class="waiting-icon">
+                <i class="pi pi-clock pulse-icon"></i>
+              </div>
+              <h2 class="waiting-title">Le direct sera bientôt disponible</h2>
+              <p class="waiting-message">
+                La transmission en direct commencera sous peu. Dès que la diffusion débutera, le lecteur vidéo apparaîtra automatiquement ici. Préparez-vous à célébrer ensemble la fête nationale !
+              </p>
+              <div class="waiting-footer">
+                <span class="waiting-date">
+                  <i class="pi pi-calendar"></i> 15 Août — Congo
+                </span>
+              </div>
+            </div>
+          }
         </div>
       </div>
     </section>
+
 
     <!-- Statistics Overlay / Dashboard
     <section class="stats-dashboard">

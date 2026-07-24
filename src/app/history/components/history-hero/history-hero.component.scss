@@ -53,7 +53,7 @@
       font-family: $font-family-syne;
       font-weight: 800;
       text-transform: uppercase;
-      font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+      font-size: clamp(1.8rem, 4.5vw, 3rem);
       color: #ffffff;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
       letter-spacing: -1px;
@@ -67,7 +67,7 @@
 
     .hero-subtitle {
       font-size: 1.05rem;
-      max-width: 800px;
+      max-width: 750px;
       line-height: 1.6;
       color: $bg-tertiary;
       text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);

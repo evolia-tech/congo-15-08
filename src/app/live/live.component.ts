@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ProgramScheduleComponent } from '../shared/components/program-schedule/program-schedule.component';
+import { SettingsService } from '../shared/services/settings.service';
 
 @Component({
   selector: 'app-live',
@@ -11,6 +12,7 @@ import { ProgramScheduleComponent } from '../shared/components/program-schedule/
 })
 export class LiveComponent implements OnInit, OnDestroy {
   private sanitizer = inject(DomSanitizer);
+  private settingsService = inject(SettingsService);
 
   // Target statistics mock data
   flamesTotal = 742158;
@@ -21,18 +23,40 @@ export class LiveComponent implements OnInit, OnDestroy {
   displayCountries = 0;
   displayToday = 0;
 
-  // Sanitized YouTube URL placeholder for live stream
-  videoUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-    'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&rel=0&modestbranding=1'
-  );
+  // Video URL property & state flag
+  videoUrl: SafeResourceUrl | null = null;
+  hasVideo = false;
+  isLoading = true;
 
   private animationFrameIds: number[] = [];
+
 
   ngOnInit(): void {
     // Trigger count-up animation for the overlay statistics
     this.animateStat('displayCountries', this.countriesCount, 2000);
     this.animateStat('displayToday', this.todayCount, 2200);
+
+    // Fetch the live streaming link from the configuration settings API
+    this.settingsService.getLiveVideoUrl().subscribe({
+      next: (res) => {
+        if (res.value && res.value.trim() !== '') {
+          this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.value.trim());
+          this.hasVideo = true;
+        } else {
+          this.videoUrl = null;
+          this.hasVideo = false;
+        }
+        this.isLoading = false;
+      },
+      error: () => {
+        // Fallback to false if the API fails
+        this.videoUrl = null;
+        this.hasVideo = false;
+        this.isLoading = false;
+      }
+    });
   }
+
 
   ngOnDestroy(): void {
     // Clean up animation frames on component destruction
